@@ -2,7 +2,7 @@
 ## 相关文档
 ### [弧幕互动软件](https://yanmeego.feishu.cn/docx/FDmNdLgv1oTWTPxKliicOgj8nLf)
 ### [弧幕互动软件需求确认书](https://yanmeego.feishu.cn/docx/LJXmdpfNForvC3xVA4kcvqY7nwd)
-### [【览界】项目工作安排](https://yanmeego.feishu.cn/docx/L8hOdIZHyo6xjAxdlXUcL63lnkf)
+### [项目工作安排](https://yanmeego.feishu.cn/docx/L8hOdIZHyo6xjAxdlXUcL63lnkf)
 ### [数据结构设计文档](https://rs9n2c1ula.feishu.cn/docx/Owa3d2X41oiQhgxxW8PcxMtanu9)
 
 ## 开发工具
