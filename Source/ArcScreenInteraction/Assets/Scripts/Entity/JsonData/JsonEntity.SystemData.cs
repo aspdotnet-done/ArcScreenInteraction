@@ -41,5 +41,13 @@ namespace EntityProgram
         normal,//同步完成的状态
         discard//废弃状态
     }
+    [System.Serializable]
+    public class SetupData
+    {
+        public int loopType;
+        public float innerDelay;
+        public float outerDelay;
+        public float defaultID;
+    }
 
 }
