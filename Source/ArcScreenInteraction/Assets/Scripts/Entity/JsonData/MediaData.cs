@@ -4,12 +4,33 @@ using UnityEngine;
 [System.Serializable]
 public class MediaData
 {
-    public string id;
+    public int id;
     public string title;
     public string condition;
-    public int parentType;
+    public string parentType;//1-安防，2-消防，3-人防
+    //1-pdf,2-video,3-pitcure
     public int mediaType;
     public string cover;
+    public string coverPath
+    {
+        get { return AssetUtility.GetCover(cover); }
+    }
     public string[] medias;
+    private List<string> mediaPathList;
+    public List<string> MediaPathList
+    {
+        get
+        {
+            if (mediaPathList == null)
+            {
+                mediaPathList = new List<string>();
+                foreach (var i in medias)
+                {
+                    mediaPathList.Add(AssetUtility.GetMediaPath(parentType, i));
+                }
+            }
+            return mediaPathList;
+        }
+    }
 
 }

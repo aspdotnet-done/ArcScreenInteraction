@@ -64,7 +64,7 @@ public class ResourceManager : Singleton<ResourceManager>
             systemData = JsonUtility.FromJson<SystemData>(jsonStr);
             //Debug.Log(systemData.maps.Count);
         }
-        DelayToRuning(0.5f, () => { InitCompleteAction?.Invoke(); });
+        //DelayToRuning(0.5f, () => { InitCompleteAction?.Invoke(); });
     }
 
 
@@ -84,21 +84,7 @@ public class ResourceManager : Singleton<ResourceManager>
         });
     }
 
-    public void ClearPlayerPrefs()
-    {
-        PlayerPrefs.SetString("firstShowMapCreaterTips", "");
-        Debug.Log("ClearCache");
-        PlayerPrefs.DeleteKey("Video/S-1");
-        PlayerPrefs.DeleteKey("Video/S-2");
-        PlayerPrefs.DeleteKey("Video/S-3");
-        PlayerPrefs.DeleteKey("Video/S-4");
-        PlayerPrefs.DeleteKey("Video/S-5");
-        PlayerPrefs.DeleteKey("Video/S-6");
-        PlayerPrefs.DeleteKey("Video/S-7");
-        PlayerPrefs.DeleteKey("Video/S-8");
-        PlayerPrefs.SetString("FirstTips", "");
-        PlayerPrefs.DeleteKey("FirstExerciseTips");
-    }
+
 
     public T Load<T>(string path) where T : UnityEngine.Object
     {
@@ -134,17 +120,7 @@ public class ResourceManager : Singleton<ResourceManager>
     }
 
 
-    /// <summary>
-    /// 更新指定一个关卡
-    /// </summary>
-    /// <param name="levelName"></param>
-    public void UpdateLevelInfo(string serialName, string levelName)
-    {
-        //先删除旧的文件夹
-        string levelFolder = AssetUtility.AssetResourcesDir + $"{serialName}/{levelName}/";
-        DeleteDir(levelFolder);
-        DelayToRuning(0.1f, () => { });
-    }
+
     /// <summary>
     /// 创建本地配置表
     /// </summary>
@@ -180,68 +156,8 @@ public class ResourceManager : Singleton<ResourceManager>
         }
         return info;
     }
-    /// <summary>
-    ///保存创建地图的配置表
-    /// </summary>
-    /// <param name="newInfo">新增或更新</param>
-    /// <returns></returns>
-    public bool SaveJMapInfo(JMapInfo newInfo)
-    {
-        bool hasElement = false;
-        JMapInfo temp = null;
-        foreach (var i in systemData.maps)
-        {
-            if (i.mapName == newInfo.mapName)
-            {
-                temp = i;
-                temp.id = newInfo.id;
-                temp.updateTime = newInfo.updateTime;
-                temp.description = newInfo.description;
-                temp.planeSize = newInfo.planeSize;
-                temp.mapState = newInfo.mapState;
-                temp.pic = newInfo.pic;
-                temp.picUrl = newInfo.picUrl;
-                temp.privewUrl = newInfo.privewUrl;
-                temp.mapUrl = newInfo.mapUrl;
-                temp.uuid = newInfo.uuid;
-                temp.version = newInfo.version;
-                temp.planeSize = newInfo.planeSize;
-                temp.createDatatime = newInfo.createDatatime;
-                hasElement = true;
-                break;
-            }
-        }
-        if (hasElement)
-        {
-        }
-        else
-        {
-            systemData.maps.Add(newInfo);
-        }
 
 
-
-        string info = JsonUtility.ToJson(systemData);
-        CreateSystemConfig(info);
-        return true;
-    }
-
-    public bool RemoveJMapInfo(int index)
-    {
-        systemData.maps.RemoveAt(index);
-
-        string info = JsonUtility.ToJson(systemData);
-        CreateSystemConfig(info);
-        return true;
-    }
-
-    public bool RemoveJMapInfo(JMapInfo modifyInfo)
-    {
-        systemData.maps.Remove(modifyInfo);
-        string info = JsonUtility.ToJson(systemData);
-        CreateSystemConfig(info);
-        return true;
-    }
 
     public bool ClearFolderAndUpdate()
     {
@@ -256,6 +172,27 @@ public class ResourceManager : Singleton<ResourceManager>
             });
 
         return true;
+    }
+
+    public void GetMediaDatas(Action<AllData> complete)
+    {
+        string mediaConfigPath = AssetUtility.GetMediaDatasConfig();
+        if (!File.Exists(mediaConfigPath))
+        {
+            Debug.LogError("没有此路径文件：" + mediaConfigPath);
+            complete?.Invoke(null);
+        }
+        else
+        {
+            string info = "";
+            using (StreamReader sr = new StreamReader(mediaConfigPath))
+            {
+                info = sr.ReadToEnd();
+                sr.Close();
+            }
+            AllData allData = JsonUtility.FromJson<AllData>(info);
+            complete?.Invoke(allData);
+        }
     }
 
 
@@ -691,9 +628,6 @@ public class ResourceManager : Singleton<ResourceManager>
 
     private void OnApplicationQuit()
     {
-        // PlayerPrefs.SetString(Constant.PlayerPrefString.LEVELRETURN, "");
-        // PlayerPrefs.SetString(Constant.PlayerPrefString.RETURNLEVEL, "");
-        // PlayerPrefs.SetString(Constant.PlayerPrefString.ENTERLEVEL, "");
     }
 
 }

@@ -1,0 +1,131 @@
+{
+    "anfangDatas": [
+        {
+            "id": 1,
+            "title": "1",
+            "condition": "",
+            "mediaType": 1,
+            "parentType": "anfang",
+            "cover": "",
+            "medias": [
+                "1.jpg",
+                "2.jpg",
+                "3.jpg",
+                "4.jpg",
+                "5.jpg"
+            ]
+        },
+        {
+            "id": 2,
+            "title": "2",
+            "condition": "",
+            "mediaType": 2,
+            "parentType": "anfang",
+            "cover": "",
+            "medias": [
+                "1.mp4",
+                "2.mp4"
+            ]
+        },
+        {
+            "id": 3,
+            "title": "3",
+            "condition": "",
+            "mediaType": 3,
+            "parentType": "anfang",
+            "cover": "",
+            "medias": [
+                "1.pdf",
+                "2.pdf",
+                "3.pdf",
+                "4.pdf"
+            ]
+        }
+    ],
+    "xiaofangDatas": [
+        {
+            "id": 1,
+            "title": "1",
+            "condition": "",
+            "mediaType": 1,
+            "parentType": "xiaofang",
+            "cover": "",
+            "medias": [
+                "1.jpg",
+                "2.jpg",
+                "3.jpg",
+                "4.jpg",
+                "5.jpg"
+            ]
+        },
+        {
+            "id": 2,
+            "title": "2",
+            "condition": "",
+            "mediaType": 2,
+            "parentType": "xiaofang",
+            "cover": "",
+            "medias": [
+                "1.mp4",
+                "2.mp4"
+            ]
+        },
+        {
+            "id": 3,
+            "title": "3",
+            "condition": "",
+            "mediaType": 3,
+            "parentType": "xiaofang",
+            "cover": "",
+            "medias": [
+                "1.pdf",
+                "2.pdf",
+                "3.pdf",
+                "4.pdf"
+            ]
+        }
+    ],
+    "renfangDatas": [
+        {
+            "id": 1,
+            "title": "1",
+            "condition": "",
+            "mediaType": 1,
+            "parentType": "renfang",
+            "cover": "",
+            "medias": [
+                "1.jpg",
+                "2.jpg",
+                "3.jpg",
+                "4.jpg",
+                "5.jpg"
+            ]
+        },
+        {
+            "id": 2,
+            "title": "2",
+            "condition": "",
+            "mediaType": 2,
+            "parentType": "renfang",
+            "cover": "",
+            "medias": [
+                "1.mp4",
+                "2.mp4"
+            ]
+        },
+        {
+            "id": 3,
+            "title": "3",
+            "condition": "",
+            "mediaType": 3,
+            "parentType": "renfang",
+            "cover": "",
+            "medias": [
+                "1.pdf",
+                "2.pdf",
+                "3.pdf",
+                "4.pdf"
+            ]
+        }
+    ]
+}

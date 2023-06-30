@@ -7,23 +7,27 @@ using UnityEngine;
 public static class AssetUtility
 {
 
-    public static string GetTexture(string textureName)
+    public static string GetCover(string cover)
     {
-        return string.Format(AssetResourcesDir + "maps/{0}", textureName);
+        return string.Format(AssetResourcesDir + "Medias/{0}", cover);
     }
     public static string GetMap(string folder, string mapName)
     {
         return string.Format(AssetResourcesDir + "/{0}/{1}", folder, mapName);
     }
 
-    public static string GetSerialMovie(string serialName)
+    public static string GetMediaPath(string parentType, string mediaName)
     {
-        return string.Format(AssetResourcesDir + "Serials/{0}.mp4", serialName);
+        return string.Format(AssetResourcesDir + "Medias/{0}/{1}", parentType, mediaName);
     }
 
     public static string GetSystemConfig()
     {
-        return AssetResourcesDir + "SystemInfo.config";
+        return AssetResourcesDir + "SystemInfo.json";
+    }
+    public static string GetMediaDatasConfig()
+    {
+        return AssetResourcesDir + "MediaDatas.json";
     }
     public static string GetTempFolder()
     {
@@ -38,7 +42,7 @@ public static class AssetUtility
     }
 
     public static string TempFolderName = "Temp";
-    public static string SerialsFolderName = "Serials";
+    public static string Medias = "Medias";
     public static string mapFolderName = "Maps";
 
     private static string modelFolderName = "Scene";
