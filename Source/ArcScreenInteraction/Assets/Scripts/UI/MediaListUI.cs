@@ -10,7 +10,7 @@ public class MediaListUI : UI
     {
         get
         {
-            if (hideBtn == null) hideBtn = transform.Find("Hide").GetComponent<Button>();
+            if (hideBtn == null) hideBtn = transform.Find("Group/Hide").GetComponent<Button>();
             return hideBtn;
         }
     }
