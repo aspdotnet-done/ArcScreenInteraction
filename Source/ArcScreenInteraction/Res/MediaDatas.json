@@ -44,6 +44,18 @@
     ],
     "xiaofangDatas": [
         {
+            "id": 2,
+            "title": "2",
+            "condition": "",
+            "mediaType": 2,
+            "parentType": "xiaofang",
+            "cover": "",
+            "medias": [
+                "1.mp4",
+                "2.mp4"
+            ]
+        },
+        {
             "id": 1,
             "title": "1",
             "condition": "",
@@ -56,18 +68,6 @@
                 "3.jpg",
                 "4.jpg",
                 "5.jpg"
-            ]
-        },
-        {
-            "id": 2,
-            "title": "2",
-            "condition": "",
-            "mediaType": 2,
-            "parentType": "xiaofang",
-            "cover": "",
-            "medias": [
-                "1.mp4",
-                "2.mp4"
             ]
         },
         {
@@ -102,18 +102,6 @@
             ]
         },
         {
-            "id": 2,
-            "title": "2",
-            "condition": "",
-            "mediaType": 2,
-            "parentType": "renfang",
-            "cover": "",
-            "medias": [
-                "1.mp4",
-                "2.mp4"
-            ]
-        },
-        {
             "id": 3,
             "title": "3",
             "condition": "",
@@ -125,6 +113,18 @@
                 "2.pdf",
                 "3.pdf",
                 "4.pdf"
+            ]
+        },
+        {
+            "id": 2,
+            "title": "2",
+            "condition": "",
+            "mediaType": 2,
+            "parentType": "renfang",
+            "cover": "",
+            "medias": [
+                "1.mp4",
+                "2.mp4"
             ]
         }
     ]

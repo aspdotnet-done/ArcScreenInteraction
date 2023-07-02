@@ -23,3 +23,10 @@ public class MediaManager : Singleton<MediaManager>
 
     }
 }
+
+public enum SecurityType
+{
+    xiaofang,
+    anfang,
+    renfang
+}

@@ -25,12 +25,14 @@ namespace UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02
 
         public override void UpdateContent(ItemData itemData)
         {
+
             message.text = itemData.Message;
 
             var selected = Context.SelectedIndex == Index;
             image.color = selected
                 ? new Color32(0, 255, 255, 100)
                 : new Color32(255, 255, 255, 77);
+
         }
 
         public override void UpdatePosition(float position)

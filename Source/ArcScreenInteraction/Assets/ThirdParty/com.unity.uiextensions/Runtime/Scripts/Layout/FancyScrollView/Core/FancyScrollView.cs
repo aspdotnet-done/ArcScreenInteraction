@@ -88,6 +88,7 @@ namespace UnityEngine.UI.Extensions
             Refresh();
         }
 
+
         /// <summary>
         /// セルのレイアウトを強制的に更新します.
         /// </summary>
