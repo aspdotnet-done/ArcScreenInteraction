@@ -10,7 +10,13 @@ public class UIManager : Singleton<UIManager>
     public override void Awake()
     {
         base.Awake();
-
+        foreach (var i in uIs)
+        {
+            if (i.CurrentState == UIState.Hide)
+            {
+                i.HideUI();
+            }
+        }
     }
 
     public void InitUIType()

@@ -21,17 +21,66 @@ namespace EntityProgram
             }
         }
 
+        private Button xiaofangBtn;
+        public Button XiaofangBtn
+        {
+            get
+            {
+                if (xiaofangBtn == null) xiaofangBtn = transform.Find("Selection/xiaofang/Button").GetComponent<Button>();
+                return xiaofangBtn;
+            }
+        }
+
+        private Button anfangBtn;
+        public Button AnfangBtn
+        {
+            get
+            {
+                if (anfangBtn == null) anfangBtn = transform.Find("Selection/anfang/Button").GetComponent<Button>();
+                return anfangBtn;
+            }
+        }
+        private Button renfangBtn;
+        public Button RenfangBtn
+        {
+            get
+            {
+                if (renfangBtn == null) renfangBtn = transform.Find("Selection/renfang/Button").GetComponent<Button>();
+                return renfangBtn;
+            }
+        }
+
 
         private void OnEnable()
         {
+            AnfangBtn.onClick.AddListener(AnfangClick);
+            XiaofangBtn.onClick.AddListener(XiaofangClick);
+            RenfangBtn.onClick.AddListener(RenfangClick);
+        }
 
+        void AnfangClick()
+        {
+            UI ui = UIManager.Instance.GetUI(UIType.MediaListUI);
+            ui.ShowUI();
+        }
+        void XiaofangClick()
+        {
+            UI ui = UIManager.Instance.GetUI(UIType.MediaListUI);
+            ui.ShowUI();
+        }
+        void RenfangClick()
+        {
+            UI ui = UIManager.Instance.GetUI(UIType.MediaListUI);
+            ui.ShowUI();
         }
 
 
 
         private void OnDisable()
         {
-
+            AnfangBtn.onClick.RemoveListener(AnfangClick);
+            XiaofangBtn.onClick.RemoveListener(XiaofangClick);
+            RenfangBtn.onClick.RemoveListener(RenfangClick);
         }
         private void InitUI()
         {

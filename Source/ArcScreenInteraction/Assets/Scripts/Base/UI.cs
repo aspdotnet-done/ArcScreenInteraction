@@ -14,37 +14,29 @@ public enum UIState
 public enum UIType
 {
     normal,
-    Loading,
-    Login,
-    Register,
     Main,
-    Tips,
-    Bar,
-    Background,
-    Calibration,
-    BabyInfo,
-    KnowledgePoint,
-    Game,
-    Setting,
-    Achievement,
-    CourseList,
-    Result,
-    MapSelect,
-    MapOperation,
-    Farm,
-    Ranch,
-    MapUI,
-    Update,
-    Teach
+    MediaListUI,
+    MediaPlayUI
+
+}
+
+public enum HideMode
+{
+    Fade,
+    UpDown
+
 }
 
 public class UI : MonoBehaviour
 {
     public UIType CurrentUIType = UIType.normal;
     public UIState CurrentState = UIState.Show;
+    public HideMode hideMode = HideMode.Fade;
 
     [Range(0, 2)] public float showDuration = 0.2f;
     [Range(0, 2)] public float hideDuration = 0.2f;
+
+    public float HideHeight = 1080;
 
     private RectTransform panel;
 
@@ -63,8 +55,16 @@ public class UI : MonoBehaviour
 
     public virtual void ShowUI()
     {
-        Panel.GetComponent<CanvasGroup>().alpha = 0;
-        Panel.GetComponent<CanvasGroup>().DOFade(1, showDuration);
+        if (hideMode == HideMode.Fade)
+        {
+            Panel.GetComponent<CanvasGroup>().alpha = 0;
+            Panel.GetComponent<CanvasGroup>().DOFade(1, showDuration);
+        }
+        else
+        {
+            Panel.anchoredPosition = new Vector2(Panel.anchoredPosition.x, HideHeight);
+            Panel.DOAnchorPosY(0, showDuration);
+        }
         gameObject.SetActive(true);
         CurrentState = UIState.Show;
         //Debug.Log("Show");
@@ -72,10 +72,20 @@ public class UI : MonoBehaviour
 
     public virtual void HideUI()
     {
-        Panel.GetComponent<CanvasGroup>().DOFade(0, hideDuration).OnComplete(() =>
+        if (hideMode == HideMode.Fade)
         {
-            Panel.gameObject.SetActive(false);
-        });
+            Panel.GetComponent<CanvasGroup>().DOFade(0, hideDuration).OnComplete(() =>
+            {
+                Panel.gameObject.SetActive(false);
+            });
+        }
+        else
+        {
+            Panel.DOAnchorPosY(HideHeight, hideDuration).OnComplete(() =>
+            {
+                Panel.gameObject.SetActive(false);
+            });
+        }
         CurrentState = UIState.Hide;
     }
 
