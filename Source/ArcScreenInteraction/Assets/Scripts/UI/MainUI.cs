@@ -60,17 +60,21 @@ namespace EntityProgram
 
         void AnfangClick()
         {
-            UI ui = UIManager.Instance.GetUI(UIType.MediaListUI);
+            MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+            ui.InitMediaList(SecurityType.anfang);
             ui.ShowUI();
+
         }
         void XiaofangClick()
         {
-            UI ui = UIManager.Instance.GetUI(UIType.MediaListUI);
+            MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+            ui.InitMediaList(SecurityType.xiaofang);
             ui.ShowUI();
         }
         void RenfangClick()
         {
-            UI ui = UIManager.Instance.GetUI(UIType.MediaListUI);
+            MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+            ui.InitMediaList(SecurityType.renfang);
             ui.ShowUI();
         }
 

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02;
 
 public class MediaListUI : UI
 {
@@ -35,17 +34,32 @@ public class MediaListUI : UI
 
             case SecurityType.xiaofang:
                 var items = MediaManager.Instance.mediaDatasScriptableAsset.data.xiaofangDatas;
-                //scrollView.UpdateData(items);
+                List<ItemData> itemDatas = new List<ItemData>();
+                foreach (var i in items)
+                {
+                    itemDatas.Add(new ItemData(i));
+                }
+                scrollView.UpdateData(itemDatas);
                 scrollView.SelectCell(0);
                 break;
             case SecurityType.anfang:
                 var items1 = MediaManager.Instance.mediaDatasScriptableAsset.data.anfangDatas;
-                //scrollView.UpdateData(items1);
+                List<ItemData> itemDatas2 = new List<ItemData>();
+                foreach (var i in items1)
+                {
+                    itemDatas2.Add(new ItemData(i));
+                }
+                scrollView.UpdateData(itemDatas2);
                 scrollView.SelectCell(0);
                 break;
             case SecurityType.renfang:
                 var items2 = MediaManager.Instance.mediaDatasScriptableAsset.data.renfangDatas;
-                //scrollView.UpdateData(items2);
+                List<ItemData> itemDatas3 = new List<ItemData>();
+                foreach (var i in items2)
+                {
+                    itemDatas3.Add(new ItemData(i));
+                }
+                scrollView.UpdateData(itemDatas3);
                 scrollView.SelectCell(0);
                 break;
         }
