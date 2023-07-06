@@ -17,6 +17,11 @@ public class MediaManager : Singleton<MediaManager>
         });
     }
 
+    public void PlayMedia(MediaData data)
+    {
+
+    }
+
     // Update is called once per frame
     void Update()
     {

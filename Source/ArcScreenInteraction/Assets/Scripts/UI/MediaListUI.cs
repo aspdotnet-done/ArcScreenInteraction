@@ -18,14 +18,31 @@ public class MediaListUI : UI
     [SerializeField] ScrollView scrollView = default;
     [SerializeField] Button prevCellButton = default;
     [SerializeField] Button nextCellButton = default;
+    [SerializeField] Button playButton = default;
 
     private void OnEnable()
     {
         HideBtn.onClick.AddListener(HideClick);
         prevCellButton.onClick.AddListener(scrollView.SelectPrevCell);
         nextCellButton.onClick.AddListener(scrollView.SelectNextCell);
+        scrollView.OnSelectionChanged(OnSelectionChanged);
+        playButton.onClick.AddListener(PlayClick);
+    }
+    private List<MediaData> currentMediaDatas;
+    private MediaData currentMediaData;
+    private int currentIndex = 0;
+    private void PlayClick()
+    {
+        currentMediaData = currentMediaDatas[currentIndex];
+
     }
 
+    void OnSelectionChanged(int index)
+    {
+        currentIndex = index;
+        Debug.Log($"Selected item info: index {index}");
+        // selectedItemInfo.text = $"Selected item info: index {index}"
+    }
 
     public void InitMediaList(SecurityType securityType)
     {
@@ -39,6 +56,7 @@ public class MediaListUI : UI
                 {
                     itemDatas.Add(new ItemData(i));
                 }
+                currentMediaDatas = items;
                 scrollView.UpdateData(itemDatas);
                 scrollView.SelectCell(0);
                 break;
@@ -49,6 +67,7 @@ public class MediaListUI : UI
                 {
                     itemDatas2.Add(new ItemData(i));
                 }
+                currentMediaDatas = items1;
                 scrollView.UpdateData(itemDatas2);
                 scrollView.SelectCell(0);
                 break;
@@ -59,10 +78,12 @@ public class MediaListUI : UI
                 {
                     itemDatas3.Add(new ItemData(i));
                 }
+                currentMediaDatas = items2;
                 scrollView.UpdateData(itemDatas3);
                 scrollView.SelectCell(0);
                 break;
         }
+        scrollView.SelectCell(0);
     }
 
     private void HideClick()
@@ -75,6 +96,8 @@ public class MediaListUI : UI
         HideBtn.onClick.RemoveListener(HideClick);
         prevCellButton.onClick.RemoveListener(scrollView.SelectPrevCell);
         nextCellButton.onClick.RemoveListener(scrollView.SelectNextCell);
+        scrollView.OnSelectionChanged(OnSelectionChanged);
+        playButton.onClick.RemoveListener(PlayClick);
     }
 
 }
