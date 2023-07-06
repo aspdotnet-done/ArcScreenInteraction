@@ -2960,6 +2960,7 @@ MonoBehaviour:
   scrollView: {fileID: 1492537697}
   prevCellButton: {fileID: 557640970}
   nextCellButton: {fileID: 1518742535}
+  playButton: {fileID: 1210000019}
 --- !u!1 &1889877081
 GameObject:
   m_ObjectHideFlags: 0
