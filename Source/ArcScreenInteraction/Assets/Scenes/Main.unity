@@ -4663,6 +4663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mediaDatasScriptableAsset: {fileID: 11400000, guid: 2668619d1e7271d418ed0efdd5a2a17c, type: 2}
+  setupDataScriptableAsset: {fileID: 11400000, guid: 9193952f749a92145b3438f48a53b34b, type: 2}
 --- !u!4 &1667217859
 Transform:
   m_ObjectHideFlags: 0
@@ -5039,7 +5040,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1748947433
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5104,6 +5105,7 @@ MonoBehaviour:
   innerDelayText: {fileID: 1728765090}
   outerDelaySlider: {fileID: 234999743}
   outerDelayText: {fileID: 1009909080}
+  confirmButton: {fileID: 0}
 --- !u!1 &1750894011
 GameObject:
   m_ObjectHideFlags: 0
