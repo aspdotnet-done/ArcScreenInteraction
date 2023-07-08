@@ -33,7 +33,7 @@ public class ResourceManager : Singleton<ResourceManager>
     public override void Awake()
     {
         base.Awake();
-        StartCoroutine(WaitForNextAction(1f, CheckSystemInfo));
+        //StartCoroutine(WaitForNextAction(1f, CheckSystemInfo));
     }
 
     IEnumerator WaitForNextAction(float time, Action complete)
@@ -46,7 +46,7 @@ public class ResourceManager : Singleton<ResourceManager>
     ///检测版本配置文件是否存在
     //如果不存在 删除所有缓存 重新创建版本配置文件
     /// </summary>
-    public void CheckSystemInfo()
+    public void GetSystemInfo(Action<SystemData> complete = null)
     {
         if (!File.Exists(AssetUtility.GetSystemConfig()))
         {
@@ -55,17 +55,24 @@ public class ResourceManager : Singleton<ResourceManager>
             string jsonStr = JsonUtility.ToJson(systemData);
             CreateFolder(AssetUtility.mapFolderName);
             CreateSystemConfig(jsonStr);
-
+            complete?.Invoke(systemData);
         }
         else
         {
             // Debug.Log("存在配置文件，开始下一步逻辑");
             string jsonStr = GetSystemConfigInfo();
             systemData = JsonUtility.FromJson<SystemData>(jsonStr);
-            //Debug.Log(systemData.maps.Count);
+            complete?.Invoke(systemData);
         }
-        //DelayToRuning(0.5f, () => { InitCompleteAction?.Invoke(); });
     }
+
+    public void ChangeSystemInfo(SystemData data)
+    {
+        systemData = data;
+        string jsonStr = JsonUtility.ToJson(systemData);
+        CreateSystemConfig(jsonStr);
+    }
+
 
 
 
@@ -80,7 +87,7 @@ public class ResourceManager : Singleton<ResourceManager>
         //初始化文件
         DelayToRuning(0.5f, () =>
         {
-            CheckSystemInfo();
+            GetSystemInfo();
         });
     }
 

@@ -29,4 +29,9 @@ public class MediaPlayUI : UI
     {
         HideBtn.onClick.RemoveListener(HideClick);
     }
+    private MediaData currentMediaData;
+    public void Init(MediaData data)
+    {
+        currentMediaData = data;
+    }
 }

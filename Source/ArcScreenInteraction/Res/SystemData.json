@@ -1,8 +1,0 @@
-{
-    "appVersion": "1.0.0",
-    "setupData": {
-        "loopType": 1,
-        "innerDelay": 3.0,
-        "outerDelay": 3.0
-    }
-}

@@ -5,9 +5,11 @@ using UnityEngine;
 public class MediaManager : Singleton<MediaManager>
 {
     public MediaDatasScriptableAsset mediaDatasScriptableAsset;
+    public SetupDataScriptableAsset setupDataScriptableAsset;
     // Start is called before the first frame update
 
     private MediaData current;
+
     IEnumerator Start()
     {
         yield return new WaitUntil(() => ResourceManager.Instance != null);
@@ -15,6 +17,15 @@ public class MediaManager : Singleton<MediaManager>
         {
             mediaDatasScriptableAsset.data = data;
         });
+        ResourceManager.Instance.GetSystemInfo((data) =>
+        {
+            setupDataScriptableAsset.data = data;
+        });
+    }
+
+    public void UpdateSetupAsset()
+    {
+        ResourceManager.Instance.ChangeSystemInfo(setupDataScriptableAsset.data);
     }
 
     public void PlayMedia(MediaData data)
