@@ -16,9 +16,9 @@ public static class AssetUtility
         return string.Format(AssetResourcesDir + "/{0}/{1}", folder, mapName);
     }
 
-    public static string GetMediaPath(string parentType, string mediaName)
+    public static string GetMediaPath(string parentType, string title, string mediaName)
     {
-        return string.Format(AssetResourcesDir + "Medias/{0}/{1}", parentType, mediaName);
+        return string.Format(AssetResourcesDir + "Medias/{0}/{1}/{2}", parentType, title, mediaName);
     }
 
     public static string GetSystemConfig()

@@ -625,7 +625,7 @@ public class ResourceManager : Singleton<ResourceManager>
         foreach (var url in urls)
         {
             UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
-            //Debug.Log("url:" + url);
+            Debug.Log("url:" + url);
             yield return request.SendWebRequest();
             try
             {
