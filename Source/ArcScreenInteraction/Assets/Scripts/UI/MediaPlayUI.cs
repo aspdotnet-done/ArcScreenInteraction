@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MediaPlayUI : UI
 {
+    [SerializeField] private RawImage mediaImage = default;
     private Button hideBtn;
     public Button HideBtn
     {
@@ -33,5 +34,26 @@ public class MediaPlayUI : UI
     public void Init(MediaData data)
     {
         currentMediaData = data;
+    }
+
+    public void ShowMedia()
+    {
+        switch (currentMediaData.MediaType)
+        {
+            case MediaType.pdf:
+                break;
+            case MediaType.video:
+                break;
+            case MediaType.picture:
+                break;
+        }
+    }
+
+    public void ShowImageMedia()
+    {
+        ResourceManager.Instance.GetTextureList(currentMediaData.MediaPathList, (data) =>
+        {
+
+        });
     }
 }

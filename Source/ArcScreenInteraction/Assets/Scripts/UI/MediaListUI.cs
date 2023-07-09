@@ -14,22 +14,12 @@ public class MediaListUI : UI
             return hideBtn;
         }
     }
-
     [SerializeField] ScrollView scrollView = default;
     [SerializeField] Button prevCellButton = default;
     [SerializeField] Button nextCellButton = default;
     [SerializeField] Button playButton = default;
 
-    [Space(10)]
-    [Header("设置面板")]
 
-    [SerializeField] GameObject confirmPanel = default;
-    [SerializeField] Dropdown loopTypeDropdown = default;
-    [SerializeField] Slider innerDelaySlider = default;
-    [SerializeField] Text innerDelayText = default;
-    [SerializeField] Slider outerDelaySlider = default;
-    [SerializeField] Text outerDelayText = default;
-    [SerializeField] Button confirmButton = default;
 
     private void OnEnable()
     {
@@ -40,39 +30,25 @@ public class MediaListUI : UI
         nextCellButton.onClick.AddListener(scrollView.SelectNextCell);
         scrollView.OnSelectionChanged(OnSelectionChanged);
         playButton.onClick.AddListener(PlayClick);
-        loopTypeDropdown.onValueChanged.AddListener(LoopTypeChange);
-        innerDelaySlider.onValueChanged.AddListener(InnerDelayChange);
-        outerDelaySlider.onValueChanged.AddListener(OuterDelayChange);
-        InitData();
-
-
     }
 
-    private void InitData()
-    {
-        currentSystemData = MediaManager.Instance.setupDataScriptableAsset.data;
-        loopTypeDropdown.value = (int)currentSystemData.setupData.loopType;
-        innerDelaySlider.value = currentSystemData.setupData.innerDelay;
-        outerDelaySlider.value = currentSystemData.setupData.outerDelay;
 
-    }
     private List<MediaData> currentMediaDatas;
     private MediaData currentMediaData;
-    private SystemData currentSystemData;
+
     private int currentIndex = 0;
 
     private void ShowConfirmPanel()
     {
-        //todo 加载配置信息
-        currentMediaData = currentMediaDatas[currentIndex];
-        MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
-        ui.Init(currentMediaData);
-        HideUI();
+
 
     }
     private void PlayClick()
     {
-        confirmPanel.SetActive(true);
+        currentMediaData = currentMediaDatas[currentIndex];
+        MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
+        ui.Init(currentMediaData);
+        HideUI();
 
     }
 
@@ -130,25 +106,7 @@ public class MediaListUI : UI
         HideUI();
     }
 
-    private void LoopTypeChange(int index)
-    {
-        MediaManager.Instance.setupDataScriptableAsset.data.setupData.loopType = (LoopType)index;
-        MediaManager.Instance.UpdateSetupAsset();
-        Debug.Log($"LoopTypeChange {index}");
-    }
-    private void InnerDelayChange(float v)
-    {
-        innerDelayText.text = v.ToString();
-        MediaManager.Instance.setupDataScriptableAsset.data.setupData.innerDelay = v;
-        MediaManager.Instance.UpdateSetupAsset();
-    }
 
-    private void OuterDelayChange(float v)
-    {
-        MediaManager.Instance.setupDataScriptableAsset.data.setupData.outerDelay = v;
-        MediaManager.Instance.UpdateSetupAsset();
-        outerDelayText.text = v.ToString();
-    }
 
     private void OnDisable()
     {
@@ -157,8 +115,7 @@ public class MediaListUI : UI
         nextCellButton.onClick.RemoveListener(scrollView.SelectNextCell);
         scrollView.OnSelectionChanged(OnSelectionChanged);
         playButton.onClick.RemoveListener(PlayClick);
-        innerDelaySlider.onValueChanged.RemoveAllListeners();
-        loopTypeDropdown.onValueChanged.RemoveAllListeners();
+
     }
 
 }

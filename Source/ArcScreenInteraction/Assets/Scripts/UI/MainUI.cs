@@ -50,12 +50,59 @@ namespace EntityProgram
             }
         }
 
+        [Space(10)]
+        [Header("设置面板")]
+        [SerializeField] GameObject settingPanel = default;
+        [SerializeField] Dropdown loopTypeDropdown = default;
+        [SerializeField] Slider innerDelaySlider = default;
+        [SerializeField] Text innerDelayText = default;
+        [SerializeField] Slider outerDelaySlider = default;
+        [SerializeField] Text outerDelayText = default;
+        [SerializeField] Button confirmButton = default;
 
+        private SystemData currentSystemData;
         private void OnEnable()
         {
             AnfangBtn.onClick.AddListener(AnfangClick);
             XiaofangBtn.onClick.AddListener(XiaofangClick);
             RenfangBtn.onClick.AddListener(RenfangClick);
+            loopTypeDropdown.onValueChanged.AddListener(LoopTypeChange);
+            innerDelaySlider.onValueChanged.AddListener(InnerDelayChange);
+            outerDelaySlider.onValueChanged.AddListener(OuterDelayChange);
+            StartCoroutine(InitData());
+        }
+
+
+
+        IEnumerator InitData()
+        {
+            yield return new WaitForSeconds(0.5f);
+            //yield return new WaitUntil(() => MediaManager.Instance != null);
+            //yield return new WaitUntil(() => MediaManager.Instance.setupDataScriptableAsset != null);
+            currentSystemData = MediaManager.Instance.setupDataScriptableAsset.data;
+            loopTypeDropdown.value = (int)currentSystemData.setupData.loopType;
+            innerDelaySlider.value = currentSystemData.setupData.innerDelay;
+            outerDelaySlider.value = currentSystemData.setupData.outerDelay;
+        }
+
+        private void LoopTypeChange(int index)
+        {
+            MediaManager.Instance.setupDataScriptableAsset.data.setupData.loopType = (LoopType)index;
+            MediaManager.Instance.UpdateSetupAsset();
+            //Debug.Log($"LoopTypeChange {index}");
+        }
+        private void InnerDelayChange(float v)
+        {
+            innerDelayText.text = v.ToString();
+            MediaManager.Instance.setupDataScriptableAsset.data.setupData.innerDelay = v;
+            MediaManager.Instance.UpdateSetupAsset();
+        }
+
+        private void OuterDelayChange(float v)
+        {
+            MediaManager.Instance.setupDataScriptableAsset.data.setupData.outerDelay = v;
+            MediaManager.Instance.UpdateSetupAsset();
+            outerDelayText.text = v.ToString();
         }
 
         void AnfangClick()
@@ -85,6 +132,8 @@ namespace EntityProgram
             AnfangBtn.onClick.RemoveListener(AnfangClick);
             XiaofangBtn.onClick.RemoveListener(XiaofangClick);
             RenfangBtn.onClick.RemoveListener(RenfangClick);
+            innerDelaySlider.onValueChanged.RemoveAllListeners();
+            loopTypeDropdown.onValueChanged.RemoveAllListeners();
         }
         private void InitUI()
         {

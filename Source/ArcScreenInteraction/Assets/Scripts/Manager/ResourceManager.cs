@@ -14,6 +14,7 @@ public class ResourceManager : Singleton<ResourceManager>
     public Action InitCompleteAction;
     public bool UseTestData;
     private SystemData systemData;
+    private Texture2D defaultTexture;
     public SystemData SystemData
     {
         get { return systemData; }
@@ -596,6 +597,69 @@ public class ResourceManager : Singleton<ResourceManager>
         {
             callback?.Invoke(null);
         }
+    }
+
+    public void GetTextureList(List<string> urls, Action<List<Texture2D>> callback, bool isLocal = true)
+    {
+        if (urls.Count > 0)
+        {
+            StartCoroutine(GetTextureListCorountine(urls, callback, isLocal));
+        }
+        else
+        {
+            callback?.Invoke(null);
+        }
+    }
+
+    private IEnumerator GetTextureListCorountine(List<string> urls, Action<List<Texture2D>> callback, bool isLocal = true)
+    {
+        yield return 0;
+        if (isLocal)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                url = "file://" + url;
+#endif
+        }
+
+        List<Texture2D> textures = new List<Texture2D>();
+        foreach (var url in urls)
+        {
+            UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
+            //Debug.Log("url:" + url);
+            yield return request.SendWebRequest();
+            try
+            {
+                if (request.isDone)
+                {
+                    Texture2D texture = null;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        try
+                        {
+                            texture = DownloadHandlerTexture.GetContent(request);
+                            if (texture != null)
+                            {
+                                //callback?.Invoke(texture);
+                                textures.Add(texture);
+                                break;
+                            }
+                        }
+                        catch { Debug.Log("加载缩略图:" + i); }
+                    }
+                    if (texture == null)
+                        textures.Add(defaultTexture);
+                }
+                else
+                {
+                    textures.Add(defaultTexture);
+                }
+            }
+            catch
+            {
+                textures.Add(defaultTexture);
+            }
+        }
+        callback?.Invoke(textures);
     }
 
     #endregion

@@ -10,6 +10,13 @@ public class MediaData
     public string parentType;//1-安防，2-消防，3-人防
     //1-pdf,2-video,3-pitcure
     public int mediaType;
+    public MediaType MediaType
+    {
+        get
+        {
+            return (MediaType)mediaType;
+        }
+    }
     public string cover;
     public string coverPath
     {
@@ -33,4 +40,10 @@ public class MediaData
         }
     }
 
+}
+public enum MediaType
+{
+    pdf = 1,
+    video = 2,
+    picture = 3
 }

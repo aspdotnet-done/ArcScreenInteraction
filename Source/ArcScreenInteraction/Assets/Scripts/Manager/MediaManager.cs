@@ -12,6 +12,7 @@ public class MediaManager : Singleton<MediaManager>
 
     IEnumerator Start()
     {
+        yield return new WaitForSeconds(1);
         yield return new WaitUntil(() => ResourceManager.Instance != null);
         ResourceManager.Instance.GetMediaDatas((data) =>
         {
