@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
+
 public class Cell : FancyCell<ItemData, Context>
 {
     [SerializeField] Animator animator = default;
@@ -15,12 +16,26 @@ public class Cell : FancyCell<ItemData, Context>
 
     public override void Initialize()
     {
-        button.onClick.AddListener(() => Context.OnCellClicked?.Invoke(Index));
+        button.onClick.AddListener(Click);
     }
 
+    void Click()
+    {
+        Context.OnCellClicked?.Invoke(Index);
+        if (currentItemData != null && currentItemData.ClickAction != null)
+        {
+            currentItemData.ClickAction(currentItemData.MediaData);
+        }
+        if (currentItemData != null && currentItemData.ClickDetailAction != null)
+        {
+            currentItemData.ClickDetailAction(currentItemData.MediaData, currentItemData.media);
+        }
+    }
+
+    ItemData currentItemData;
     public override void UpdateContent(ItemData itemData)
     {
-
+        currentItemData = itemData;
         message.text = itemData.MediaData.id.ToString();
 
         var selected = Context.SelectedIndex == Index;

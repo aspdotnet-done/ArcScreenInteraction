@@ -29,7 +29,7 @@ public class MediaListUI : UI
         prevCellButton.onClick.AddListener(scrollView.SelectPrevCell);
         nextCellButton.onClick.AddListener(scrollView.SelectNextCell);
         scrollView.OnSelectionChanged(OnSelectionChanged);
-        playButton.onClick.AddListener(PlayClick);
+        //playButton.onClick.AddListener(PlayClick);
     }
 
 
@@ -45,11 +45,9 @@ public class MediaListUI : UI
     }
     private void PlayClick()
     {
-        currentMediaData = currentMediaDatas[currentIndex];
         MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
-        ui.Init(currentMediaData);
+        ui.Init(currentMediaData, currentIndex);
         HideUI();
-
     }
 
     void OnSelectionChanged(int index)
@@ -58,7 +56,7 @@ public class MediaListUI : UI
         Debug.Log($"Selected item info: index {index}");
         // selectedItemInfo.text = $"Selected item info: index {index}"
     }
-
+    //显示父级界面
     public void InitMediaList(SecurityType securityType)
     {
         switch (securityType)
@@ -69,7 +67,7 @@ public class MediaListUI : UI
                 List<ItemData> itemDatas = new List<ItemData>();
                 foreach (var i in items)
                 {
-                    itemDatas.Add(new ItemData(i));
+                    itemDatas.Add(new ItemData(i, InitMediaDataList));
                 }
                 currentMediaDatas = items;
                 scrollView.UpdateData(itemDatas);
@@ -80,7 +78,7 @@ public class MediaListUI : UI
                 List<ItemData> itemDatas2 = new List<ItemData>();
                 foreach (var i in items1)
                 {
-                    itemDatas2.Add(new ItemData(i));
+                    itemDatas2.Add(new ItemData(i, InitMediaDataList));
                 }
                 currentMediaDatas = items1;
                 scrollView.UpdateData(itemDatas2);
@@ -91,7 +89,7 @@ public class MediaListUI : UI
                 List<ItemData> itemDatas3 = new List<ItemData>();
                 foreach (var i in items2)
                 {
-                    itemDatas3.Add(new ItemData(i));
+                    itemDatas3.Add(new ItemData(i, InitMediaDataList));
                 }
                 currentMediaDatas = items2;
                 scrollView.UpdateData(itemDatas3);
@@ -99,6 +97,25 @@ public class MediaListUI : UI
                 break;
         }
         scrollView.SelectCell(0);
+    }
+    //显示子级界面
+    public void InitMediaDataList(MediaData data)
+    {
+        List<ItemData> itemDatas = new List<ItemData>();
+        foreach (var i in data.medias)
+        {
+            itemDatas.Add(new ItemData(data, i, ShowDetailMedia));
+        }
+        //currentMediaDatas = items;
+        scrollView.UpdateData(itemDatas);
+        scrollView.SelectCell(0);
+    }
+
+    public void ShowDetailMedia(MediaData data, string media)
+    {
+        Debug.Log($"ShowDetailMedia {data} {media}");
+        currentMediaData = data;
+        PlayClick();
     }
 
     private void HideClick()
@@ -114,7 +131,7 @@ public class MediaListUI : UI
         prevCellButton.onClick.RemoveListener(scrollView.SelectPrevCell);
         nextCellButton.onClick.RemoveListener(scrollView.SelectNextCell);
         scrollView.OnSelectionChanged(OnSelectionChanged);
-        playButton.onClick.RemoveListener(PlayClick);
+        //playButton.onClick.RemoveListener(PlayClick);
 
     }
 
