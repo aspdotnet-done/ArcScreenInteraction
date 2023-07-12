@@ -33,7 +33,7 @@ public class MediaData
                 mediaPathList = new List<string>();
                 foreach (var i in medias)
                 {
-                    mediaPathList.Add(AssetUtility.GetMediaPath(parentType, i));
+                    mediaPathList.Add(AssetUtility.GetMediaPath(parentType, title, i));
                 }
             }
             return mediaPathList;
