@@ -20,32 +20,41 @@ namespace EntityProgram
                 return bg;
             }
         }
-
-        private Button xiaofangBtn;
-        public Button XiaofangBtn
+        private Toggle overviewBtn;
+        public Toggle OverviewBtn
         {
             get
             {
-                if (xiaofangBtn == null) xiaofangBtn = transform.Find("Selection/xiaofang/Button").GetComponent<Button>();
+                if (overviewBtn == null) overviewBtn = transform.Find("Selection/overview/Toggle").GetComponent<Toggle>();
+                return overviewBtn;
+            }
+        }
+
+        private Toggle xiaofangBtn;
+        public Toggle XiaofangBtn
+        {
+            get
+            {
+                if (xiaofangBtn == null) xiaofangBtn = transform.Find("Selection/xiaofang/Toggle").GetComponent<Toggle>();
                 return xiaofangBtn;
             }
         }
 
-        private Button anfangBtn;
-        public Button AnfangBtn
+        private Toggle anfangBtn;
+        public Toggle AnfangBtn
         {
             get
             {
-                if (anfangBtn == null) anfangBtn = transform.Find("Selection/anfang/Button").GetComponent<Button>();
+                if (anfangBtn == null) anfangBtn = transform.Find("Selection/anfang/Toggle").GetComponent<Toggle>();
                 return anfangBtn;
             }
         }
-        private Button renfangBtn;
-        public Button RenfangBtn
+        private Toggle renfangBtn;
+        public Toggle RenfangBtn
         {
             get
             {
-                if (renfangBtn == null) renfangBtn = transform.Find("Selection/renfang/Button").GetComponent<Button>();
+                if (renfangBtn == null) renfangBtn = transform.Find("Selection/renfang/Toggle").GetComponent<Toggle>();
                 return renfangBtn;
             }
         }
@@ -63,9 +72,10 @@ namespace EntityProgram
         private SystemData currentSystemData;
         private void OnEnable()
         {
-            AnfangBtn.onClick.AddListener(AnfangClick);
-            XiaofangBtn.onClick.AddListener(XiaofangClick);
-            RenfangBtn.onClick.AddListener(RenfangClick);
+            AnfangBtn.onValueChanged.AddListener(AnfangClick);
+            XiaofangBtn.onValueChanged.AddListener(XiaofangClick);
+            RenfangBtn.onValueChanged.AddListener(RenfangClick);
+            OverviewBtn.onValueChanged.AddListener(OverviewClick);
             loopTypeDropdown.onValueChanged.AddListener(LoopTypeChange);
             innerDelaySlider.onValueChanged.AddListener(InnerDelayChange);
             outerDelaySlider.onValueChanged.AddListener(OuterDelayChange);
@@ -105,33 +115,52 @@ namespace EntityProgram
             outerDelayText.text = v.ToString();
         }
 
-        void AnfangClick()
+        void AnfangClick(bool ison)
         {
-            MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
-            ui.InitMediaList(SecurityType.anfang);
-            ui.ShowUI();
+            if (ison)
+            {
+                MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+                ui.InitMediaList(SecurityType.anfang);
+                ui.ShowUI();
+            }
 
         }
-        void XiaofangClick()
+        void XiaofangClick(bool ison)
         {
-            MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
-            ui.InitMediaList(SecurityType.xiaofang);
-            ui.ShowUI();
+            if (ison)
+            {
+                MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+                ui.InitMediaList(SecurityType.xiaofang);
+                ui.ShowUI();
+            }
         }
-        void RenfangClick()
+        void RenfangClick(bool ison)
         {
-            MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
-            ui.InitMediaList(SecurityType.renfang);
-            ui.ShowUI();
+            if (ison)
+            {
+                MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+                ui.InitMediaList(SecurityType.renfang);
+                ui.ShowUI();
+            }
+        }
+
+        void OverviewClick(bool ison)
+        {
+            if (ison)
+            {
+                MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+                ui.HideUI();
+            }
         }
 
 
 
         private void OnDisable()
         {
-            AnfangBtn.onClick.RemoveListener(AnfangClick);
-            XiaofangBtn.onClick.RemoveListener(XiaofangClick);
-            RenfangBtn.onClick.RemoveListener(RenfangClick);
+            AnfangBtn.onValueChanged.RemoveListener(AnfangClick);
+            XiaofangBtn.onValueChanged.RemoveListener(XiaofangClick);
+            RenfangBtn.onValueChanged.RemoveListener(RenfangClick);
+            OverviewBtn.onValueChanged.AddListener(OverviewClick);
             innerDelaySlider.onValueChanged.RemoveAllListeners();
             loopTypeDropdown.onValueChanged.RemoveAllListeners();
         }

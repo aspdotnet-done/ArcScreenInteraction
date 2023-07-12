@@ -4,10 +4,15 @@ using UnityEngine;
 
 public abstract class BaseViewer : MonoBehaviour
 {
-    private MediaData currentData;
-    public virtual void LoadMedias(MediaData data)
+    protected MediaData currentData;
+    public void LoadMedias(MediaData data)
     {
         Debug.Log("BaseViewer LoadMedias");
+    }
+
+    public virtual void Show()
+    {
+        Debug.Log("BaseViewer Show");
     }
     public virtual void Next()
     {

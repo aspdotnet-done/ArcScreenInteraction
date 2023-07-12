@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ImageViewer : BaseViewer
 {
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
+    [SerializeField] private RawImage image;
 
-    // Update is called once per frame
-    void Update()
+    public override void Next()
     {
+        base.Next();
 
     }
 }

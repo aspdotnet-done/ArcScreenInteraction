@@ -6,7 +6,11 @@ using DG.Tweening;
 
 public class MediaPlayUI : UI
 {
-    [SerializeField] private RawImage mediaImage = default;
+    [HideInInspector]
+    public BaseViewer viewer;
+    [SerializeField] public ImageViewer imageViewer;
+    [SerializeField] public PDFViewer pDFViewer;
+    [SerializeField] public VideoViewer videoViewer;
     private Button hideBtn;
     public Button HideBtn
     {
@@ -132,8 +136,8 @@ public class MediaPlayUI : UI
             {
                 ResourceManager.Instance.GetTexture(currentMediaData.MediaPathList[i], (v) =>
                 {
-                    mediaImage.texture = v;
-                    mediaImage.DOFade(1, 0.2f);
+                    // mediaImage.texture = v;
+                    // mediaImage.DOFade(1, 0.2f);
                 });
                 yield return new WaitForSeconds(innerDelay);
             }
