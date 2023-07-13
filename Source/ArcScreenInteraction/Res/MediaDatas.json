@@ -1,131 +1,242 @@
-{
-    "anfangDatas": [
-        {
-            "id": 1,
-            "title": "1",
-            "condition": "",
-            "mediaType": 3,
-            "parentType": "anfang",
-            "cover": "",
-            "medias": [
-                "1.jpg",
-                "2.jpg",
-                "3.jpg",
-                "4.jpg",
-                "5.jpg"
-            ]
-        },
-        {
-            "id": 2,
-            "title": "2",
-            "condition": "",
-            "mediaType": 2,
-            "parentType": "anfang",
-            "cover": "",
-            "medias": [
-                "1.mp4",
-                "2.mp4"
-            ]
-        },
-        {
-            "id": 3,
-            "title": "3",
-            "condition": "",
-            "mediaType": 1,
-            "parentType": "anfang",
-            "cover": "",
-            "medias": [
-                "1.pdf",
-                "2.pdf",
-                "3.pdf",
-                "4.pdf"
-            ]
-        }
-    ],
-    "xiaofangDatas": [
-        {
-            "id": 2,
-            "title": "2",
-            "condition": "",
-            "mediaType": 2,
-            "parentType": "xiaofang",
-            "cover": "",
-            "medias": [
-                "1.mp4",
-                "2.mp4"
-            ]
-        },
-        {
-            "id": 1,
-            "title": "1",
-            "condition": "",
-            "mediaType": 3,
-            "parentType": "xiaofang",
-            "cover": "",
-            "medias": [
-                "1.jpg",
-                "2.jpg",
-                "3.jpg",
-                "4.jpg",
-                "5.jpg"
-            ]
-        },
-        {
-            "id": 3,
-            "title": "3",
-            "condition": "",
-            "mediaType": 1,
-            "parentType": "xiaofang",
-            "cover": "",
-            "medias": [
-                "1.pdf",
-                "2.pdf",
-                "3.pdf",
-                "4.pdf"
-            ]
-        }
-    ],
-    "renfangDatas": [
-        {
-            "id": 1,
-            "title": "1",
-            "condition": "",
-            "mediaType": 3,
-            "parentType": "renfang",
-            "cover": "",
-            "medias": [
-                "1.jpg",
-                "2.jpg",
-                "3.jpg",
-                "4.jpg",
-                "5.jpg"
-            ]
-        },
-        {
-            "id": 3,
-            "title": "3",
-            "condition": "",
-            "mediaType": 1,
-            "parentType": "renfang",
-            "cover": "",
-            "medias": [
-                "1.pdf",
-                "2.pdf",
-                "3.pdf",
-                "4.pdf"
-            ]
-        },
-        {
-            "id": 2,
-            "title": "2",
-            "condition": "",
-            "mediaType": 2,
-            "parentType": "renfang",
-            "cover": "",
-            "medias": [
-                "1.mp4",
-                "2.mp4"
-            ]
-        }
-    ]
-}
+[
+    {
+        "id": 1,
+        "title": "安防",
+        "folder": "anfang",
+        "condition": "anfang",
+        "medias": [
+            {
+                "mediaName": "图片1.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "图片2.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "pdf1.pdf",
+                "cover": "",
+                "mediaType": 1,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "视频1.mp4",
+                "cover": "",
+                "mediaType": 2,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "视频2.mp4",
+                "cover": "",
+                "mediaType": 2,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "视频3.mp4",
+                "cover": "",
+                "mediaType": 2,
+                "mediaclassid": 2
+            },
+            {
+                "mediaName": "图片3.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 2
+            },
+            {
+                "mediaName": "图片4.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 2
+            },
+            {
+                "mediaName": "pdf2.pdf",
+                "cover": "",
+                "mediaType": 1,
+                "mediaclassid": 2
+            },
+            {
+                "mediaName": "图片5.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 3
+            },
+            {
+                "mediaName": "pdf3.pdf",
+                "cover": "",
+                "mediaType": 1,
+                "mediaclassid": 3
+            },
+            {
+                "mediaName": "pdf4.pdf",
+                "cover": "",
+                "mediaType": 1,
+                "mediaclassid": 3
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "消防",
+        "folder": "xiaofang",
+        "condition": "xiaofang",
+        "medias": [
+            {
+                "mediaName": "图片1.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "图片2.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "pdf1.pdf",
+                "cover": "",
+                "mediaType": 1,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "视频1.mp4",
+                "cover": "",
+                "mediaType": 2,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "视频2.mp4",
+                "cover": "",
+                "mediaType": 2,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "视频3.mp4",
+                "cover": "",
+                "mediaType": 2,
+                "mediaclassid": 2
+            },
+            {
+                "mediaName": "图片3.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 2
+            },
+            {
+                "mediaName": "图片4.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 2
+            },
+            {
+                "mediaName": "pdf2.pdf",
+                "cover": "",
+                "mediaType": 1,
+                "mediaclassid": 2
+            },
+            {
+                "mediaName": "图片5.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 3
+            },
+            {
+                "mediaName": "pdf3.pdf",
+                "cover": "",
+                "mediaType": 1,
+                "mediaclassid": 3
+            },
+            {
+                "mediaName": "pdf4.pdf",
+                "cover": "",
+                "mediaType": 1,
+                "mediaclassid": 3
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "title": "人防",
+        "folder": "renfang",
+        "condition": "renfang",
+        "medias": [
+            {
+                "mediaName": "图片1.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "图片2.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "pdf1.pdf",
+                "cover": "",
+                "mediaType": 1,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "视频1.mp4",
+                "cover": "",
+                "mediaType": 2,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "视频2.mp4",
+                "cover": "",
+                "mediaType": 2,
+                "mediaclassid": 1
+            },
+            {
+                "mediaName": "视频3.mp4",
+                "cover": "",
+                "mediaType": 2,
+                "mediaclassid": 2
+            },
+            {
+                "mediaName": "图片3.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 2
+            },
+            {
+                "mediaName": "图片4.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 2
+            },
+            {
+                "mediaName": "pdf2.pdf",
+                "cover": "",
+                "mediaType": 1,
+                "mediaclassid": 2
+            },
+            {
+                "mediaName": "图片5.jpg",
+                "cover": "",
+                "mediaType": 3,
+                "mediaclassid": 3
+            },
+            {
+                "mediaName": "pdf3.pdf",
+                "cover": "",
+                "mediaType": 1,
+                "mediaclassid": 3
+            },
+            {
+                "mediaName": "pdf4.pdf",
+                "cover": "",
+                "mediaType": 1,
+                "mediaclassid": 3
+            }
+        ]
+    }
+]

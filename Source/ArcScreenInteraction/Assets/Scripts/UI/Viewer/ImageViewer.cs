@@ -37,7 +37,7 @@ public class ImageViewer : BaseViewer
     public override void Show()
     {
         base.Show();
-        ResourceManager.Instance.GetTexture(currentData.MediaPathList[index], (v) =>
+        ResourceManager.Instance.GetTexture(currentData.MediaPathFolder + currentData.medias[index].mediaName, (v) =>
                 {
                     image.texture = v;
                     image.DOFade(1, 0.2f);

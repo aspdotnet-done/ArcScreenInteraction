@@ -2,10 +2,10 @@ using System;
 public class ItemData
 {
     public Action<MediaData> ClickAction = null;
-    public Action<MediaData, string> ClickDetailAction = null;
+    public Action<MediaData, Media> ClickDetailAction = null;
     public string Message { get; }
     public MediaData MediaData { get; }
-    public string media;
+    public Media media;
     public ItemData(string message)
     {
         Message = message;
@@ -15,7 +15,7 @@ public class ItemData
         MediaData = mediaData;
         ClickAction = action;
     }
-    public ItemData(MediaData mediaData, string media, Action<MediaData, string> action)
+    public ItemData(MediaData mediaData, Media media, Action<MediaData, Media> action)
     {
         MediaData = mediaData;
         this.media = media;

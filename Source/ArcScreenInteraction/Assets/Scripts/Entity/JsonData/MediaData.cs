@@ -6,44 +6,46 @@ public class MediaData
 {
     public int id;
     public string title;
+    public string folder;
     public string condition;
-    public string parentType;//1-安防，2-消防，3-人防
-    //1-pdf,2-video,3-pitcure
-    public int mediaType;
-    public MediaType MediaType
-    {
-        get
-        {
-            return (MediaType)mediaType;
-        }
-    }
+
+
     public string cover;
     public string coverPath
     {
         get { return AssetUtility.GetCover(cover); }
     }
-    public string[] medias;
-    private List<string> mediaPathList;
-    public List<string> MediaPathList
+    public Media[] medias;
+
+    public string MediaPathFolder
     {
         get
         {
-            if (mediaPathList == null)
-            {
-                mediaPathList = new List<string>();
-                foreach (var i in medias)
-                {
-                    mediaPathList.Add(AssetUtility.GetMediaPath(parentType, title, i));
-                }
-            }
-            return mediaPathList;
+
+            return AssetUtility.GetMediaFolderPath(folder, title);
         }
     }
 
 }
-public enum MediaType
+[SerializeField]
+public class Media
+{
+    public MediaType mediaType;
+    public string mediaName;
+    public string cover;
+    public int mediaClassid;
+
+}
+public enum MediaType//1-pdf,2-video,3-pitcure
 {
     pdf = 1,
     video = 2,
     picture = 3
+}
+
+public class MediaClass
+{
+    public int id;
+    public string name;
+    public string condition;
 }

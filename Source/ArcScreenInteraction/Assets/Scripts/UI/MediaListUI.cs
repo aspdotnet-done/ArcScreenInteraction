@@ -111,7 +111,7 @@ public class MediaListUI : UI
         scrollView.SelectCell(0);
     }
 
-    public void ShowDetailMedia(MediaData data, string media)
+    public void ShowDetailMedia(MediaData data, Media media)
     {
         Debug.Log($"ShowDetailMedia {data} {media}");
         currentMediaData = data;

@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "name": "分类一",
+        "condition": ""
+    },
+    {
+        "id": 2,
+        "name": "分类二",
+        "condition": ""
+    },
+    {
+        "id": 3,
+        "name": "分类三",
+        "condition": ""
+    }
+]

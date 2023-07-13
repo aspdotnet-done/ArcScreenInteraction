@@ -20,6 +20,10 @@ public static class AssetUtility
     {
         return string.Format(AssetResourcesDir + "Medias/{0}/{1}/{2}", parentType, title, mediaName);
     }
+    public static string GetMediaFolderPath(string parentType, string title)
+    {
+        return string.Format(AssetResourcesDir + "Medias/{0}/{1}/", parentType, title);
+    }
 
     public static string GetSystemConfig()
     {

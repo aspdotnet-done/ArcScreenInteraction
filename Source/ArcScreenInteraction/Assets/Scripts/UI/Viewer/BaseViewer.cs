@@ -5,11 +5,11 @@ using UnityEngine;
 public abstract class BaseViewer : MonoBehaviour
 {
     protected MediaData currentData;
-    protected int index;
-    public void LoadMedias(MediaData data, int index)
+    protected Media media;
+    public void LoadMedias(MediaData data, Media media)
     {
         currentData = data;
-        this.index = index;
+        this.media = media;
         Show();
         Debug.Log("BaseViewer LoadMedias");
     }
