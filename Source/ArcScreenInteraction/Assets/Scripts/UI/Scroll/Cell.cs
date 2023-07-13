@@ -25,10 +25,13 @@ public class Cell : FancyCell<ItemData, Context>
         if (currentItemData != null && currentItemData.ClickAction != null)
         {
             currentItemData.ClickAction(currentItemData.MediaData);
+            Debug.Log(1);
+            return;
         }
         if (currentItemData != null && currentItemData.ClickDetailAction != null)
         {
             currentItemData.ClickDetailAction(currentItemData.MediaData, currentItemData.media);
+            Debug.Log(2);
         }
     }
 

@@ -1,8 +1,8 @@
 using System;
 public class ItemData
 {
-    public Action<MediaData> ClickAction;
-    public Action<MediaData, string> ClickDetailAction;
+    public Action<MediaData> ClickAction = null;
+    public Action<MediaData, string> ClickDetailAction = null;
     public string Message { get; }
     public MediaData MediaData { get; }
     public string media;

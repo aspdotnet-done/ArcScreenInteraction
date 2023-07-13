@@ -29,6 +29,8 @@ public class MediaPlayUI : UI
     private void HideClick()
     {
         HideUI();
+        MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+        ui.ShowUI();
     }
 
     private void OnDisable()

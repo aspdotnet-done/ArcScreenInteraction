@@ -120,7 +120,10 @@ public class MediaListUI : UI
 
     private void HideClick()
     {
+        MainUI ui = UIManager.Instance.GetUI(UIType.Main) as MainUI;
+        ui.OverviewBtn.isOn = true;
         HideUI();
+
     }
 
 
