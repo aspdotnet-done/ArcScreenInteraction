@@ -5,8 +5,12 @@ using UnityEngine;
 public abstract class BaseViewer : MonoBehaviour
 {
     protected MediaData currentData;
-    public void LoadMedias(MediaData data)
+    protected int index;
+    public void LoadMedias(MediaData data, int index)
     {
+        currentData = data;
+        this.index = index;
+        Show();
         Debug.Log("BaseViewer LoadMedias");
     }
 
@@ -33,6 +37,12 @@ public abstract class BaseViewer : MonoBehaviour
     public virtual void Return()
     {
         Debug.Log("BaseViewer Return");
+    }
+
+    public virtual void Hide()
+    {
+        Debug.Log("BaseViewer Hide");
+        gameObject.SetActive(false);
     }
 
 }

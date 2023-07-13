@@ -13,7 +13,7 @@ public class ToggleSelect : MonoBehaviour
     }
     private void OnToggleValueChanged(bool value)
     {
-        Debug.Log("OnToggleValueChanged:" + value);
+        //Debug.Log("OnToggleValueChanged:" + value);
         if (value)
         {
             normal.SetActive(false);
