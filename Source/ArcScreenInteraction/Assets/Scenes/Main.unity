@@ -3550,7 +3550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4107fdf90436924bae7c28df55bbf19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentUIType: 0
+  CurrentUIType: 1
   CurrentState: 1
   hideMode: 0
   showDuration: 0.2
