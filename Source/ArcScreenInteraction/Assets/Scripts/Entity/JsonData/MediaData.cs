@@ -8,14 +8,8 @@ public class MediaData
     public string title;
     public string folder;
     public string condition;
-
-
-    public string cover;
-    public string coverPath
-    {
-        get { return AssetUtility.GetCover(cover); }
-    }
-    public Media[] medias;
+    public List<Media> medias = new List<Media>();
+    public List<string> classes = new List<string>();
 
     public string MediaPathFolder
     {
@@ -27,12 +21,13 @@ public class MediaData
     }
 
 }
-[SerializeField]
+[System.Serializable]
 public class Media
 {
     public MediaType mediaType;
     public string mediaName;
-    public string cover;
+    public string mediaPath;
+    public string coverPath;
     public string mediaClass;
 
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using UnityEngine;
@@ -201,9 +202,217 @@ public class ResourceManager : Singleton<ResourceManager>
             complete?.Invoke(datas);
         }
     }
-
+    /// <summary>
+    /// 根据文件夹层级生成媒体数据存储
+    /// </summary>
+    /// <param name="complete"></param>
     public void GenerateMediaDatas(Action<List<MediaData>> complete)
     {
+        List<MediaData> datas = new List<MediaData>();
+        MediaData data = new MediaData();
+        //遍历安防文件夹
+        DirectoryInfo di = new DirectoryInfo(AssetUtility.GetAnfangFolder());
+        if (di.Exists)
+        {
+
+            data.id = 0;
+            data.title = "安防";
+            data.folder = AssetUtility.GetAnfangFolder();
+            data.condition = "安防数据";
+            Media media = new Media();
+            //获取di文件夹下的文件夹
+            DirectoryInfo[] dis = di.GetDirectories();
+            foreach (var f in dis)
+            {
+                data.classes.Add(f.Name);
+                //获取f文件夹下后缀为{*.jpg,*.png,*.mp4,*.pdf}的文件
+                FileInfo[] fis = f.GetFiles("*.*", SearchOption.AllDirectories).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
+
+                foreach (var i in fis)
+                {
+                    Debug.Log("extension:" + i.Extension);
+                    if (i.Extension == ".jpg" || i.Extension == ".png")
+                    {
+                        media = new Media();
+                        media.mediaType = MediaType.picture;
+                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.mediaPath = i.FullName;
+                        media.mediaClass = f.Name;
+                        data.medias.Add(media);
+                    }
+                    else if (i.Extension == ".mp4")
+                    {
+                        media = new Media();
+                        media.mediaType = MediaType.video;
+                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.mediaPath = i.FullName;
+                        media.mediaClass = f.Name;
+                        data.medias.Add(media);
+                    }
+                    else if (i.Extension == ".pdf")
+                    {
+                        media = new Media();
+                        media.mediaType = MediaType.pdf;
+                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.mediaPath = i.FullName;
+                        media.mediaClass = f.Name;
+                        data.medias.Add(media);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                }
+            }
+            datas.Add(data);
+
+        }
+        else
+        {
+            datas.Add(data);
+            Debug.LogError("安防文件夹不存在");
+        }
+
+        data = new MediaData();
+        //遍历消防文件夹
+        DirectoryInfo di2 = new DirectoryInfo(AssetUtility.GetXiaofangFolder());
+        if (di2.Exists)
+        {
+
+            data.id = 0;
+            data.title = "消防";
+            data.folder = AssetUtility.GetXiaofangFolder();
+            data.condition = "消防数据";
+            Media media = new Media();
+            //获取di文件夹下的文件夹
+            DirectoryInfo[] dis = di2.GetDirectories();
+            foreach (var f in dis)
+            {
+                data.classes.Add(f.Name);
+                //获取f文件夹下后缀为{*.jpg,*.png,*.mp4,*.pdf}的文件
+                FileInfo[] fis = f.GetFiles("*.*", SearchOption.AllDirectories).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
+
+                foreach (var i in fis)
+                {
+                    Debug.Log("extension:" + i.Extension);
+                    if (i.Extension == ".jpg" || i.Extension == ".png")
+                    {
+                        media = new Media();
+                        media.mediaType = MediaType.picture;
+                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.mediaPath = i.FullName;
+                        media.mediaClass = f.Name;
+                        data.medias.Add(media);
+                    }
+                    else if (i.Extension == ".mp4")
+                    {
+                        media = new Media();
+                        media.mediaType = MediaType.video;
+                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.mediaPath = i.FullName;
+                        media.mediaClass = f.Name;
+                        data.medias.Add(media);
+                    }
+                    else if (i.Extension == ".pdf")
+                    {
+                        media = new Media();
+                        media.mediaType = MediaType.pdf;
+                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.mediaPath = i.FullName;
+                        media.mediaClass = f.Name;
+                        data.medias.Add(media);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                }
+            }
+            datas.Add(data);
+
+        }
+        else
+        {
+            datas.Add(data);
+            Debug.LogError("消防文件夹不存在");
+        }
+
+        data = new MediaData();
+        //遍历消防文件夹
+        DirectoryInfo di3 = new DirectoryInfo(AssetUtility.GetXiaofangFolder());
+        if (di3.Exists)
+        {
+
+            data.id = 0;
+            data.title = "消防";
+            data.folder = AssetUtility.GetRenfangFolder();
+            data.condition = "消防数据";
+            Media media = new Media();
+            //获取di文件夹下的文件夹
+            DirectoryInfo[] dis = di3.GetDirectories();
+            foreach (var f in dis)
+            {
+                data.classes.Add(f.Name);
+                //获取f文件夹下后缀为{*.jpg,*.png,*.mp4,*.pdf}的文件
+                FileInfo[] fis = f.GetFiles("*.*", SearchOption.AllDirectories).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
+
+                foreach (var i in fis)
+                {
+                    Debug.Log("extension:" + i.Extension);
+                    if (i.Extension == ".jpg" || i.Extension == ".png")
+                    {
+                        media = new Media();
+                        media.mediaType = MediaType.picture;
+                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.mediaPath = i.FullName;
+                        media.mediaClass = f.Name;
+                        data.medias.Add(media);
+                    }
+                    else if (i.Extension == ".mp4")
+                    {
+                        media = new Media();
+                        media.mediaType = MediaType.video;
+                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.mediaPath = i.FullName;
+                        media.mediaClass = f.Name;
+                        data.medias.Add(media);
+                    }
+                    else if (i.Extension == ".pdf")
+                    {
+                        media = new Media();
+                        media.mediaType = MediaType.pdf;
+                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.mediaPath = i.FullName;
+                        media.mediaClass = f.Name;
+                        data.medias.Add(media);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                }
+            }
+            datas.Add(data);
+
+        }
+        else
+        {
+            datas.Add(data);
+            Debug.LogError("人防文件夹不存在");
+        }
+        complete?.Invoke(datas);
 
     }
 
@@ -570,7 +779,7 @@ public class ResourceManager : Singleton<ResourceManager>
 #endif
         }
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
-        //Debug.Log("url:" + url);
+        Debug.Log("url:" + url);
         yield return request.SendWebRequest();
         try
         {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,8 +34,8 @@ public class MediaListUI : UI
     }
 
 
-    private List<MediaData> currentMediaDatas;
-    private MediaData currentMediaData;
+    private MediaData currentMediaDatas;
+    private Media currentMediaData;
 
     private int currentIndex = 0;
 
@@ -46,7 +47,7 @@ public class MediaListUI : UI
     private void PlayClick()
     {
         MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
-        ui.Init(currentMediaData, currentIndex);
+        ui.Init(currentMediaDatas, currentIndex);
         HideUI();
     }
 
@@ -67,54 +68,42 @@ public class MediaListUI : UI
                 List<ItemData> itemDatas = new List<ItemData>();
                 foreach (var i in items.medias)
                 {
-                    itemDatas.Add(new ItemData(i, InitMediaDataList));
+                    itemDatas.Add(new ItemData(i, ShowDetailMedia));
                 }
                 currentMediaDatas = items;
                 scrollView.UpdateData(itemDatas);
-                scrollView.SelectCell(0);
+                scrollView.SelectCell(2);
                 break;
             case SecurityType.anfang:
-                var items1 = MediaManager.Instance.mediaDatasScriptableAsset.data.anfangDatas;
+                var items1 = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[0];
                 List<ItemData> itemDatas2 = new List<ItemData>();
-                foreach (var i in items1)
+                foreach (var i in items1.medias)
                 {
-                    itemDatas2.Add(new ItemData(i, InitMediaDataList));
+                    itemDatas2.Add(new ItemData(i, ShowDetailMedia));
                 }
                 currentMediaDatas = items1;
                 scrollView.UpdateData(itemDatas2);
-                scrollView.SelectCell(0);
+                scrollView.SelectCell(2);
                 break;
             case SecurityType.renfang:
-                var items2 = MediaManager.Instance.mediaDatasScriptableAsset.data.renfangDatas;
+                var items2 = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[2];
                 List<ItemData> itemDatas3 = new List<ItemData>();
-                foreach (var i in items2)
+                foreach (var i in items2.medias)
                 {
-                    itemDatas3.Add(new ItemData(i, InitMediaDataList));
+                    itemDatas3.Add(new ItemData(i, ShowDetailMedia));
                 }
                 currentMediaDatas = items2;
                 scrollView.UpdateData(itemDatas3);
-                scrollView.SelectCell(0);
+                scrollView.SelectCell(2);
                 break;
         }
         scrollView.SelectCell(0);
     }
-    //显示子级界面
-    public void InitMediaDataList(Media data)
-    {
-        List<ItemData> itemDatas = new List<ItemData>();
-        foreach (var i in data.medias)
-        {
-            itemDatas.Add(new ItemData(data, i, ShowDetailMedia));
-        }
-        //currentMediaDatas = items;
-        scrollView.UpdateData(itemDatas);
-        scrollView.SelectCell(0);
-    }
 
-    public void ShowDetailMedia(MediaData data, Media media)
+
+    public void ShowDetailMedia(Media media)
     {
-        Debug.Log($"ShowDetailMedia {data} {media}");
-        currentMediaData = data;
+        currentMediaData = media;
         PlayClick();
     }
 

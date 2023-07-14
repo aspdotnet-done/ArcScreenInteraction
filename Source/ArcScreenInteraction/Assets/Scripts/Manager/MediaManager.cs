@@ -42,7 +42,7 @@ public class MediaManager : Singleton<MediaManager>
         {
             setupDataScriptableAsset.data = data;
         });
-        ResourceManager.Instance.GetMediaDatas((data) =>
+        ResourceManager.Instance.GenerateMediaDatas((data) =>
         {
             mediaDatasScriptableAsset.mediaDatas = data;
         });

@@ -6,7 +6,7 @@ public class Cell : FancyCell<ItemData, Context>
 {
     [SerializeField] Animator animator = default;
     [SerializeField] Text message = default;
-    [SerializeField] Image image = default;
+    [SerializeField] RawImage image = default;
     [SerializeField] Button button = default;
 
     static class AnimatorHash
@@ -28,18 +28,17 @@ public class Cell : FancyCell<ItemData, Context>
             Debug.Log(1);
             return;
         }
-        if (currentItemData != null && currentItemData.ClickDetailAction != null)
-        {
-            currentItemData.ClickDetailAction(currentItemData.MediaData, currentItemData.media);
-            Debug.Log(2);
-        }
     }
 
     ItemData currentItemData;
     public override void UpdateContent(ItemData itemData)
     {
         currentItemData = itemData;
-        message.text = itemData.MediaData.id.ToString();
+        message.text = itemData.MediaData.mediaName;
+        ResourceManager.Instance.GetTexture(itemData.MediaData.coverPath, (t) =>
+        {
+            image.texture = t;
+        });
 
         var selected = Context.SelectedIndex == Index;
         image.color = selected
