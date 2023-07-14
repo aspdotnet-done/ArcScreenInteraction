@@ -181,7 +181,7 @@ public class ResourceManager : Singleton<ResourceManager>
         return true;
     }
 
-    public void GetMediaDatas(Action<AllData> complete)
+    public void GetMediaDatas(Action<List<MediaData>> complete)
     {
         string mediaConfigPath = AssetUtility.GetMediaDatasConfig();
         if (!File.Exists(mediaConfigPath))
@@ -197,10 +197,16 @@ public class ResourceManager : Singleton<ResourceManager>
                 info = sr.ReadToEnd();
                 sr.Close();
             }
-            AllData allData = JsonUtility.FromJson<AllData>(info);
-            complete?.Invoke(allData);
+            List<MediaData> datas = JsonUtility.FromJson<List<MediaData>>(info);
+            complete?.Invoke(datas);
         }
     }
+
+    public void GenerateMediaDatas(Action<List<MediaData>> complete)
+    {
+
+    }
+
 
 
 

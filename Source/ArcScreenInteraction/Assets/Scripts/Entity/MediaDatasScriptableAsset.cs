@@ -5,9 +5,7 @@ using UnityEngine;
 public class MediaDatasScriptableAsset : ScriptableObject
 {
     //所有数据
-    public List<MediaData> anfangDatas;
-    //所有分组
-    public List<MediaClass> anfangClasses;
+    public List<MediaData> mediaDatas;
 }
 
 

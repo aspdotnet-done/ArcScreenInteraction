@@ -38,13 +38,12 @@ public class MediaPlayUI : UI
         HideBtn.onClick.RemoveListener(HideClick);
     }
     private MediaData currentMediaData;
-    private Media currentMedia;
-    //private int currentIndex = 0;
-    public void Init(MediaData data, Media media)
+    private int currentIndex = 0;
+    public void Init(MediaData data, int index)
     {
         currentMediaData = data;
-        //currentIndex = index;
-        currentMedia = media;
+        currentIndex = index;
+
         ShowMedia();
     }
 
@@ -75,7 +74,7 @@ public class MediaPlayUI : UI
         // Debug.Log("ShowMedia:" + currentMediaData.MediaType);
         // Debug.Log("ShowMedia:" + currentMediaData.title);
         // Debug.Log("ShowMedia:" + currentMediaData.MediaPathList.Count);
-        switch (currentMedia.mediaType)
+        switch (currentMediaData.medias[currentIndex].mediaType)
         {
             case MediaType.pdf:
                 viewer = pDFViewer;
@@ -85,7 +84,7 @@ public class MediaPlayUI : UI
                 break;
             case MediaType.picture:
                 viewer = imageViewer;
-                viewer.LoadMedias(currentMediaData, currentMedia);
+                viewer.LoadMedias(currentMediaData, currentIndex);
                 break;
         }
         ShowUI();

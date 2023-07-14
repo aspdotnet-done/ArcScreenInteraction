@@ -1,26 +1,18 @@
 using System;
 public class ItemData
 {
-    public Action<MediaData> ClickAction = null;
-    public Action<MediaData, Media> ClickDetailAction = null;
+    public Action<Media> ClickAction = null;
     public string Message { get; }
-    public MediaData MediaData { get; }
-    public Media media;
+    public Media MediaData { get; }
     public ItemData(string message)
     {
         Message = message;
     }
-    public ItemData(MediaData mediaData, Action<MediaData> action)
+    public ItemData(Media mediaData, Action<Media> action)
     {
         MediaData = mediaData;
         ClickAction = action;
     }
-    public ItemData(MediaData mediaData, Media media, Action<MediaData, Media> action)
-    {
-        MediaData = mediaData;
-        this.media = media;
-        ClickDetailAction = action;
 
-    }
 
 }

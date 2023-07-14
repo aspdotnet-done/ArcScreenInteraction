@@ -38,13 +38,13 @@ public class MediaManager : Singleton<MediaManager>
     {
         yield return new WaitForSeconds(1);
         yield return new WaitUntil(() => ResourceManager.Instance != null);
-        ResourceManager.Instance.GetMediaDatas((data) =>
-        {
-            mediaDatasScriptableAsset.data = data;
-        });
         ResourceManager.Instance.GetSystemInfo((data) =>
         {
             setupDataScriptableAsset.data = data;
+        });
+        ResourceManager.Instance.GetMediaDatas((data) =>
+        {
+            mediaDatasScriptableAsset.mediaDatas = data;
         });
     }
 

@@ -24,6 +24,18 @@ public static class AssetUtility
     {
         return string.Format(AssetResourcesDir + "Medias/{0}/{1}/", parentType, title);
     }
+    public static string GetAnfangFolder()
+    {
+        return string.Format(AssetResourcesDir + "Medias/anfang/");
+    }
+    public static string GetRenfangFolder()
+    {
+        return string.Format(AssetResourcesDir + "Medias/renfang/");
+    }
+    public static string GetXiaofangFolder()
+    {
+        return string.Format(AssetResourcesDir + "Medias/xiaofang/");
+    }
 
     public static string GetSystemConfig()
     {
@@ -32,6 +44,10 @@ public static class AssetUtility
     public static string GetMediaDatasConfig()
     {
         return AssetResourcesDir + "MediaDatas.json";
+    }
+    public static string GetMediaClassesConfig()
+    {
+        return AssetResourcesDir + "MediaClass.json";
     }
     public static string GetTempFolder()
     {

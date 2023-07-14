@@ -33,7 +33,7 @@ public class Media
     public MediaType mediaType;
     public string mediaName;
     public string cover;
-    public int mediaClassid;
+    public string mediaClass;
 
 }
 public enum MediaType//1-pdf,2-video,3-pitcure
@@ -41,11 +41,4 @@ public enum MediaType//1-pdf,2-video,3-pitcure
     pdf = 1,
     video = 2,
     picture = 3
-}
-
-public class MediaClass
-{
-    public int id;
-    public string name;
-    public string condition;
 }

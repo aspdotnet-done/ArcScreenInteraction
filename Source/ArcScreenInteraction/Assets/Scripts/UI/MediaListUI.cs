@@ -63,9 +63,9 @@ public class MediaListUI : UI
         {
 
             case SecurityType.xiaofang:
-                var items = MediaManager.Instance.mediaDatasScriptableAsset.data.xiaofangDatas;
+                var items = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[1];
                 List<ItemData> itemDatas = new List<ItemData>();
-                foreach (var i in items)
+                foreach (var i in items.medias)
                 {
                     itemDatas.Add(new ItemData(i, InitMediaDataList));
                 }
@@ -99,7 +99,7 @@ public class MediaListUI : UI
         scrollView.SelectCell(0);
     }
     //显示子级界面
-    public void InitMediaDataList(MediaData data)
+    public void InitMediaDataList(Media data)
     {
         List<ItemData> itemDatas = new List<ItemData>();
         foreach (var i in data.medias)
