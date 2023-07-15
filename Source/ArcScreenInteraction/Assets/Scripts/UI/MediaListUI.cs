@@ -30,7 +30,7 @@ public class MediaListUI : UI
         prevCellButton.onClick.AddListener(scrollView.SelectPrevCell);
         nextCellButton.onClick.AddListener(scrollView.SelectNextCell);
         scrollView.OnSelectionChanged(OnSelectionChanged);
-        //playButton.onClick.AddListener(PlayClick);
+
     }
 
 
@@ -72,7 +72,6 @@ public class MediaListUI : UI
                 }
                 currentMediaDatas = items;
                 scrollView.UpdateData(itemDatas);
-                scrollView.SelectCell(2);
                 break;
             case SecurityType.anfang:
                 var items1 = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[0];
@@ -83,7 +82,6 @@ public class MediaListUI : UI
                 }
                 currentMediaDatas = items1;
                 scrollView.UpdateData(itemDatas2);
-                scrollView.SelectCell(2);
                 break;
             case SecurityType.renfang:
                 var items2 = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[2];
@@ -94,10 +92,9 @@ public class MediaListUI : UI
                 }
                 currentMediaDatas = items2;
                 scrollView.UpdateData(itemDatas3);
-                scrollView.SelectCell(2);
                 break;
         }
-        scrollView.SelectCell(0);
+        scrollView.SelectCell(2);
     }
 
 

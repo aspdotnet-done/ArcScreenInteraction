@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
@@ -8,6 +9,9 @@ public class Cell : FancyCell<ItemData, Context>
     [SerializeField] Text message = default;
     [SerializeField] RawImage image = default;
     [SerializeField] Button button = default;
+    [SerializeField] Image pdfIcon = default;
+    [SerializeField] Image videoIcon = default;
+    [SerializeField] Image pictureIcon = default;
 
     static class AnimatorHash
     {
@@ -35,16 +39,44 @@ public class Cell : FancyCell<ItemData, Context>
     {
         currentItemData = itemData;
         message.text = itemData.MediaData.mediaName;
-        ResourceManager.Instance.GetTexture(itemData.MediaData.coverPath, (t) =>
+        UpdateIcon(itemData.MediaData.mediaType);
+        //判断文件路径是否存在
+        if (File.Exists(itemData.MediaData.coverPath))
         {
-            image.texture = t;
-        });
+            ResourceManager.Instance.GetTexture(itemData.MediaData.coverPath, (t) =>
+            {
+                if (t == null) return;
+                image.texture = t;
+            });
+        }
+
 
         var selected = Context.SelectedIndex == Index;
-        image.color = selected
-            ? new Color32(0, 255, 255, 100)
-            : new Color32(255, 255, 255, 77);
+        // image.color = selected
+        //     ? new Color32(0, 255, 255, 100)
+        //     : new Color32(255, 255, 255, 77);
 
+    }
+
+    private void UpdateIcon(MediaType mediaType)
+    {
+        pdfIcon.gameObject.SetActive(false);
+        videoIcon.gameObject.SetActive(false);
+        pictureIcon.gameObject.SetActive(false);
+        switch (mediaType)
+        {
+            case MediaType.pdf:
+                pdfIcon.gameObject.SetActive(true);
+                break;
+            case MediaType.video:
+                videoIcon.gameObject.SetActive(true);
+                break;
+            case MediaType.picture:
+                pictureIcon.gameObject.SetActive(true);
+                break;
+            default:
+                break;
+        }
     }
 
     public override void UpdatePosition(float position)

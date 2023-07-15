@@ -226,11 +226,10 @@ public class ResourceManager : Singleton<ResourceManager>
             {
                 data.classes.Add(f.Name);
                 //获取f文件夹下后缀为{*.jpg,*.png,*.mp4,*.pdf}的文件
-                FileInfo[] fis = f.GetFiles("*.*", SearchOption.AllDirectories).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
+                FileInfo[] fis = f.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
 
                 foreach (var i in fis)
                 {
-                    Debug.Log("extension:" + i.Extension);
                     if (i.Extension == ".jpg" || i.Extension == ".png")
                     {
                         media = new Media();
@@ -294,11 +293,10 @@ public class ResourceManager : Singleton<ResourceManager>
             {
                 data.classes.Add(f.Name);
                 //获取f文件夹下后缀为{*.jpg,*.png,*.mp4,*.pdf}的文件
-                FileInfo[] fis = f.GetFiles("*.*", SearchOption.AllDirectories).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
+                FileInfo[] fis = f.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
 
                 foreach (var i in fis)
                 {
-                    Debug.Log("extension:" + i.Extension);
                     if (i.Extension == ".jpg" || i.Extension == ".png")
                     {
                         media = new Media();
@@ -362,11 +360,10 @@ public class ResourceManager : Singleton<ResourceManager>
             {
                 data.classes.Add(f.Name);
                 //获取f文件夹下后缀为{*.jpg,*.png,*.mp4,*.pdf}的文件
-                FileInfo[] fis = f.GetFiles("*.*", SearchOption.AllDirectories).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
+                FileInfo[] fis = f.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
 
                 foreach (var i in fis)
                 {
-                    Debug.Log("extension:" + i.Extension);
                     if (i.Extension == ".jpg" || i.Extension == ".png")
                     {
                         media = new Media();
@@ -797,7 +794,7 @@ public class ResourceManager : Singleton<ResourceManager>
                             break;
                         }
                     }
-                    catch { Debug.Log("加载缩略图:" + i); }
+                    catch { Debug.Log("无缩略图:" + i); }
                 }
                 if (texture == null)
                     callback?.Invoke(null);
