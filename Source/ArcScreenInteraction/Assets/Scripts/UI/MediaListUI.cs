@@ -19,6 +19,10 @@ public class MediaListUI : UI
     [SerializeField] Button prevCellButton = default;
     [SerializeField] Button nextCellButton = default;
     [SerializeField] Button playButton = default;
+    [SerializeField] GameObject togglePrefab = default;
+
+    [SerializeField] Transform classesToggleParent;
+    private List<Toggle> classesToggle = new List<Toggle>();
 
 
 
@@ -35,6 +39,7 @@ public class MediaListUI : UI
 
 
     private MediaData currentMediaDatas;
+    private List<Media> MediaList = new List<Media>();
     private Media currentMediaData;
 
     private int currentIndex = 0;
@@ -65,36 +70,46 @@ public class MediaListUI : UI
 
             case SecurityType.xiaofang:
                 var items = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[1];
-                List<ItemData> itemDatas = new List<ItemData>();
-                foreach (var i in items.medias)
-                {
-                    itemDatas.Add(new ItemData(i, ShowDetailMedia));
-                }
                 currentMediaDatas = items;
-                scrollView.UpdateData(itemDatas);
+                MediaList = CopyMedias(currentMediaDatas.medias);
+                InitMediaList(MediaList);
                 break;
             case SecurityType.anfang:
                 var items1 = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[0];
-                List<ItemData> itemDatas2 = new List<ItemData>();
-                foreach (var i in items1.medias)
-                {
-                    itemDatas2.Add(new ItemData(i, ShowDetailMedia));
-                }
                 currentMediaDatas = items1;
-                scrollView.UpdateData(itemDatas2);
+                MediaList = CopyMedias(currentMediaDatas.medias);
+                InitMediaList(MediaList);
                 break;
             case SecurityType.renfang:
                 var items2 = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[2];
-                List<ItemData> itemDatas3 = new List<ItemData>();
-                foreach (var i in items2.medias)
-                {
-                    itemDatas3.Add(new ItemData(i, ShowDetailMedia));
-                }
                 currentMediaDatas = items2;
-                scrollView.UpdateData(itemDatas3);
+                MediaList = CopyMedias(currentMediaDatas.medias);
+                InitMediaList(MediaList);
                 break;
         }
-        scrollView.SelectCell(2);
+    }
+
+    private void InitMediaList(List<Media> medias)
+    {
+        List<ItemData> itemDatas = new List<ItemData>();
+        foreach (var i in medias)
+        {
+            itemDatas.Add(new ItemData(i, ShowDetailMedia));
+        }
+
+        scrollView.UpdateData(itemDatas);
+        if (itemDatas.Count > 3)
+        {
+            scrollView.SelectCell(2);
+        }
+        else if (itemDatas.Count > 2)
+        {
+            scrollView.SelectCell(1);
+        }
+        else
+        {
+            scrollView.SelectCell(0);
+        }
     }
 
 
@@ -110,6 +125,73 @@ public class MediaListUI : UI
         ui.OverviewBtn.isOn = true;
         HideUI();
 
+    }
+
+    public void InitClasses()
+    {
+        foreach (var i in classesToggle)
+        {
+            Destroy(i.gameObject);
+        }
+        classesToggle.Clear();
+
+        foreach (var t in currentMediaDatas.classes)
+        {
+            var toggle = Instantiate(togglePrefab, classesToggleParent).GetComponent<Toggle>();
+            toggle.gameObject.SetActive(true);
+            toggle.GetComponentInChildren<Text>().text = t;
+            toggle.group = classesToggleParent.GetComponent<ToggleGroup>();
+            classesToggle.Add(toggle);
+            toggle.onValueChanged.AddListener(classChanged);
+        }
+    }
+
+    private void classChanged(bool isOn)
+    {
+        if (isOn)
+        {
+            MediaList.Clear();
+            var index = classesToggle.FindIndex(x => x.isOn);
+            Debug.Log(index);
+            Debug.Log(currentMediaDatas.classes[index]);
+            MediaList = currentMediaDatas.medias.FindAll(x => x.mediaClass == currentMediaDatas.classes[index]);
+            Debug.Log("MediaList.Count" + MediaList.Count);
+        }
+        else
+        {
+            int i = -1;
+            MediaList.Clear();
+            i = classesToggle.FindIndex(x => x.isOn);
+            if (i == -1)
+            {
+                MediaList = CopyMedias(currentMediaDatas.medias);
+            }
+        }
+
+        InitMediaList(MediaList);
+    }
+    /// <summary>
+    /// 需要复制一份，不然会改变原来的数据
+    /// </summary>
+    /// <param name="medias"></param>
+    /// <returns></returns>
+    private List<Media> CopyMedias(List<Media> medias)
+    {
+        List<Media> list = new List<Media>();
+        foreach (var i in medias)
+        {
+            Media m = new Media()
+            {
+                mediaClass = i.mediaClass,
+                mediaName = i.mediaName,
+                mediaPath = i.mediaPath,
+                mediaType = i.mediaType,
+                coverPath = i.coverPath
+            };
+            list.Add(m);
+        }
+
+        return list;
     }
 
 

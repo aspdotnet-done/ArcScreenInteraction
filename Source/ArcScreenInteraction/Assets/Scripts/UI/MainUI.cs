@@ -123,6 +123,7 @@ public class MainUI : UI
             title.text = "安防";
             MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
             ui.InitMediaList(SecurityType.anfang);
+            ui.InitClasses();
             ui.ShowUI();
         }
 
@@ -134,6 +135,7 @@ public class MainUI : UI
             title.text = "消防";
             MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
             ui.InitMediaList(SecurityType.xiaofang);
+            ui.InitClasses();
             ui.ShowUI();
         }
     }
@@ -144,6 +146,7 @@ public class MainUI : UI
             title.text = "人防";
             MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
             ui.InitMediaList(SecurityType.renfang);
+            ui.InitClasses();
             ui.ShowUI();
         }
     }

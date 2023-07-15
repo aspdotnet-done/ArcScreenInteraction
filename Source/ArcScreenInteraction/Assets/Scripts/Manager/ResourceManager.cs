@@ -776,7 +776,7 @@ public class ResourceManager : Singleton<ResourceManager>
 #endif
         }
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
-        Debug.Log("url:" + url);
+        //Debug.Log("url:" + url);
         yield return request.SendWebRequest();
         try
         {
