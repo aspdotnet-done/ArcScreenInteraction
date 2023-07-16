@@ -9,9 +9,10 @@ public class MediaPlayUI : UI
     [HideInInspector]
     public BaseViewer viewer;
     [SerializeField] public ImageViewer imageViewer;
-    [SerializeField] public PDFViewer pDFViewer;
+    [SerializeField] public PdfViewer pDFViewer;
     [SerializeField] public VideoViewer videoViewer;
     [SerializeField] public CanvasGroup canvasBar;
+    [SerializeField] public Text mideaTitle;
     private Button hideBtn;
     public Button HideBtn
     {
@@ -27,7 +28,7 @@ public class MediaPlayUI : UI
     {
         get
         {
-            if (lastBtn == null) hideBtn = transform.Find("Hub/PlayBar/Left").GetComponent<Button>();
+            if (lastBtn == null) lastBtn = transform.Find("Hub/PlayBar/Left").GetComponent<Button>();
             return lastBtn;
         }
     }
@@ -37,8 +38,15 @@ public class MediaPlayUI : UI
     {
         get
         {
-            if (nextBtn == null) hideBtn = transform.Find("Hub/PlayBar/Left").GetComponent<Button>();
+            if (nextBtn == null) nextBtn = transform.Find("Hub/PlayBar/Right").GetComponent<Button>();
             return nextBtn;
+        }
+    }
+    public bool isLoopPlay
+    {
+        get
+        {
+            return MediaManager.Instance.setupDataScriptableAsset.data.setupData.loopType == LoopType.Loop;
         }
     }
 
@@ -52,11 +60,44 @@ public class MediaPlayUI : UI
     }
     private void LastClick()
     {
-
+        if (CheckIsFirst())
+        {
+            if (isLoopPlay)
+            {
+                currentIndex = currentMediaData.medias.Count - 1;
+                ShowMedia();
+            }
+            else
+            {
+                Debug.Log("前面没有了");
+                return;
+            }
+        }
     }
     private void NextCleck()
     {
+        if (CheckIsLast())
+        {
+            if (isLoopPlay)
+            {
+                currentIndex = 0;
+                ShowMedia();
+            }
+            else
+            {
+                Debug.Log("后面没有了");
+                return;
+            }
+        }
+    }
 
+    private bool CheckIsLast()
+    {
+        return currentMediaData.medias.Count == currentIndex + 1;
+    }
+    private bool CheckIsFirst()
+    {
+        return currentIndex == 0;
     }
 
 
@@ -80,6 +121,8 @@ public class MediaPlayUI : UI
 
         ShowMedia();
     }
+
+
 
     private float innerDelay
     {
@@ -120,7 +163,7 @@ public class MediaPlayUI : UI
                 viewer = imageViewer;
                 break;
         }
-
+        mideaTitle.text = currentMediaData.medias[currentIndex].mediaName;
         viewer.LoadMedias(currentMediaData, currentIndex);
         ShowUI();
     }
@@ -128,7 +171,8 @@ public class MediaPlayUI : UI
     override public void ShowUI()
     {
         base.ShowUI();
-        viewer.gameObject.SetActive(true);
+        if (viewer != null)
+            viewer.Show();
     }
     public override void HideUI()
     {

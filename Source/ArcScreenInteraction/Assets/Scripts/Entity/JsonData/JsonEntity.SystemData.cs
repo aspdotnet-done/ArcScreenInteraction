@@ -20,8 +20,6 @@ public class SetupData
 
 public enum LoopType
 {
-    SinglePlay = 0,
-    SingleLoop = 1,
-    OrderPlay = 2,
-    AllLoop = 3
+    Single = 0,
+    Loop = 1
 }

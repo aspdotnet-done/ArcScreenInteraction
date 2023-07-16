@@ -9,6 +9,7 @@ public enum PlayState
 }
 public abstract class BaseViewer : MonoBehaviour
 {
+    public bool isPlayComplete;
     [SerializeField] public CanvasGroup canvasGroup;
     protected MediaData currentData;
     protected int index;
@@ -23,6 +24,7 @@ public abstract class BaseViewer : MonoBehaviour
 
     public virtual void Show()
     {
+        gameObject.SetActive(true);
         Debug.Log("BaseViewer Show");
 
     }

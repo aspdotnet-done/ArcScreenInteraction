@@ -13,7 +13,6 @@ public class ImageViewer : BaseViewer
     public override void Next()
     {
         base.Next();
-
     }
     public override void Previous()
     {
@@ -23,6 +22,8 @@ public class ImageViewer : BaseViewer
     public override void Play()
     {
         base.Play();
+        if (playImageCoroutine != null)
+            playImageCoroutine = StartCoroutine(PlayImage());
 
     }
     public override void Pause()
@@ -42,6 +43,7 @@ public class ImageViewer : BaseViewer
         {
             image.texture = v;
             canvasGroup.DOFade(1, 0.2f);
+            currentState = PlayState.Playing;
         });
         Debug.Log("ImageViewer Show");
     }
@@ -50,4 +52,22 @@ public class ImageViewer : BaseViewer
         base.Hide();
         image.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
     }
+
+
+
+    public float imagePlayCompleteTime
+    {
+        get
+        {
+            return MediaManager.Instance.setupDataScriptableAsset.data.setupData.innerDelay;
+        }
+    }
+    Coroutine playImageCoroutine;
+    IEnumerator PlayImage()
+    {
+        yield return new WaitForSeconds(imagePlayCompleteTime);
+        isPlayComplete = true;
+    }
+
+
 }
