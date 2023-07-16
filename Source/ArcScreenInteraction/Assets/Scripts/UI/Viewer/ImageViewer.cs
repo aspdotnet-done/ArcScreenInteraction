@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+
 public class ImageViewer : BaseViewer
 {
 
@@ -37,11 +38,11 @@ public class ImageViewer : BaseViewer
     public override void Show()
     {
         base.Show();
-        ResourceManager.Instance.GetTexture(currentData.MediaPathFolder + currentData.medias[index].mediaName, (v) =>
-                {
-                    image.texture = v;
-                    image.DOFade(1, 0.2f);
-                });
+        ResourceManager.Instance.GetTexture(currentData.medias[index].mediaPath, (v) =>
+        {
+            image.texture = v;
+            canvasGroup.DOFade(1, 0.2f);
+        });
         Debug.Log("ImageViewer Show");
     }
     public override void Hide()

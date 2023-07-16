@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum PlayState
+{
+    Playing,
+    Pause,
+    Init
+}
 public abstract class BaseViewer : MonoBehaviour
 {
+    [SerializeField] public CanvasGroup canvasGroup;
     protected MediaData currentData;
     protected int index;
+    public PlayState currentState;
     public void LoadMedias(MediaData data, int index)
     {
         currentData = data;
@@ -17,6 +24,7 @@ public abstract class BaseViewer : MonoBehaviour
     public virtual void Show()
     {
         Debug.Log("BaseViewer Show");
+
     }
     public virtual void Next()
     {

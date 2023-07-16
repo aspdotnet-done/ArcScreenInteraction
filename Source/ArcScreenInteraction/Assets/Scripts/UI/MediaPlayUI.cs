@@ -11,20 +11,54 @@ public class MediaPlayUI : UI
     [SerializeField] public ImageViewer imageViewer;
     [SerializeField] public PDFViewer pDFViewer;
     [SerializeField] public VideoViewer videoViewer;
+    [SerializeField] public CanvasGroup canvasBar;
     private Button hideBtn;
     public Button HideBtn
     {
         get
         {
-            if (hideBtn == null) hideBtn = transform.Find("Hub/Hide").GetComponent<Button>();
+            if (hideBtn == null) hideBtn = transform.Find("Hub/PlayBar/Return").GetComponent<Button>();
             return hideBtn;
         }
     }
 
+    private Button lastBtn;
+    public Button LastBtn
+    {
+        get
+        {
+            if (lastBtn == null) hideBtn = transform.Find("Hub/PlayBar/Left").GetComponent<Button>();
+            return lastBtn;
+        }
+    }
+
+    private Button nextBtn;
+    public Button NextBtn
+    {
+        get
+        {
+            if (nextBtn == null) hideBtn = transform.Find("Hub/PlayBar/Left").GetComponent<Button>();
+            return nextBtn;
+        }
+    }
+
+
+
     private void OnEnable()
     {
         HideBtn.onClick.AddListener(HideClick);
+        LastBtn.onClick.AddListener(LastClick);
+        NextBtn.onClick.AddListener(NextCleck);
     }
+    private void LastClick()
+    {
+
+    }
+    private void NextCleck()
+    {
+
+    }
+
 
     private void HideClick()
     {
@@ -84,21 +118,40 @@ public class MediaPlayUI : UI
                 break;
             case MediaType.picture:
                 viewer = imageViewer;
-                viewer.LoadMedias(currentMediaData, currentIndex);
                 break;
         }
+
+        viewer.LoadMedias(currentMediaData, currentIndex);
         ShowUI();
     }
 
     override public void ShowUI()
     {
         base.ShowUI();
+        viewer.gameObject.SetActive(true);
     }
     public override void HideUI()
     {
         base.HideUI();
         if (viewer != null)
             viewer.Hide();
+    }
+
+    private void HidePlayBar()
+    {
+        canvasBar.DOFade(0, 0.2f).OnComplete(() =>
+        {
+            canvasBar.gameObject.SetActive(false);
+        });
+    }
+
+    private void ShowPlayBar()
+    {
+        canvasBar.gameObject.SetActive(true);
+        canvasBar.DOFade(1, 0.2f).OnComplete(() =>
+        {
+            canvasBar.gameObject.SetActive(false);
+        });
     }
 
     //定义一个队列来存储待播放数据
