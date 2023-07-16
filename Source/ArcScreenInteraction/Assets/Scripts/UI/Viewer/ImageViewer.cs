@@ -50,7 +50,7 @@ public class ImageViewer : BaseViewer
     public override void Hide()
     {
         base.Hide();
-        image.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
+        canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
     }
 
 

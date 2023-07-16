@@ -8,8 +8,8 @@ namespace Paroxe.PdfRenderer.Internal.Viewer
 {
     public class PDFViewerInternal : UIBehaviour
     {
-	    [SerializeField]
-	    private PDFViewer m_PDFViewer;
+        [SerializeField]
+        private PDFViewer m_PDFViewer;
         [SerializeField]
         private RectTransform m_DownloadDialog;
         [SerializeField]
@@ -81,42 +81,48 @@ namespace Paroxe.PdfRenderer.Internal.Viewer
 
         public void OnDownloadCancelButtonClicked()
         {
-	        m_PDFViewer.CancelDownload();
+            m_PDFViewer.CancelDownload();
         }
 
         public void OnNextPageButtonClicked()
         {
-	        m_PDFViewer.GoToNextPage();
+            m_PDFViewer.GoToNextPage();
         }
 
         public void OnPageIndexEditEnd()
         {
-	        m_PDFViewer.OnPageEditEnd();
+            m_PDFViewer.OnPageEditEnd();
         }
 
         public void OnPasswordDialogCancelButtonClicked()
         {
-	        m_PDFViewer.OnPasswordDialogCancelButtonClicked();
+            m_PDFViewer.OnPasswordDialogCancelButtonClicked();
         }
 
         public void OnPasswordDialogOkButtonClicked()
         {
-	        m_PDFViewer.OnPasswordDialogOkButtonClicked();
+            m_PDFViewer.OnPasswordDialogOkButtonClicked();
         }
 
         public void OnPreviousPageButtonClicked()
         {
-	        m_PDFViewer.GoToPreviousPage();
+            m_PDFViewer.GoToPreviousPage();
         }
 
         public void OnZoomInButtonClicked()
         {
-	        m_PDFViewer.ZoomIn();
+            m_PDFViewer.ZoomIn();
         }
 
         public void OnZoomOutButtonClicked()
         {
-	        m_PDFViewer.ZoomOut();
+            m_PDFViewer.ZoomOut();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.H))
+                m_PDFViewer.ZoomIn();
         }
     }
 }
