@@ -73,6 +73,11 @@ public class MediaPlayUI : UI
                 return;
             }
         }
+        else
+        {
+            currentIndex -= 1;
+            ShowMedia();
+        }
     }
     private void NextCleck()
     {
@@ -88,6 +93,11 @@ public class MediaPlayUI : UI
                 Debug.Log("后面没有了");
                 return;
             }
+        }
+        else
+        {
+            currentIndex += 1;
+            ShowMedia();
         }
     }
 
@@ -151,6 +161,9 @@ public class MediaPlayUI : UI
         // Debug.Log("ShowMedia:" + currentMediaData.MediaType);
         // Debug.Log("ShowMedia:" + currentMediaData.title);
         // Debug.Log("ShowMedia:" + currentMediaData.MediaPathList.Count);
+        pDFViewer.gameObject.SetActive(false);
+        videoViewer.gameObject.SetActive(false);
+        imageViewer.gameObject.SetActive(false);
         switch (currentMediaData.medias[currentIndex].mediaType)
         {
             case MediaType.pdf:
