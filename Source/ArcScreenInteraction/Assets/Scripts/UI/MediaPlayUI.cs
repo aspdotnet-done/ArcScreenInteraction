@@ -18,7 +18,7 @@ public class MediaPlayUI : UI
     {
         get
         {
-            if (hideBtn == null) hideBtn = transform.Find("Hub/PlayBar/Return").GetComponent<Button>();
+            if (hideBtn == null) hideBtn = transform.Find("PlayBar/Return").GetComponent<Button>();
             return hideBtn;
         }
     }
@@ -28,7 +28,7 @@ public class MediaPlayUI : UI
     {
         get
         {
-            if (lastBtn == null) lastBtn = transform.Find("Hub/PlayBar/Left").GetComponent<Button>();
+            if (lastBtn == null) lastBtn = transform.Find("PlayBar/Left").GetComponent<Button>();
             return lastBtn;
         }
     }
@@ -38,7 +38,7 @@ public class MediaPlayUI : UI
     {
         get
         {
-            if (nextBtn == null) nextBtn = transform.Find("Hub/PlayBar/Right").GetComponent<Button>();
+            if (nextBtn == null) nextBtn = transform.Find("PlayBar/Right").GetComponent<Button>();
             return nextBtn;
         }
     }
@@ -158,12 +158,9 @@ public class MediaPlayUI : UI
 
     public void ShowMedia()
     {
-        // Debug.Log("ShowMedia:" + currentMediaData.MediaType);
-        // Debug.Log("ShowMedia:" + currentMediaData.title);
-        // Debug.Log("ShowMedia:" + currentMediaData.MediaPathList.Count);
-        pDFViewer.gameObject.SetActive(false);
-        videoViewer.gameObject.SetActive(false);
-        imageViewer.gameObject.SetActive(false);
+        pDFViewer.Hide();
+        imageViewer.Hide();
+        videoViewer.Hide();
         switch (currentMediaData.medias[currentIndex].mediaType)
         {
             case MediaType.pdf:

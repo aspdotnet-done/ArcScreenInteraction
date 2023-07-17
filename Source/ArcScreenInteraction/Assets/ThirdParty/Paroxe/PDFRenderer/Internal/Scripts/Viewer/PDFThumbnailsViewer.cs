@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace Paroxe.PdfRenderer.Internal.Viewer
 {
-	public class PDFThumbnailsViewer : UIBehaviour
+    public class PDFThumbnailsViewer : UIBehaviour
     {
         [SerializeField]
         private PDFThumbnailItem m_ThumbnailItemPrefab;
@@ -26,7 +26,7 @@ namespace Paroxe.PdfRenderer.Internal.Viewer
         private HashSet<int> m_PageToResize = new HashSet<int>();
         private List<int> m_ResizedPages = new List<int>();
 
-        private RectTransform RectTransform { get { return (RectTransform) transform; } }
+        private RectTransform RectTransform { get { return (RectTransform)transform; } }
 
         private void Cleanup()
         {
@@ -83,7 +83,7 @@ namespace Paroxe.PdfRenderer.Internal.Viewer
 
                 Rect pageRect = new Rect(Vector2.zero, rt.rect.size);
                 pageRect.center = -m_ThumbnailsContainer.anchoredPosition - rt.anchoredPosition + Vector2.up * rt.rect.size.y * 0.5f;
-                
+
                 if (Intersect(pageRect, viewportRect))
                 {
                     if (pageRange.m_From == -1)
@@ -116,51 +116,51 @@ namespace Paroxe.PdfRenderer.Internal.Viewer
 
         public void OnDocumentLoaded(PDFDocument document)
         {
-	        if (m_IsLoaded || !gameObject.activeInHierarchy) 
-		        return;
+            if (m_IsLoaded || !gameObject.activeInHierarchy)
+                return;
 
-	        m_Document = document;
+            m_Document = document;
 
-	        int c = m_Document.GetPageCount();
+            int c = m_Document.GetPageCount();
 
-	        m_PageTextureHolders = new PDFPageTextureHolder[c];
-	        m_Thumbnails = new List<PDFThumbnailItem>();
+            m_PageTextureHolders = new PDFPageTextureHolder[c];
+            m_Thumbnails = new List<PDFThumbnailItem>();
 
-	        int currentPage = m_Viewer.CurrentPageIndex;
+            int currentPage = m_Viewer.CurrentPageIndex;
 
-	        m_ThumbnailItemPrefab.gameObject.SetActive(false);
+            m_ThumbnailItemPrefab.gameObject.SetActive(false);
 
-	        for (int i = 0; i < c; ++i)
-	        {
-		        PDFThumbnailItem item = Instantiate(m_ThumbnailItemPrefab.gameObject).GetComponent<PDFThumbnailItem>();
-		        item.transform.SetParent(m_ThumbnailItemPrefab.transform.parent, false);
-		        item.gameObject.SetActive(true);
+            for (int i = 0; i < c; ++i)
+            {
+                PDFThumbnailItem item = Instantiate(m_ThumbnailItemPrefab.gameObject).GetComponent<PDFThumbnailItem>();
+                item.transform.SetParent(m_ThumbnailItemPrefab.transform.parent, false);
+                item.gameObject.SetActive(true);
 
-		        item.Highlighted.gameObject.SetActive(false);
-		        item.PageIndexLabel.text = (i + 1).ToString();
+                item.Highlighted.gameObject.SetActive(false);
+                item.PageIndexLabel.text = (i + 1).ToString();
 
-		        m_Thumbnails.Add(item);
+                m_Thumbnails.Add(item);
 
-		        PDFPageTextureHolder textureHolder = new PDFPageTextureHolder
-		        {
-			        PageIndex = i, 
-			        Page = item.PageThumbnailRawImage.gameObject, 
-			        Viewer = m_Viewer
-		        };
+                PDFPageTextureHolder textureHolder = new PDFPageTextureHolder
+                {
+                    PageIndex = i,
+                    Page = item.PageThumbnailRawImage.gameObject,
+                    Viewer = m_Viewer
+                };
 
-		        m_PageTextureHolders[i] = textureHolder;
-	        }
+                m_PageTextureHolders[i] = textureHolder;
+            }
 
-	        if (currentPage >= 0 && currentPage < m_Viewer.Document.GetPageCount())
-	        {
-		        m_HighlightedItem = m_Thumbnails[currentPage];
-		        m_HighlightedItem.Highlighted.gameObject.SetActive(true);
-	        }
+            if (currentPage >= 0 && currentPage < m_Viewer.Document.GetPageCount())
+            {
+                m_HighlightedItem = m_Thumbnails[currentPage];
+                m_HighlightedItem.Highlighted.gameObject.SetActive(true);
+            }
 
-	        m_CurrentPageRange = new PDFPageRange();
+            m_CurrentPageRange = new PDFPageRange();
 
-	        m_UpdateFramesDelay = 2;
-	        m_IsLoaded = true;
+            m_UpdateFramesDelay = 2;
+            m_IsLoaded = true;
         }
 
         public void OnCurrentPageChanged(int newPageIndex)
@@ -246,7 +246,7 @@ namespace Paroxe.PdfRenderer.Internal.Viewer
 
             if (pageRange != m_CurrentPageRange)
             {
-	            int[] pagesToLoad = PDFPageRange.GetPagesToload(m_CurrentPageRange, pageRange);
+                int[] pagesToLoad = PDFPageRange.GetPagesToload(m_CurrentPageRange, pageRange);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
 	            foreach (int pageIndex in pagesToLoad)
@@ -256,29 +256,29 @@ namespace Paroxe.PdfRenderer.Internal.Viewer
                 PDFPageRange.UpdatePageAgainstRanges(m_CurrentPageRange, pageRange, m_Document, m_PageTextureHolders, null, 0.25f, null, m_Viewer.GetCachedNormalPageSizes());
 
                 foreach (int pageIndex in pagesToLoad)
-	                m_PageToResize.Add(pageIndex);
+                    m_PageToResize.Add(pageIndex);
 
                 foreach (int pageIndex in PDFPageRange.GetPagesToUnload(m_CurrentPageRange, pageRange))
-	                m_PageToResize.Remove(pageIndex);
+                    m_PageToResize.Remove(pageIndex);
 
                 m_CurrentPageRange = pageRange;
             }
 
             foreach (int pageIndex in m_PageToResize)
             {
-	            Texture2D tex = m_PageTextureHolders[pageIndex].Texture;
+                Texture2D tex = m_PageTextureHolders[pageIndex].Texture;
 
-	            if (tex != null)
-	            {
-		            m_Thumbnails[pageIndex].AspectRatioFitter.aspectRatio = tex.width / (float)tex.height;
+                if (tex != null)
+                {
+                    m_Thumbnails[pageIndex].AspectRatioFitter.aspectRatio = tex.width / (float)tex.height;
 
-		            m_ResizedPages.Add(pageIndex);
+                    m_ResizedPages.Add(pageIndex);
                 }
             }
 
             foreach (int resizedPage in m_ResizedPages)
             {
-	            m_PageToResize.Remove(resizedPage);
+                m_PageToResize.Remove(resizedPage);
             }
 
             m_ResizedPages.Clear();
@@ -286,14 +286,14 @@ namespace Paroxe.PdfRenderer.Internal.Viewer
 
         private void UpdateHighlightedItem()
         {
-            if (m_HighlightedItem != null)
-            {
-                m_HighlightedItem.Highlighted.color = new Color(152.0f / 255.0f, 192.0f / 255.0f, 217.0f / 255.0f, 1.0f);
-            }
-            else if (m_HighlightedItem != null)
-            {
-                m_HighlightedItem.Highlighted.color = new Color(200.0f / 255.0f, 200.0f / 255.0f, 200.0f / 255.0f, 1.0f);
-            }
+            // if (m_HighlightedItem != null)
+            // {
+            //     m_HighlightedItem.Highlighted.color = new Color(152.0f / 255.0f, 192.0f / 255.0f, 217.0f / 255.0f, 1.0f);
+            // }
+            // else if (m_HighlightedItem != null)
+            // {
+            //     m_HighlightedItem.Highlighted.color = new Color(200.0f / 255.0f, 200.0f / 255.0f, 200.0f / 255.0f, 1.0f);
+            // }
         }
     }
 }

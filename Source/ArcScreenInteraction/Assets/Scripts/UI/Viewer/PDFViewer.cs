@@ -40,7 +40,7 @@ public class PdfViewer : BaseViewer
         totalPage = pdfReader.Document.GetPageCount();
         Debug.Log("PdfViewer Show");
         canvasGroup.DOFade(1, 0.2f);
-        pdfReader.ZoomIn();
+        //pdfReader.ZoomIn();
         pdfReader.GoToPage(0);
         currentState = PlayState.Playing;
     }
