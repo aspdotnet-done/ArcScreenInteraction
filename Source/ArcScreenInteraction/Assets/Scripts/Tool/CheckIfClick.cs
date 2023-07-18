@@ -18,13 +18,17 @@ public class CheckIfClick : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            canvasGroup.DOFade(1f, 0.2f);
+            canvasGroup.DOFade(1f, 0.2f).OnComplete(() =>
+            {
+                canvasGroup.interactable = true;
+            });
             lastClickTime = Time.time;
         }
 
         if (Time.time - lastClickTime > hideTime)
         {
             canvasGroup.DOFade(0f, 0.2f);
+            canvasGroup.interactable = false;
 
         }
     }

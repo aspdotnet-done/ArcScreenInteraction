@@ -4,7 +4,7 @@ using UnityEngine;
 using Paroxe.PdfRenderer;
 using DG.Tweening;
 
-public class PdfViewer : BaseViewer
+public class PdfFileViewer : BaseViewer
 {
     [SerializeField] private PDFViewer pdfReader;
     public override void Next()

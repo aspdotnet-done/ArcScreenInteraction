@@ -9,7 +9,7 @@ public class MediaPlayUI : UI
     [HideInInspector]
     public BaseViewer viewer;
     [SerializeField] public ImageViewer imageViewer;
-    [SerializeField] public PdfViewer pDFViewer;
+    [SerializeField] public PdfFileViewer pDFViewer;
     [SerializeField] public VideoViewer videoViewer;
     [SerializeField] public CanvasGroup canvasBar;
     [SerializeField] public Text mideaTitle;
