@@ -35,11 +35,11 @@ public class VideoViewer : BaseViewer
     public override void Show()
     {
         base.Show();
-        MediaPath mp = new MediaPath(currentData.medias[index].mediaPath, MediaPathType.AbsolutePathOrURL);
+        MediaPath mp = new MediaPath(currentData.mediaPath, MediaPathType.AbsolutePathOrURL);
         videoPlayer.OpenMedia(mp, true);
         Debug.Log("PdfViewer Show");
         canvasGroup.DOFade(1, 0.2f);
-        currentState = PlayState.Playing;
+        currentPlayState = PlayState.Playing;
     }
     public override void Hide()
     {

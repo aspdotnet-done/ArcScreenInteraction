@@ -11,13 +11,11 @@ public abstract class BaseViewer : MonoBehaviour
 {
     public bool isPlayComplete;
     [SerializeField] public CanvasGroup canvasGroup;
-    protected MediaData currentData;
-    protected int index;
-    public PlayState currentState;
-    public void LoadMedias(MediaData data, int index)
+    protected Media currentData;
+    public PlayState currentPlayState;
+    public void LoadMedias(Media data)
     {
         currentData = data;
-        this.index = index;
         Show();
         Debug.Log("BaseViewer LoadMedias");
     }

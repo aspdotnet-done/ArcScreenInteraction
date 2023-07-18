@@ -35,14 +35,14 @@ public class PdfFileViewer : BaseViewer
     public override void Show()
     {
         base.Show();
-        pdfReader.FilePath = currentData.medias[index].mediaPath;
+        pdfReader.FilePath = currentData.mediaPath;
         pdfReader.LoadDocument(0);
         totalPage = pdfReader.Document.GetPageCount();
         Debug.Log("PdfViewer Show");
         canvasGroup.DOFade(1, 0.2f);
         //pdfReader.ZoomIn();
         pdfReader.GoToPage(0);
-        currentState = PlayState.Playing;
+        currentPlayState = PlayState.Playing;
     }
     public override void Hide()
     {

@@ -39,11 +39,11 @@ public class ImageViewer : BaseViewer
     public override void Show()
     {
         base.Show();
-        ResourceManager.Instance.GetTexture(currentData.medias[index].mediaPath, (v) =>
+        ResourceManager.Instance.GetTexture(currentData.mediaPath, (v) =>
         {
             image.texture = v;
             canvasGroup.DOFade(1, 0.2f);
-            currentState = PlayState.Playing;
+            currentPlayState = PlayState.Playing;
         });
         Debug.Log("ImageViewer Show");
     }

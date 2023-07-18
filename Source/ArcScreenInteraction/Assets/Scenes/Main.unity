@@ -2970,7 +2970,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayComplete: 0
   canvasGroup: {fileID: 385392784}
-  currentState: 0
+  currentPlayState: 0
   pdfReader: {fileID: 854147668}
 --- !u!1 &395291389
 GameObject:
@@ -3493,7 +3493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8714c362c0c8a6449a9559a31cdab9a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 35.8
+  radius: 20
 --- !u!114 &426507393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6330,7 +6330,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 744038046}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -7489,7 +7489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayComplete: 0
   canvasGroup: {fileID: 837770412}
-  currentState: 0
+  currentPlayState: 0
   image: {fileID: 837770410}
 --- !u!225 &837770412
 CanvasGroup:
@@ -12284,10 +12284,10 @@ MonoBehaviour:
   m_FileURL: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3690.pdf
   m_Folder: Test
   m_LoadOnEnable: 0
-  m_MaxZoomFactor: 2.5
+  m_MaxZoomFactor: 1.25
   m_MaxZoomFactorTextureQuality: 4
   m_MinZoomFactor: 0.5
-  m_PageFitting: 0
+  m_PageFitting: 2
   m_Password: 
   m_PDFAsset: {fileID: 11400000, guid: 486cc9297fbba88488cf04e6e256de63, type: 2}
   m_ZoomFactor: 2
@@ -20980,7 +20980,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1057385591}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -21110,7 +21110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayComplete: 0
   canvasGroup: {fileID: 1057385594}
-  currentState: 0
+  currentPlayState: 0
   videoPlayer: {fileID: 1057385593}
 --- !u!1 &1067787895
 GameObject:

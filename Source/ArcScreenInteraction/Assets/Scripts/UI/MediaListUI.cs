@@ -52,7 +52,7 @@ public class MediaListUI : UI
     private void PlayClick()
     {
         MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
-        ui.Init(currentMediaDatas, currentIndex);
+        ui.Init(MediaList, currentIndex);
         HideUI();
     }
 

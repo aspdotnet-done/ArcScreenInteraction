@@ -64,7 +64,7 @@ public class MediaPlayUI : UI
         {
             if (isLoopPlay)
             {
-                currentIndex = currentMediaData.medias.Count - 1;
+                currentIndex = currentDatas.Count - 1;
                 ShowMedia();
             }
             else
@@ -103,7 +103,7 @@ public class MediaPlayUI : UI
 
     private bool CheckIsLast()
     {
-        return currentMediaData.medias.Count == currentIndex + 1;
+        return currentDatas.Count == currentIndex + 1;
     }
     private bool CheckIsFirst()
     {
@@ -122,11 +122,11 @@ public class MediaPlayUI : UI
     {
         HideBtn.onClick.RemoveListener(HideClick);
     }
-    private MediaData currentMediaData;
+    private List<Media> currentDatas;
     private int currentIndex = 0;
-    public void Init(MediaData data, int index)
+    public void Init(List<Media> datas, int index)
     {
-        currentMediaData = data;
+        currentDatas = datas;
         currentIndex = index;
 
         ShowMedia();
@@ -161,7 +161,7 @@ public class MediaPlayUI : UI
         pDFViewer.Hide();
         imageViewer.Hide();
         videoViewer.Hide();
-        switch (currentMediaData.medias[currentIndex].mediaType)
+        switch (currentDatas[currentIndex].mediaType)
         {
             case MediaType.pdf:
                 viewer = pDFViewer;
@@ -173,8 +173,8 @@ public class MediaPlayUI : UI
                 viewer = imageViewer;
                 break;
         }
-        mideaTitle.text = currentMediaData.medias[currentIndex].mediaName;
-        viewer.LoadMedias(currentMediaData, currentIndex);
+        mideaTitle.text = currentDatas[currentIndex].mediaName;
+        viewer.LoadMedias(currentDatas[currentIndex]);
         ShowUI();
     }
 
