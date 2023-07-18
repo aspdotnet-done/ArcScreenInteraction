@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RenderHeads.Media.AVProVideo;
 using DG.Tweening;
+using RenderHeads.Media.AVProVideo.Demos;
 
 public class VideoViewer : BaseViewer
 {
