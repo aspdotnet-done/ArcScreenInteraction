@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using Paroxe.PdfRenderer;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -180,6 +181,30 @@ public class ResourceManager : Singleton<ResourceManager>
             });
 
         return true;
+    }
+
+    public void GetPDFData(string path, Action<PDFDocument> complete)
+    {
+        StartCoroutine(GetPpfIenumerator(path, complete));
+    }
+
+    IEnumerator GetPpfIenumerator(string path, Action<PDFDocument> complete)
+    {
+        PDFDocument document = null;
+        using (PDFWebRequest www = new PDFWebRequest(path))
+        {
+            www.SendWebRequest();
+            yield return www;
+            if (!string.IsNullOrEmpty(www.error))
+            {
+                Debug.LogError(www.error);
+                yield break;
+            }
+            using (document = new PDFDocument(www.bytes, ""))
+            {
+                complete?.Invoke(document);
+            }
+        }
     }
 
     public void GetMediaDatas(Action<List<MediaData>> complete)
