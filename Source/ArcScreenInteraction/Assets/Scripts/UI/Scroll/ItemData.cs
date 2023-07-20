@@ -1,4 +1,6 @@
 using System;
+using UnityEngine;
+
 public class ItemData
 {
     public Action<Media> ClickAction = null;
@@ -8,6 +10,9 @@ public class ItemData
     {
         Message = message;
     }
+
+
+
     public ItemData(Media mediaData, Action<Media> action)
     {
         MediaData = mediaData;

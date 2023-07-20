@@ -9,9 +9,15 @@ namespace UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02
     public class ItemData
     {
         public string Message { get; }
+        public Texture2D texture;
         public ItemData(string message)
         {
             Message = message;
+        }
+        public ItemData(string message, Texture2D texture)
+        {
+            Message = message;
+            this.texture = texture;
         }
 
     }

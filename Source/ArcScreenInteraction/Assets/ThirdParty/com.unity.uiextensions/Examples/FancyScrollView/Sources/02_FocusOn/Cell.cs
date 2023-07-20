@@ -10,7 +10,7 @@ namespace UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02
     {
         [SerializeField] Animator animator = default;
         [SerializeField] Text message = default;
-        [SerializeField] Image image = default;
+        [SerializeField] RawImage image = default;
         [SerializeField] Button button = default;
 
         static class AnimatorHash
@@ -29,9 +29,10 @@ namespace UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02
             message.text = itemData.Message;
 
             var selected = Context.SelectedIndex == Index;
+            image.texture = itemData.texture;
             image.color = selected
                 ? new Color32(0, 255, 255, 100)
-                : new Color32(255, 255, 255, 77);
+                : new Color32(0, 0, 0, 255);
 
         }
 
