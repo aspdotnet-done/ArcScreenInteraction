@@ -16,7 +16,7 @@ public abstract class BaseViewer : MonoBehaviour
     public void LoadMedias(Media data)
     {
         currentData = data;
-        Show();
+        //Show();
         Debug.Log("BaseViewer LoadMedias");
     }
 
