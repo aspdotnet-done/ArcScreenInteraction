@@ -31,8 +31,8 @@ namespace UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02
             var selected = Context.SelectedIndex == Index;
             image.texture = itemData.texture;
             image.color = selected
-                ? new Color32(0, 255, 255, 100)
-                : new Color32(0, 0, 0, 255);
+                ? new Color32(255, 255, 255, 255)
+                : new Color32(120, 120, 120, 120);
 
         }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731715, g: 0.13414735, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10374,7 +10374,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 744038046}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -10906,6 +10906,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 800875208}
+  - component: {fileID: 800875210}
   - component: {fileID: 800875209}
   m_Layer: 0
   m_Name: Canvas
@@ -10935,10 +10936,22 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 100}
+  m_AnchoredPosition: {x: 0, y: 60}
   m_SizeDelta: {x: 900, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &800875209
+--- !u!225 &800875209
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800875207}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &800875210
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10947,13 +10960,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 800875207}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffef50039363c5244b22c9c6c6129c0a, type: 3}
+  m_Script: {fileID: 11500000, guid: 07e17df87de6a6e4ba3d84b50b57b4a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollView: {fileID: 1878239089}
-  prevCellButton: {fileID: 506041297}
-  nextCellButton: {fileID: 370599785}
-  selectedItemInfo: {fileID: 1093678433}
+  canvasGroup: {fileID: 800875209}
+  hideTime: 10
 --- !u!1 &802573716
 GameObject:
   m_ObjectHideFlags: 0
@@ -25960,6 +25971,7 @@ GameObject:
   - component: {fileID: 1878239091}
   - component: {fileID: 1878239090}
   - component: {fileID: 1878239089}
+  - component: {fileID: 1878239093}
   m_Layer: 5
   m_Name: ScrollView
   m_TagString: Untagged
@@ -26005,7 +26017,7 @@ MonoBehaviour:
   loop: 0
   cellContainer: {fileID: 1316965387}
   scroller: {fileID: 1878239090}
-  cellPrefab: {fileID: 1901728338085442, guid: 11b53c833a6fb0249ab3bc7bb46341c9, type: 3}
+  cellPrefab: {fileID: 1901728338085442, guid: 2867f7e939d4d514f8bfd0be8676b7d7, type: 3}
 --- !u!114 &1878239090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26045,7 +26057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3137255, g: 0.3137255, b: 0.3137255, a: 0.54509807}
+  m_Color: {r: 0.47058827, g: 0.47058827, b: 0.47058827, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -26070,6 +26082,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1878239087}
   m_CullTransparentMesh: 0
+--- !u!114 &1878239093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878239087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 0
 --- !u!1 &1889877081
 GameObject:
   m_ObjectHideFlags: 0

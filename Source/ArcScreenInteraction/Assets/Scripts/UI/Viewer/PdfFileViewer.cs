@@ -14,12 +14,6 @@ public class PdfFileViewer : BaseViewer
     [SerializeField] Button nextCellButton = default;
     private PDFDocument pdfDocument;
 
-    private void Start()
-    {
-        prevCellButton.onClick.AddListener(scrollView.SelectPrevCell);
-        nextCellButton.onClick.AddListener(scrollView.SelectNextCell);
-        scrollView.OnSelectionChanged(OnSelectionChanged);
-    }
 
     void OnSelectionChanged(int index)
     {
@@ -28,35 +22,14 @@ public class PdfFileViewer : BaseViewer
         pdfImage.SetNativeSize();
         Debug.Log("Selected item info: index " + index);
     }
-    public override void Next()
-    {
-        base.Next();
-    }
-    public override void Previous()
-    {
-        base.Previous();
 
-    }
-    public override void Play()
-    {
-        base.Play();
-
-    }
-    public override void Pause()
-    {
-        base.Pause();
-
-    }
-    public override void Return()
-    {
-        base.Return();
-
-    }
 
     public override void Show()
     {
         base.Show();
-
+        prevCellButton.onClick.AddListener(scrollView.SelectPrevCell);
+        nextCellButton.onClick.AddListener(scrollView.SelectNextCell);
+        scrollView.OnSelectionChanged(OnSelectionChanged);
         ResourceManager.Instance.GetPDFData(currentData.mediaPath, LoadPdfComplete);
 
         currentPlayState = PlayState.Playing;
@@ -82,24 +55,24 @@ public class PdfFileViewer : BaseViewer
         scrollView.SelectCell(0);
     }
 
-    public void NextPage()
-    {
-        if (currentPage < totalPage - 1)
-        {
-            currentPage++;
-            pdfImage.texture = GetPageTexture(currentPage);
-            pdfImage.SetNativeSize();
-        }
-    }
-    public void PreviousPage()
-    {
-        if (currentPage > 0)
-        {
-            currentPage--;
-            pdfImage.texture = GetPageTexture(currentPage);
-            pdfImage.SetNativeSize();
-        }
-    }
+    // public void NextPage()
+    // {
+    //     if (currentPage < totalPage - 1)
+    //     {
+    //         currentPage++;
+    //         pdfImage.texture = GetPageTexture(currentPage);
+    //         pdfImage.SetNativeSize();
+    //     }
+    // }
+    // public void PreviousPage()
+    // {
+    //     if (currentPage > 0)
+    //     {
+    //         currentPage--;
+    //         pdfImage.texture = GetPageTexture(currentPage);
+    //         pdfImage.SetNativeSize();
+    //     }
+    // }
 
     private Texture2D GetPageTexture(int index, float scale = 2f)
     {
@@ -121,6 +94,9 @@ public class PdfFileViewer : BaseViewer
     {
         base.Hide();
         canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
+        prevCellButton.onClick.RemoveListener(scrollView.SelectPrevCell);
+        nextCellButton.onClick.RemoveListener(scrollView.SelectNextCell);
+        scrollView.OnSelectionChanged(null);
     }
 
 
