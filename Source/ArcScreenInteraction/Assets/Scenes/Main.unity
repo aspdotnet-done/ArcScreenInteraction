@@ -6297,7 +6297,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 385392780}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -10273,7 +10273,6 @@ MonoBehaviour:
   canvasBar: {fileID: 523868530}
   mideaTitle: {fileID: 1630545873}
   activeTime: 5
-  isCompleteAll: 0
 --- !u!225 &744038049
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -10282,7 +10281,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 744038046}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -17880,7 +17879,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u5A92\u4F53\u64AD\u653E\u95F4\u9694\uFF1A"
+  m_Text: "\u7FFB\u9875\u95F4\u9694\uFF1A"
 --- !u!222 &1273673478
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19940,7 +19939,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -134, y: -56}
-  m_SizeDelta: {x: 296.72, y: 50}
+  m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1390205220
 MonoBehaviour:
@@ -19975,7 +19974,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u4E0B\u4E00\u8282\u64AD\u653E\u95F4\u9694\uFF1A"
+  m_Text: "\u5207\u6362\u5A92\u4F53\u95F4\u9694\uFF1A"
 --- !u!222 &1390205221
 CanvasRenderer:
   m_ObjectHideFlags: 0

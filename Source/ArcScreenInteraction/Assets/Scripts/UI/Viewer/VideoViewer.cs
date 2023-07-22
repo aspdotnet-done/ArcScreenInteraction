@@ -63,15 +63,19 @@ public class VideoViewer : BaseViewer
             //videoPlayer的视频是否暂停且非播放完毕
 
 
-            if (videoPlayer.Control.IsPaused() && !videoPlayer.Control.IsFinished())
+            if (videoPlayer.Control.IsPaused())
             {
-                Debug.Log("Pause");
                 currentPlayState = PlayState.Pause;
+            }
+            else if (videoPlayer.Control.IsFinished())
+            {
+                currentPlayState = PlayState.Complete;
             }
             else if (videoPlayer.Control.IsPlaying())
             {
                 currentPlayState = PlayState.Playing;
             }
+
         }
     }
 

@@ -62,7 +62,6 @@ public class MediaPlayUI : UI
     private float lastClickTime;
     //点击后自动播放的激活时间
     public float activeTime = 5f;
-    public bool isCompleteAll = false;
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -70,18 +69,30 @@ public class MediaPlayUI : UI
             lastClickTime = 0;
             timer = 0;
         }
+
         if (Time.time - lastClickTime > activeTime)
         {
+
             if (viewer.currentPlayState == PlayState.Complete)
             {
                 timer += Time.deltaTime;
+
                 if (timer > outerDelay)
                 {
                     timer = 0;
-                    if (CheckIsLast())
+                    if (CheckIsLast())//最后一个
                     {
+                        if (!isLoopPlay)
+                        {
+                            //结束 返回首页
+                            HideClick();
+                        }
+                        else
+                        {
+                            NextCleck();
+                        }
                         //结束 返回首页
-                        HideClick();
+                        //HideClick();
                     }
                     else
                     {
