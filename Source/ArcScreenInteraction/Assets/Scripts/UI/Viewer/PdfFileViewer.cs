@@ -40,9 +40,39 @@ public class PdfFileViewer : BaseViewer
         scrollSnap.OnSelectionPageChangedEvent.AddListener(SelectPage);
 
         ResourceManager.Instance.GetPDFData(currentData.mediaPath, LoadPdfComplete);
-
-
     }
+    private float lastClickTime;
+    //点击后自动播放的激活时间
+    public float activeTime = 5f;
+    float timer = 0;
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            lastClickTime = 0;
+            timer = 0;
+        }
+        if (Time.time - lastClickTime > activeTime)
+        {
+
+            timer += Time.deltaTime;
+            if (timer > innerDelay)
+            {
+                timer = 0;
+                if (currentPage < totalPage - 1)
+                {
+                    scrollView.SelectCell(currentPage + 1);
+                }
+                else
+                {
+                    currentPlayState = PlayState.Complete;
+                }
+            }
+
+        }
+    }
+
+
     private int currentPage = 0;
     private int totalPage;
     private List<ItemDataPDF> items;
@@ -116,6 +146,13 @@ public class PdfFileViewer : BaseViewer
         if (newHeight < image.texture.height)
         {
             image.rectTransform.sizeDelta = new Vector2(newWidth, newHeight);
+        }
+    }
+    private float innerDelay
+    {
+        get
+        {
+            return MediaManager.Instance.setupDataScriptableAsset.data.setupData.innerDelay;
         }
     }
 

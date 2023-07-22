@@ -5,11 +5,11 @@ public enum PlayState
 {
     Playing,
     Pause,
-    Init
+    Init,
+    Complete
 }
 public abstract class BaseViewer : MonoBehaviour
 {
-    public bool isPlayComplete;
     [SerializeField] public CanvasGroup canvasGroup;
     protected Media currentData;
     public PlayState currentPlayState;

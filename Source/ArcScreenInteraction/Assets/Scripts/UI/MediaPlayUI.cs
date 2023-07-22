@@ -58,8 +58,44 @@ public class MediaPlayUI : UI
         LastBtn.onClick.AddListener(LastClick);
         NextBtn.onClick.AddListener(NextCleck);
     }
+    float timer = 0;
+    private float lastClickTime;
+    //点击后自动播放的激活时间
+    public float activeTime = 5f;
+    public bool isCompleteAll = false;
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            lastClickTime = 0;
+            timer = 0;
+        }
+        if (Time.time - lastClickTime > activeTime)
+        {
+            if (viewer.currentPlayState == PlayState.Complete)
+            {
+                timer += Time.deltaTime;
+                if (timer > outerDelay)
+                {
+                    timer = 0;
+                    if (CheckIsLast())
+                    {
+                        //结束 返回首页
+                        HideClick();
+                    }
+                    else
+                    {
+                        NextCleck();
+                    }
+                }
+            }
+        }
+
+    }
     private void LastClick()
     {
+        lastClickTime = 0;
+        timer = 0;
         if (CheckIsFirst())
         {
             if (isLoopPlay)
@@ -81,6 +117,8 @@ public class MediaPlayUI : UI
     }
     private void NextCleck()
     {
+        lastClickTime = 0;
+        timer = 0;
         if (CheckIsLast())
         {
             if (isLoopPlay)
@@ -128,6 +166,7 @@ public class MediaPlayUI : UI
     private int currentIndex = 0;
     public void Init(List<Media> datas, int index)
     {
+
         Debug.Log("InitMedia");
         currentDatas = datas;
         currentIndex = index;
@@ -161,6 +200,9 @@ public class MediaPlayUI : UI
 
     public void ShowMedia()
     {
+        lastClickTime = 0;
+        timer = 0;
+        ShowUI();
         Debug.Log("ShowMedia");
         pDFViewer.Hide();
         imageViewer.Hide();
@@ -169,36 +211,30 @@ public class MediaPlayUI : UI
         {
             case MediaType.pdf:
                 viewer = pDFViewer;
+                viewer.currentPlayState = PlayState.Init;
                 pDFViewer.LoadMedias(currentDatas[currentIndex]);
                 pDFViewer.Show();
                 break;
             case MediaType.video:
                 viewer = videoViewer;
+                viewer.currentPlayState = PlayState.Init;
                 videoViewer.LoadMedias(currentDatas[currentIndex]);
                 videoViewer.Show();
                 break;
             case MediaType.picture:
                 viewer = imageViewer;
+                viewer.currentPlayState = PlayState.Init;
                 imageViewer.LoadMedias(currentDatas[currentIndex]);
                 imageViewer.Show();
                 break;
         }
         mideaTitle.text = currentDatas[currentIndex].mediaName;
-        //viewer.LoadMedias(currentDatas[currentIndex]);
-        ShowUI();
+
     }
 
-    // override public void ShowUI()
-    // {
-    //     base.ShowUI();
-    //     if (viewer != null)
-    //         viewer.Show();
-    // }
     public override void HideUI()
     {
         base.HideUI();
-        // if (viewer != null)
-        //     viewer.Hide();
     }
 
     private void HidePlayBar()

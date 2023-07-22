@@ -307,6 +307,7 @@ namespace RenderHeads.Media.AVProVideo.Demos
 
         public void TogglePlayPause()
         {
+
             if (_mediaPlayer && _mediaPlayer.Control != null)
             {
                 if (_useAudioFading && _mediaPlayer.Info.HasAudio())

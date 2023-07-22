@@ -22,8 +22,7 @@ public class ImageViewer : BaseViewer
     public override void Play()
     {
         base.Play();
-        if (playImageCoroutine != null)
-            playImageCoroutine = StartCoroutine(PlayImage());
+
 
     }
     public override void Pause()
@@ -43,10 +42,15 @@ public class ImageViewer : BaseViewer
             image.texture = v;
             canvasGroup.DOFade(1, 0.2f);
             currentPlayState = PlayState.Playing;
+            if (playImageCoroutine != null)
+                StopCoroutine(playImageCoroutine);
+            playImageCoroutine = StartCoroutine(PlayImage());
         });
         Debug.Log("ImageViewer Show");
         gameObject.SetActive(true);
     }
+
+
     public override void Hide()
     {
         canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
@@ -66,7 +70,7 @@ public class ImageViewer : BaseViewer
     IEnumerator PlayImage()
     {
         yield return new WaitForSeconds(imagePlayCompleteTime);
-        isPlayComplete = true;
+        currentPlayState = PlayState.Complete;
     }
 
 

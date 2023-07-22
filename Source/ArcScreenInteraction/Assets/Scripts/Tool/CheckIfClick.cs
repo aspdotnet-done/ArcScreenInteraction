@@ -29,7 +29,6 @@ public class CheckIfClick : MonoBehaviour
         {
             canvasGroup.DOFade(0f, 0.2f);
             canvasGroup.interactable = false;
-
         }
     }
 }
