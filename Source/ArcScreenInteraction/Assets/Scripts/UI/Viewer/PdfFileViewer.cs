@@ -23,19 +23,17 @@ public class PdfFileViewer : BaseViewer
     {
         currentPage = index;
         scrollSnap.ChangePage(currentPage);
-        // pdfImage.texture = items[index].texture;
-        // pdfImage.SetNativeSize();
-        // Debug.Log("Selected item info: index " + index);
     }
 
     public void SelectPage(int page)
     {
+        currentPage = page;
         scrollView.SelectCell(page);
     }
 
     public override void Show()
     {
-
+        //Debug.Log("showpdf");
         prevCellButton.onClick.AddListener(scrollView.SelectPrevCell);
         nextCellButton.onClick.AddListener(scrollView.SelectNextCell);
         scrollView.OnSelectionChanged(OnSelectionChanged);
@@ -43,7 +41,7 @@ public class PdfFileViewer : BaseViewer
 
         ResourceManager.Instance.GetPDFData(currentData.mediaPath, LoadPdfComplete);
 
-        currentPlayState = PlayState.Playing;
+
     }
     private int currentPage = 0;
     private int totalPage;
@@ -53,8 +51,6 @@ public class PdfFileViewer : BaseViewer
         currentPage = 0;
         pdfDocument = doc;
         totalPage = doc.GetPageCount();
-        // pdfImage.texture = GetPageTexture(currentPage);
-        // pdfImage.SetNativeSize();
 
         items = new List<ItemDataPDF>();
         for (int i = 0; i < totalPage; i++)
@@ -63,39 +59,23 @@ public class PdfFileViewer : BaseViewer
             GameObject page = Instantiate(pdfPagePrefab, pdfPageParent);
             page.GetComponentInChildren<RawImage>().texture = tex;
             page.GetComponentInChildren<RawImage>().SetNativeSize();
+            ResizeImage(page.GetComponentInChildren<RawImage>());
             page.SetActive(true);
             items.Add(new ItemDataPDF((i + 1).ToString(), tex));
         }
 
         scrollView.UpdateData(items);
         scrollView.SelectCell(0);
-        base.Show();
+        gameObject.SetActive(true);
         canvasGroup.DOFade(1, 0.2f);
+        currentPlayState = PlayState.Playing;
     }
 
-    // public void NextPage()
-    // {
-    //     if (currentPage < totalPage - 1)
-    //     {
-    //         currentPage++;
-    //         pdfImage.texture = GetPageTexture(currentPage);
-    //         pdfImage.SetNativeSize();
-    //     }
-    // }
-    // public void PreviousPage()
-    // {
-    //     if (currentPage > 0)
-    //     {
-    //         currentPage--;
-    //         pdfImage.texture = GetPageTexture(currentPage);
-    //         pdfImage.SetNativeSize();
-    //     }
-    // }
 
     private Texture2D GetPageTexture(int index, float scale = 2f)
     {
         PDFRenderer renderer = new PDFRenderer();
-        Debug.Log("Page:" + index);
+        //Debug.Log("Page:" + index);
         Texture2D tex = renderer.RenderPageToTexture(pdfDocument.GetPage(index), (int)(pdfDocument.GetPage(index).GetPageSize().x * scale), (int)(pdfDocument.GetPage(index).GetPageSize().y * scale));
 
         tex.filterMode = FilterMode.Bilinear;
@@ -110,16 +90,32 @@ public class PdfFileViewer : BaseViewer
     }
     public override void Hide()
     {
-        base.Hide();
+        //Debug.Log("hidepdf");
         canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
-        prevCellButton.onClick.RemoveListener(scrollView.SelectPrevCell);
-        nextCellButton.onClick.RemoveListener(scrollView.SelectNextCell);
+        prevCellButton.onClick.RemoveAllListeners();
+        nextCellButton.onClick.RemoveAllListeners();
         scrollView.OnSelectionChanged(null);
-        scrollSnap.OnSelectionPageChangedEvent.RemoveListener(SelectPage);
+        scrollSnap.OnSelectionPageChangedEvent.RemoveAllListeners();
         int cout = pdfPageParent.childCount;
+        Debug.Log("cout:" + cout);
         for (int i = 0; i < cout; i++)
         {
-            Destroy(pdfPageParent.GetChild(0).gameObject);
+            Destroy(pdfPageParent.GetChild(i).gameObject);
+        }
+        gameObject.SetActive(false);
+    }
+    public float maxHeight = 1080f;
+
+
+    private void ResizeImage(RawImage image)
+    {
+
+        float aspectRatio = (float)image.texture.width / (float)image.texture.height;
+        float newHeight = Mathf.Min(maxHeight, image.texture.height);
+        float newWidth = newHeight * aspectRatio;
+        if (newHeight < image.texture.height)
+        {
+            image.rectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         }
     }
 

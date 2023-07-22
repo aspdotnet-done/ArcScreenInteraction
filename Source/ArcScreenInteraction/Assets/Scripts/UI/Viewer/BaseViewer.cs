@@ -16,13 +16,11 @@ public abstract class BaseViewer : MonoBehaviour
     public void LoadMedias(Media data)
     {
         currentData = data;
-        //Show();
         Debug.Log("BaseViewer LoadMedias");
     }
 
     public virtual void Show()
     {
-        gameObject.SetActive(true);
         Debug.Log("BaseViewer Show");
 
     }
@@ -50,7 +48,6 @@ public abstract class BaseViewer : MonoBehaviour
     public virtual void Hide()
     {
         Debug.Log("BaseViewer Hide");
-        gameObject.SetActive(false);
     }
 
 }

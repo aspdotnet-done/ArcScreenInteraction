@@ -35,16 +35,17 @@ public class VideoViewer : BaseViewer
     private int totalPage;
     public override void Show()
     {
-        base.Show();
+        gameObject.SetActive(true);
         MediaPath mp = new MediaPath(currentData.mediaPath, MediaPathType.AbsolutePathOrURL);
         videoPlayer.OpenMedia(mp, true);
-        Debug.Log("PdfViewer Show");
+        Debug.Log("Video Show");
         canvasGroup.DOFade(1, 0.2f);
         currentPlayState = PlayState.Playing;
+
     }
     public override void Hide()
     {
-        base.Hide();
         canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
+        gameObject.SetActive(false);
     }
 }

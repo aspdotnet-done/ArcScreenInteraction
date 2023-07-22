@@ -38,7 +38,6 @@ public class ImageViewer : BaseViewer
     }
     public override void Show()
     {
-        base.Show();
         ResourceManager.Instance.GetTexture(currentData.mediaPath, (v) =>
         {
             image.texture = v;
@@ -46,11 +45,12 @@ public class ImageViewer : BaseViewer
             currentPlayState = PlayState.Playing;
         });
         Debug.Log("ImageViewer Show");
+        gameObject.SetActive(true);
     }
     public override void Hide()
     {
-        base.Hide();
         canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
+        gameObject.SetActive(false);
     }
 
 

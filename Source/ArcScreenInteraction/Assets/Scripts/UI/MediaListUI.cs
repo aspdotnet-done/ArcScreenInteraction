@@ -23,6 +23,10 @@ public class MediaListUI : UI
 
     [SerializeField] Transform classesToggleParent;
     private List<Toggle> classesToggle = new List<Toggle>();
+    //小点
+    [SerializeField] Transform toggleSelectParent;
+    [SerializeField] GameObject toggleSelectPrefab;
+    [SerializeField] Transform contentParent;
 
 
 
@@ -59,8 +63,33 @@ public class MediaListUI : UI
     void OnSelectionChanged(int index)
     {
         currentIndex = index;
-        Debug.Log($"Selected item info: index {index}");
+        int selectCount = toggleSelectParent.childCount;
+        for (int i = 0; i < selectCount; i++)
+        {
+            Destroy(toggleSelectParent.GetChild(i).gameObject);
+        }
+        //Debug.Log($"Selected item info: index {index}");
         // selectedItemInfo.text = $"Selected item info: index {index}"
+        int count = contentParent.childCount;
+        for (int i = 0; i < count; i++)
+        {
+            if (contentParent.GetChild(i).gameObject.activeSelf)
+            {
+                GameObject ob = Instantiate(toggleSelectPrefab, toggleSelectParent);
+                ob.SetActive(true);
+                // if (contentParent.GetChild(i).GetComponent<CanvasGroup>().alpha > 0.9f)
+                // {
+                //     ob.GetComponent<Toggle>().isOn = true;
+                // }
+                // else
+                // {
+                //     ob.GetComponent<Toggle>().isOn = false;
+                // }
+                ob.GetComponent<Toggle>().group = toggleSelectParent.GetComponent<ToggleGroup>();
+
+            }
+        }
+
     }
     //显示父级界面
     public void InitMediaList(SecurityType securityType)
@@ -98,11 +127,7 @@ public class MediaListUI : UI
         }
 
         scrollView.UpdateData(itemDatas);
-        if (itemDatas.Count > 3)
-        {
-            scrollView.SelectCell(2);
-        }
-        else if (itemDatas.Count > 2)
+        if (itemDatas.Count > 2)
         {
             scrollView.SelectCell(1);
         }
