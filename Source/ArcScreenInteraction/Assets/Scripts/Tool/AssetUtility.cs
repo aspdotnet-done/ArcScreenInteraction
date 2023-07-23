@@ -26,15 +26,76 @@ public static class AssetUtility
     }
     public static string GetAnfangFolder()
     {
-        return string.Format(AssetResourcesDir + "Medias/anfang/");
+        return string.Format(AssetResourcesDir + "Medias/安防数据/");
     }
     public static string GetRenfangFolder()
     {
-        return string.Format(AssetResourcesDir + "Medias/renfang/");
+        return string.Format(AssetResourcesDir + "Medias/人防数据/");
     }
     public static string GetXiaofangFolder()
     {
-        return string.Format(AssetResourcesDir + "Medias/xiaofang/");
+        return string.Format(AssetResourcesDir + "Medias/消防数据/");
+    }
+
+    public static string GetMainBgFolder()
+    {
+        return string.Format(AssetResourcesDir + "Medias/主页数据/");
+    }
+    public static string GetMainContentJson()
+    {
+        if (File.Exists(AssetResourcesDir + "Medias/主页数据/描述.json"))
+        {
+            // FileInfo file = new FileInfo(AssetResourcesDir + "Medias/主页数据/描述.json");
+            // return string.Format(AssetResourcesDir + "Medias/主页数据/描述.json");
+            //读取路径的json文件并返回字符串格式
+            StreamReader sr = new StreamReader(AssetResourcesDir + "Medias/主页数据/描述.json");
+            string str = sr.ReadToEnd();
+            sr.Close();
+            Debug.Log(str);
+            return str;
+        }
+        else
+            return "";
+    }
+
+    //读取安防文件夹的json文件并返回字符串格式
+    public static string GetAnfangContentJson()
+    {
+        if (File.Exists(AssetResourcesDir + "Medias/安防数据/描述.json"))
+        {
+            StreamReader sr = new StreamReader(AssetResourcesDir + "Medias/安防数据/描述.json");
+            string str = sr.ReadToEnd();
+            sr.Close();
+            return str;
+        }
+        else
+            return "";
+    }
+    //读取人防文件夹的json文件并返回字符串格式
+    public static string GetRenfangContentJson()
+    {
+        if (File.Exists(AssetResourcesDir + "Medias/人防数据/描述.json"))
+        {
+            StreamReader sr = new StreamReader(AssetResourcesDir + "Medias/人防数据/描述.json");
+            string str = sr.ReadToEnd();
+            sr.Close();
+            return str;
+        }
+        else
+            return "";
+    }
+    //读取消防文件夹的json文件并返回字符串格式
+    public static string GetXiaofangContentJson()
+    {
+        if (File.Exists(AssetResourcesDir + "Medias/消防数据/描述.json"))
+        {
+            StreamReader sr = new StreamReader(AssetResourcesDir + "Medias/消防数据/描述.json");
+            string str = sr.ReadToEnd();
+            sr.Close();
+            return str;
+        }
+        else
+            return "";
     }
 
     public static string GetSystemConfig()

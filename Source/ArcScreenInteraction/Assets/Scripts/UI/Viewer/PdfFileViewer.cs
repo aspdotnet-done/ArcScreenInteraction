@@ -141,12 +141,13 @@ public class PdfFileViewer : BaseViewer
     {
 
         float aspectRatio = (float)image.texture.width / (float)image.texture.height;
-        float newHeight = Mathf.Min(maxHeight, image.texture.height);
+        //float newHeight = Mathf.Min(maxHeight, image.texture.height);
+        float newHeight = maxHeight;
         float newWidth = newHeight * aspectRatio;
-        if (newHeight < image.texture.height)
-        {
-            image.rectTransform.sizeDelta = new Vector2(newWidth, newHeight);
-        }
+        // if (newHeight < image.texture.height)
+        // {
+        image.rectTransform.sizeDelta = new Vector2(newWidth, newHeight);
+        // }
     }
     private float innerDelay
     {

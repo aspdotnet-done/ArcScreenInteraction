@@ -8,6 +8,7 @@ public class MediaData
     public string title;
     public string folder;
     public string condition;
+    public string bgPath;
     public List<Media> medias = new List<Media>();
     public List<string> classes = new List<string>();
 

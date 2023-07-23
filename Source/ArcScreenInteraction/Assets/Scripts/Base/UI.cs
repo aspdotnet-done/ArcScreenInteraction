@@ -57,8 +57,11 @@ public class UI : MonoBehaviour
     {
         if (hideMode == HideMode.Fade)
         {
-            Panel.GetComponent<CanvasGroup>().alpha = 0;
-            Panel.GetComponent<CanvasGroup>().DOFade(1, showDuration);
+            if (CurrentState != UIState.Show)
+            {
+                Panel.GetComponent<CanvasGroup>().alpha = 0;
+                Panel.GetComponent<CanvasGroup>().DOFade(1, showDuration);
+            }
         }
         else
         {

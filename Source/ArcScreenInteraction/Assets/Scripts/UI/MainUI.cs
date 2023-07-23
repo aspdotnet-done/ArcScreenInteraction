@@ -68,9 +68,135 @@ public class MainUI : UI
     [SerializeField] Slider outerDelaySlider = default;
     [SerializeField] Text outerDelayText = default;
     [SerializeField] Button confirmButton = default;
+    [SerializeField] RawImage bgImage = default;
+    [SerializeField] Text topicTitle = default;
+    [SerializeField] Text topicContent = default;
+    [SerializeField] GameObject topicMoudle = default;
 
 
     private SystemData currentSystemData;
+    List<Texture2D> bgs = new List<Texture2D>();
+
+    IEnumerator Start()
+    {
+        yield return ResourceManager.Instance != null;
+        //yield return new WaitUntil(() => MediaManager.Instance != null);
+        GetMainBg();
+    }
+
+
+    private void GetMainBg()
+    {
+        bgs = new List<Texture2D>();
+        ResourceManager.Instance.GetBackgroundList((d) =>
+        {
+            ResourceManager.Instance.GetTextureList(d, (t) =>
+            {
+                bgs = t;
+                if (t.Count > 0)
+                    bgImage.texture = bgs[0];
+                if (t.Count > 1)
+                {
+                    if (loopMainBgCoroutine != null)
+                        StopCoroutine(loopMainBgCoroutine);
+                    loopMainBgCoroutine = StartCoroutine(LoopMainBg());
+                }
+            });
+        });
+        if (!string.IsNullOrEmpty(AssetUtility.GetMainContentJson()))
+        {
+            Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetMainContentJson());
+            topicContent.text = t.Description;
+            topicTitle.text = t.Title;
+            topicMoudle.SetActive(true);
+        }
+        else
+        {
+            topicMoudle.SetActive(false);
+        }
+    }
+
+    private void GetAnfangBg()
+    {
+        if (loopMainBgCoroutine != null)
+            StopCoroutine(loopMainBgCoroutine);
+        ResourceManager.Instance.GetTexture(AssetUtility.GetAnfangFolder() + "bg.png", (t) =>
+        {
+            if (t != null)
+                bgImage.texture = t;
+        });
+        if (!string.IsNullOrEmpty(AssetUtility.GetAnfangContentJson()))
+        {
+            Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetAnfangContentJson());
+            topicContent.text = t.Description;
+            topicTitle.text = t.Title;
+            topicMoudle.SetActive(true);
+        }
+        else
+        {
+            topicMoudle.SetActive(false);
+        }
+    }
+    private void GetXiaofangBg()
+    {
+        if (loopMainBgCoroutine != null)
+            StopCoroutine(loopMainBgCoroutine);
+        ResourceManager.Instance.GetTexture(AssetUtility.GetXiaofangFolder() + "bg.png", (t) =>
+        {
+            if (t != null)
+                bgImage.texture = t;
+        });
+        if (!string.IsNullOrEmpty(AssetUtility.GetXiaofangContentJson()))
+        {
+            Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetXiaofangContentJson());
+            topicContent.text = t.Description;
+            topicTitle.text = t.Title;
+            topicMoudle.SetActive(true);
+        }
+        else
+        {
+            topicMoudle.SetActive(false);
+        }
+    }
+    private void GetRenfangBg()
+    {
+        if (loopMainBgCoroutine != null)
+            StopCoroutine(loopMainBgCoroutine);
+        ResourceManager.Instance.GetTexture(AssetUtility.GetRenfangFolder() + "bg.png", (t) =>
+        {
+            if (t != null)
+                bgImage.texture = t;
+        });
+        if (!string.IsNullOrEmpty(AssetUtility.GetRenfangContentJson()))
+        {
+            Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetRenfangContentJson());
+            topicContent.text = t.Description;
+            topicTitle.text = t.Title;
+            topicMoudle.SetActive(true);
+        }
+        else
+        {
+            topicMoudle.SetActive(false);
+        }
+    }
+
+
+
+    [SerializeField] public float delayTime = 5f;
+    private int index = 0;
+    Coroutine loopMainBgCoroutine;
+    IEnumerator LoopMainBg()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(delayTime);
+            index++;
+            if (index >= bgs.Count)
+                index = 0;
+            bgImage.texture = bgs[index];
+        }
+    }
+
     private void OnEnable()
     {
         AnfangBtn.onValueChanged.AddListener(AnfangClick);
@@ -125,6 +251,7 @@ public class MainUI : UI
             ui.InitMediaList(SecurityType.anfang);
             ui.InitClasses();
             ui.ShowUI();
+            GetAnfangBg();
         }
 
     }
@@ -137,6 +264,7 @@ public class MainUI : UI
             ui.InitMediaList(SecurityType.xiaofang);
             ui.InitClasses();
             ui.ShowUI();
+            GetXiaofangBg();
         }
     }
     void RenfangClick(bool ison)
@@ -148,6 +276,7 @@ public class MainUI : UI
             ui.InitMediaList(SecurityType.renfang);
             ui.InitClasses();
             ui.ShowUI();
+            GetRenfangBg();
         }
     }
 
@@ -158,6 +287,8 @@ public class MainUI : UI
             title.text = "总览";
             MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
             ui.HideUI();
+
+            GetMainBg();
         }
     }
 

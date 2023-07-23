@@ -227,6 +227,23 @@ public class ResourceManager : Singleton<ResourceManager>
             complete?.Invoke(datas);
         }
     }
+
+    public void GetBackgroundList(Action<List<string>> complete)
+    {
+        DirectoryInfo di = new DirectoryInfo(AssetUtility.GetMainBgFolder());
+        FileInfo[] fis = di.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension == ".jpg" || s.Extension == ".png").ToArray();
+        List<string> list = new List<string>();
+        foreach (var i in fis)
+        {
+            if (i.Extension == ".jpg" || i.Extension == ".png")
+            {
+                list.Add(i.FullName);
+            }
+        }
+        complete.Invoke(list);
+    }
+
+
     /// <summary>
     /// 根据文件夹层级生成媒体数据存储
     /// </summary>
@@ -243,7 +260,14 @@ public class ResourceManager : Singleton<ResourceManager>
             data.id = 0;
             data.title = "安防";
             data.folder = AssetUtility.GetAnfangFolder();
-            data.condition = "安防数据";
+            //获取描述文件
+            data.condition = AssetUtility.GetAnfangContentJson();
+            //背景图是否存在
+            if (File.Exists(AssetUtility.GetAnfangFolder() + "bg.png"))
+            {
+                data.bgPath = AssetUtility.GetAnfangFolder() + "bg.png";
+            }
+
             Media media = new Media();
             //获取di文件夹下的文件夹
             DirectoryInfo[] dis = di.GetDirectories();
@@ -260,7 +284,7 @@ public class ResourceManager : Singleton<ResourceManager>
                         media = new Media();
                         media.mediaType = MediaType.picture;
                         media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.coverPath = AssetUtility.GetAnfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
                         media.mediaPath = i.FullName;
                         media.mediaClass = f.Name;
                         data.medias.Add(media);
@@ -270,7 +294,7 @@ public class ResourceManager : Singleton<ResourceManager>
                         media = new Media();
                         media.mediaType = MediaType.video;
                         media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.coverPath = AssetUtility.GetAnfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
                         media.mediaPath = i.FullName;
                         media.mediaClass = f.Name;
                         data.medias.Add(media);
@@ -280,7 +304,7 @@ public class ResourceManager : Singleton<ResourceManager>
                         media = new Media();
                         media.mediaType = MediaType.pdf;
                         media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.coverPath = AssetUtility.GetAnfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
                         media.mediaPath = i.FullName;
                         media.mediaClass = f.Name;
                         data.medias.Add(media);
@@ -310,7 +334,13 @@ public class ResourceManager : Singleton<ResourceManager>
             data.id = 0;
             data.title = "消防";
             data.folder = AssetUtility.GetXiaofangFolder();
-            data.condition = "消防数据";
+            //获取描述文件
+            data.condition = AssetUtility.GetXiaofangFolder();
+            //背景图是否存在
+            if (File.Exists(AssetUtility.GetXiaofangFolder() + "bg.png"))
+            {
+                data.bgPath = AssetUtility.GetXiaofangFolder() + "bg.png";
+            }
             Media media = new Media();
             //获取di文件夹下的文件夹
             DirectoryInfo[] dis = di2.GetDirectories();
@@ -327,7 +357,7 @@ public class ResourceManager : Singleton<ResourceManager>
                         media = new Media();
                         media.mediaType = MediaType.picture;
                         media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.coverPath = AssetUtility.GetXiaofangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
                         media.mediaPath = i.FullName;
                         media.mediaClass = f.Name;
                         data.medias.Add(media);
@@ -337,7 +367,7 @@ public class ResourceManager : Singleton<ResourceManager>
                         media = new Media();
                         media.mediaType = MediaType.video;
                         media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.coverPath = AssetUtility.GetXiaofangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
                         media.mediaPath = i.FullName;
                         media.mediaClass = f.Name;
                         data.medias.Add(media);
@@ -347,7 +377,7 @@ public class ResourceManager : Singleton<ResourceManager>
                         media = new Media();
                         media.mediaType = MediaType.pdf;
                         media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.coverPath = AssetUtility.GetXiaofangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
                         media.mediaPath = i.FullName;
                         media.mediaClass = f.Name;
                         data.medias.Add(media);
@@ -369,15 +399,21 @@ public class ResourceManager : Singleton<ResourceManager>
         }
 
         data = new MediaData();
-        //遍历消防文件夹
-        DirectoryInfo di3 = new DirectoryInfo(AssetUtility.GetXiaofangFolder());
+        //遍历人防文件夹
+        DirectoryInfo di3 = new DirectoryInfo(AssetUtility.GetRenfangFolder());
         if (di3.Exists)
         {
 
             data.id = 0;
-            data.title = "消防";
+            data.title = "人防";
             data.folder = AssetUtility.GetRenfangFolder();
-            data.condition = "消防数据";
+            //获取描述文件
+            data.condition = AssetUtility.GetRenfangFolder();
+            //背景图是否存在
+            if (File.Exists(AssetUtility.GetRenfangFolder() + "bg.png"))
+            {
+                data.bgPath = AssetUtility.GetRenfangFolder() + "bg.png";
+            }
             Media media = new Media();
             //获取di文件夹下的文件夹
             DirectoryInfo[] dis = di3.GetDirectories();
@@ -944,4 +980,10 @@ public enum DownloadType
     Downloading,
     Complete,
     Fail
+}
+[System.Serializable]
+public class Topic
+{
+    public string Title;
+    public string Description;
 }
