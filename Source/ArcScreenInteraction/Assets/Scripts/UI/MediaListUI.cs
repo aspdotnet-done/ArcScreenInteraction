@@ -15,7 +15,7 @@ public class MediaListUI : UI
             return hideBtn;
         }
     }
-    [SerializeField] ScrollView scrollView = default;
+    //[SerializeField] ScrollView scrollView = default;
     [SerializeField] Button prevCellButton = default;
     [SerializeField] Button nextCellButton = default;
     [SerializeField] Button playButton = default;
@@ -27,18 +27,42 @@ public class MediaListUI : UI
     [SerializeField] Transform toggleSelectParent;
     [SerializeField] GameObject toggleSelectPrefab;
     [SerializeField] Transform contentParent;
+    List<Toggle> toggleSelectList = new List<Toggle>();
+    //列表 
+    private int currentIndex = 0;
+    private int totalPage = 0;
+    private int currentPage = 0;
+    private int pageSize = 4;
+    [SerializeField] private GameObject cellPrefab;
+    private List<GameObject> cells = new List<GameObject>();
 
 
 
     private void OnEnable()
     {
-
-
         HideBtn.onClick.AddListener(HideClick);
-        prevCellButton.onClick.AddListener(scrollView.SelectPrevCell);
-        nextCellButton.onClick.AddListener(scrollView.SelectNextCell);
-        scrollView.OnSelectionChanged(OnSelectionChanged);
+        prevCellButton.onClick.AddListener(LastPage);
+        nextCellButton.onClick.AddListener(NextPage);
 
+    }
+
+    private void NextPage()
+    {
+        if (currentPage < totalPage - 1)
+        {
+            currentPage++;
+            //ChangePage();
+            toggleSelectList[currentPage].isOn = true;
+        }
+
+    }
+    private void LastPage()
+    {
+        if (currentPage > 0)
+        {
+            currentPage--;
+            toggleSelectList[currentPage].isOn = true;
+        }
     }
 
 
@@ -46,7 +70,7 @@ public class MediaListUI : UI
     private List<Media> MediaList = new List<Media>();
     private Media currentMediaData;
 
-    private int currentIndex = 0;
+
 
     private void ShowConfirmPanel()
     {
@@ -60,37 +84,7 @@ public class MediaListUI : UI
         HideUI();
     }
 
-    void OnSelectionChanged(int index)
-    {
-        currentIndex = index;
-        int selectCount = toggleSelectParent.childCount;
-        for (int i = 0; i < selectCount; i++)
-        {
-            Destroy(toggleSelectParent.GetChild(i).gameObject);
-        }
-        //Debug.Log($"Selected item info: index {index}");
-        // selectedItemInfo.text = $"Selected item info: index {index}"
-        int count = contentParent.childCount;
-        for (int i = 0; i < count; i++)
-        {
-            if (contentParent.GetChild(i).gameObject.activeSelf)
-            {
-                GameObject ob = Instantiate(toggleSelectPrefab, toggleSelectParent);
-                ob.SetActive(true);
-                // if (contentParent.GetChild(i).GetComponent<CanvasGroup>().alpha > 0.9f)
-                // {
-                //     ob.GetComponent<Toggle>().isOn = true;
-                // }
-                // else
-                // {
-                //     ob.GetComponent<Toggle>().isOn = false;
-                // }
-                ob.GetComponent<Toggle>().group = toggleSelectParent.GetComponent<ToggleGroup>();
 
-            }
-        }
-
-    }
     //显示父级界面
     public void InitMediaList(SecurityType securityType)
     {
@@ -120,22 +114,79 @@ public class MediaListUI : UI
 
     private void InitMediaList(List<Media> medias)
     {
-        List<ItemData> itemDatas = new List<ItemData>();
+
+        foreach (var c in cells)
+        {
+            Destroy(c);
+        }
+        cells.Clear();
         foreach (var i in medias)
         {
-            itemDatas.Add(new ItemData(i, ShowDetailMedia));
+
+            GameObject cell = Instantiate(cellPrefab, contentParent);
+            cell.GetComponent<CellView>().Init(i, ShowDetailMedia);
+            cells.Add(cell);
+        }
+        totalPage = (int)Math.Ceiling((float)cells.Count / pageSize);
+        ChangePage();
+        InitDots();
+
+    }
+
+    private void ChangePage()
+    {
+        int count = contentParent.childCount;
+        for (int i = 0; i < count; i++)
+        {
+            contentParent.GetChild(i).gameObject.SetActive(false);
+        }
+        int start = currentPage * pageSize;
+        int end = (currentPage + 1) * pageSize;
+        if (end > cells.Count)
+        {
+            end = cells.Count;
+        }
+        for (int i = start; i < end; i++)
+        {
+            contentParent.GetChild(i).gameObject.SetActive(true);
         }
 
-        scrollView.UpdateData(itemDatas);
-        if (itemDatas.Count > 2)
+
+    }
+
+    private void InitDots()
+    {
+        bool flag = false;
+        foreach (var i in toggleSelectList)
         {
-            scrollView.SelectCell(1);
+            Destroy(i.gameObject);
         }
-        else
+        toggleSelectList.Clear();
+        //下面的小圆点
+        for (int i = 0; i < totalPage; i++)
         {
-            scrollView.SelectCell(0);
+            GameObject ob = Instantiate(toggleSelectPrefab, toggleSelectParent);
+            ob.SetActive(true);
+            ToggleCheck tc = ob.GetComponent<ToggleCheck>();
+            tc.index = i;
+            tc.CheckAction += OnToggle;
+            if (!flag)
+            {
+                flag = true;
+                ob.GetComponent<Toggle>().isOn = true;
+            }
+            toggleSelectList.Add(ob.GetComponent<Toggle>());
+            ob.GetComponent<Toggle>().group = toggleSelectParent.GetComponent<ToggleGroup>();
         }
     }
+
+    private void OnToggle(int page)
+    {
+        currentPage = page;
+        ChangePage();
+    }
+
+
 
 
     public void ShowDetailMedia(Media media)
@@ -177,10 +228,9 @@ public class MediaListUI : UI
         {
             MediaList.Clear();
             var index = classesToggle.FindIndex(x => x.isOn);
-            Debug.Log(index);
-            Debug.Log(currentMediaDatas.classes[index]);
             MediaList = currentMediaDatas.medias.FindAll(x => x.mediaClass == currentMediaDatas.classes[index]);
-            Debug.Log("MediaList.Count" + MediaList.Count);
+            currentPage = 0;
+            InitMediaList(MediaList);
         }
         else
         {
@@ -190,10 +240,12 @@ public class MediaListUI : UI
             if (i == -1)
             {
                 MediaList = CopyMedias(currentMediaDatas.medias);
+                currentPage = 0;
+                InitMediaList(MediaList);
             }
         }
 
-        InitMediaList(MediaList);
+
     }
     /// <summary>
     /// 需要复制一份，不然会改变原来的数据
@@ -224,9 +276,8 @@ public class MediaListUI : UI
     private void OnDisable()
     {
         HideBtn.onClick.RemoveListener(HideClick);
-        prevCellButton.onClick.RemoveListener(scrollView.SelectPrevCell);
-        nextCellButton.onClick.RemoveListener(scrollView.SelectNextCell);
-        scrollView.OnSelectionChanged(OnSelectionChanged);
+        prevCellButton.onClick.RemoveAllListeners();
+        nextCellButton.onClick.RemoveAllListeners();
         //playButton.onClick.RemoveListener(PlayClick);
 
     }
