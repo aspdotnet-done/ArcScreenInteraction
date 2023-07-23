@@ -51,7 +51,7 @@ public static class AssetUtility
             StreamReader sr = new StreamReader(AssetResourcesDir + "Medias/主页数据/描述.json");
             string str = sr.ReadToEnd();
             sr.Close();
-            Debug.Log(str);
+            //Debug.Log(str);
             return str;
         }
         else

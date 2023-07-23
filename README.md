@@ -22,16 +22,23 @@
   
 ## 文件夹说明
 ### Res/ 媒体文件夹
-#### Res/anfang/ 安防媒体文件夹
-#### Res/renfang/ 人防媒体文件夹
-#### Res/xiaofang/ 消防媒体文件夹
+#### Res/安防数据/ 安防媒体文件夹  
+#### Res/人防数据/ 人防媒体文件夹
+#### Res/消防数据/ 消防媒体文件夹
+#### Res/主页数据/ 主页数据文件夹
 ![大分类](src/1.png)
 
 #### Res/anfang/分类一/ 安防的分类文件夹 里面放置对应的媒体文件
-![小分类](src/2.png)
-对应界面中的筛选按钮
+![小分类](src/2.png)  
+对应界面中的筛选按钮  
 ![Alt text](src/3.jpg)
 ![Alt text](src/4.png)
+bg.png 为当前安防的背景图片 空则为默认背景  
+描述.json 为当前安防的描述文件 显示在左上角，格式如下图  
+![Alt text](src/7.png)  
+显示如下  
+![Alt text](src/8.png) 
+
 
 ### 缩略图文件夹
 ![Alt text](src/5.png)

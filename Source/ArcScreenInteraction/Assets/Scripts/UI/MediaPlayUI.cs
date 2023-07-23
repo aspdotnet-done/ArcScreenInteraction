@@ -167,18 +167,18 @@ public class MediaPlayUI : UI
         ui.ShowUI();
     }
 
-    // private void OnDisable()
-    // {
-    //     HideBtn.onClick.RemoveListener(HideClick);
-    //     LastBtn.onClick.RemoveListener(LastClick);
-    //     NextBtn.onClick.RemoveListener(NextCleck);
-    // }
+
     private List<Media> currentDatas;
     private int currentIndex = 0;
-    public void Init(List<Media> datas, int index)
+    public void Init(List<Media> datas, Media media)
     {
 
         Debug.Log("InitMedia");
+        //获取media在datas中的索引
+        int index = datas.FindIndex((item) =>
+        {
+            return item.mediaName == media.mediaName;
+        });
         currentDatas = datas;
         currentIndex = index;
 

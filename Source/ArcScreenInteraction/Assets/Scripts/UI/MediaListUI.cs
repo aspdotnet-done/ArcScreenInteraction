@@ -29,7 +29,6 @@ public class MediaListUI : UI
     [SerializeField] Transform contentParent;
     List<Toggle> toggleSelectList = new List<Toggle>();
     //列表 
-    private int currentIndex = 0;
     private int totalPage = 0;
     private int currentPage = 0;
     private int pageSize = 4;
@@ -80,7 +79,7 @@ public class MediaListUI : UI
     private void PlayClick()
     {
         MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
-        ui.Init(MediaList, currentIndex);
+        ui.Init(MediaList, currentMediaData);
         HideUI();
     }
 
@@ -120,14 +119,18 @@ public class MediaListUI : UI
             Destroy(c);
         }
         cells.Clear();
+        int j = 0;
         foreach (var i in medias)
         {
-
+            j++;
             GameObject cell = Instantiate(cellPrefab, contentParent);
+            cell.name = "cell" + j;
             cell.GetComponent<CellView>().Init(i, ShowDetailMedia);
             cells.Add(cell);
         }
         totalPage = (int)Math.Ceiling((float)cells.Count / pageSize);
+        currentPage = 0;
+        Debug.Log("totalPage:" + totalPage);
         ChangePage();
         InitDots();
 
@@ -135,10 +138,10 @@ public class MediaListUI : UI
 
     private void ChangePage()
     {
-        int count = contentParent.childCount;
+        int count = cells.Count;
         for (int i = 0; i < count; i++)
         {
-            contentParent.GetChild(i).gameObject.SetActive(false);
+            cells[i].SetActive(false);
         }
         int start = currentPage * pageSize;
         int end = (currentPage + 1) * pageSize;
@@ -146,11 +149,12 @@ public class MediaListUI : UI
         {
             end = cells.Count;
         }
-        for (int i = start; i < end; i++)
-        {
-            contentParent.GetChild(i).gameObject.SetActive(true);
-        }
+        Debug.Log("start:" + start + "end:" + end + "cells.Count:" + cells.Count);
 
+        for (int j = start; j < end; j++)
+        {
+            cells[j].SetActive(true);
+        }
 
     }
 
@@ -235,10 +239,12 @@ public class MediaListUI : UI
         else
         {
             int i = -1;
-            MediaList.Clear();
+
             i = classesToggle.FindIndex(x => x.isOn);
+            Debug.Log("是否为-1:" + i);
             if (i == -1)
             {
+                MediaList.Clear();
                 MediaList = CopyMedias(currentMediaDatas.medias);
                 currentPage = 0;
                 InitMediaList(MediaList);
