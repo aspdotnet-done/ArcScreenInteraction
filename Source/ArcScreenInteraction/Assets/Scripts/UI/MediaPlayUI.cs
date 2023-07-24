@@ -50,6 +50,22 @@ public class MediaPlayUI : UI
         }
     }
 
+    public bool isOncePlay
+    {
+        get
+        {
+            return MediaManager.Instance.setupDataScriptableAsset.data.setupData.loopType == LoopType.LoopOnce;
+        }
+    }
+
+    public bool isSingle
+    {
+        get
+        {
+            return MediaManager.Instance.setupDataScriptableAsset.data.setupData.loopType == LoopType.Single;
+        }
+    }
+
 
 
     private void Start()
@@ -64,6 +80,8 @@ public class MediaPlayUI : UI
     public float activeTime = 5f;
     private void Update()
     {
+        if (isSingle)
+            return;
         if (Input.GetMouseButtonDown(0))
         {
             lastClickTime = 0;
@@ -172,7 +190,8 @@ public class MediaPlayUI : UI
     private int currentIndex = 0;
     public void Init(List<Media> datas, Media media)
     {
-
+        lastClickTime = 0;
+        timer = 0;
         Debug.Log("InitMedia");
         //获取media在datas中的索引
         int index = datas.FindIndex((item) =>

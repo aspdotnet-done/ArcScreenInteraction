@@ -67,8 +67,11 @@ public class MainUI : UI
     [SerializeField] Text innerDelayText = default;
     [SerializeField] Slider outerDelaySlider = default;
     [SerializeField] Text outerDelayText = default;
+    [SerializeField] Slider mainDelaySlider = default;
+    [SerializeField] Text mainDelayText = default;
     [SerializeField] Button confirmButton = default;
     [SerializeField] RawImage bgImage = default;
+    [SerializeField] RawImage bg2Image = default;
     [SerializeField] Text topicTitle = default;
     [SerializeField] Text topicContent = default;
     [SerializeField] GameObject topicMoudle = default;
@@ -94,7 +97,11 @@ public class MainUI : UI
             {
                 bgs = t;
                 if (t.Count > 0)
+                {
                     bgImage.texture = bgs[0];
+                    bgImage.color = new Color(1, 1, 1, 1);
+                    bg2Image.color = new Color(1, 1, 1, 0);
+                }
                 if (t.Count > 1)
                 {
                     if (loopMainBgCoroutine != null)
@@ -123,7 +130,11 @@ public class MainUI : UI
         ResourceManager.Instance.GetTexture(AssetUtility.GetAnfangFolder() + "bg.png", (t) =>
         {
             if (t != null)
+            {
                 bgImage.texture = t;
+                bgImage.color = new Color(1, 1, 1, 1);
+                bg2Image.color = new Color(1, 1, 1, 0);
+            }
         });
         if (!string.IsNullOrEmpty(AssetUtility.GetAnfangContentJson()))
         {
@@ -144,7 +155,11 @@ public class MainUI : UI
         ResourceManager.Instance.GetTexture(AssetUtility.GetXiaofangFolder() + "bg.png", (t) =>
         {
             if (t != null)
+            {
                 bgImage.texture = t;
+                bgImage.color = new Color(1, 1, 1, 1);
+                bg2Image.color = new Color(1, 1, 1, 0);
+            }
         });
         if (!string.IsNullOrEmpty(AssetUtility.GetXiaofangContentJson()))
         {
@@ -165,7 +180,11 @@ public class MainUI : UI
         ResourceManager.Instance.GetTexture(AssetUtility.GetRenfangFolder() + "bg.png", (t) =>
         {
             if (t != null)
+            {
                 bgImage.texture = t;
+                bgImage.color = new Color(1, 1, 1, 1);
+                bg2Image.color = new Color(1, 1, 1, 0);
+            }
         });
         if (!string.IsNullOrEmpty(AssetUtility.GetRenfangContentJson()))
         {
@@ -182,18 +201,35 @@ public class MainUI : UI
 
 
 
-    [SerializeField] public float delayTime = 5f;
     private int index = 0;
     Coroutine loopMainBgCoroutine;
+    bool isBg = true;
     IEnumerator LoopMainBg()
     {
+        isBg = true;
+        bgImage.color = new Color(1, 1, 1, 1);
+        bg2Image.color = new Color(1, 1, 1, 0);
         while (true)
         {
-            yield return new WaitForSeconds(delayTime);
+            yield return new WaitForSeconds(mainDelay);
             index++;
             if (index >= bgs.Count)
                 index = 0;
-            bgImage.texture = bgs[index];
+            if (isBg)
+            {
+                isBg = false;
+                bg2Image.texture = bgs[index];
+                bg2Image.DOFade(1, 2.5f);
+                bgImage.DOFade(0, 2.5f);
+            }
+            else
+            {
+                isBg = true;
+                bgImage.texture = bgs[index];
+                bgImage.DOFade(1, 2.5f);
+                bg2Image.DOFade(0, 2.5f);
+            }
+            yield return new WaitForSeconds(2.5f);
         }
     }
 
@@ -206,6 +242,7 @@ public class MainUI : UI
         loopTypeDropdown.onValueChanged.AddListener(LoopTypeChange);
         innerDelaySlider.onValueChanged.AddListener(InnerDelayChange);
         outerDelaySlider.onValueChanged.AddListener(OuterDelayChange);
+        mainDelaySlider.onValueChanged.AddListener(MainDelayChange);
         StartCoroutine(InitData());
     }
 
@@ -240,6 +277,12 @@ public class MainUI : UI
         MediaManager.Instance.setupDataScriptableAsset.data.setupData.outerDelay = v;
         MediaManager.Instance.UpdateSetupAsset();
         outerDelayText.text = v.ToString();
+    }
+    private void MainDelayChange(float v)
+    {
+        MediaManager.Instance.setupDataScriptableAsset.data.setupData.mainDelay = v;
+        MediaManager.Instance.UpdateSetupAsset();
+        mainDelayText.text = v.ToString();
     }
 
     void AnfangClick(bool ison)
@@ -319,5 +362,13 @@ public class MainUI : UI
     public override void HideUI()
     {
         base.HideUI();
+    }
+
+    private float mainDelay
+    {
+        get
+        {
+            return MediaManager.Instance.setupDataScriptableAsset.data.setupData.mainDelay;
+        }
     }
 }

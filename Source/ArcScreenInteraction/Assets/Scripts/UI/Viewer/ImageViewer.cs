@@ -40,7 +40,7 @@ public class ImageViewer : BaseViewer
         ResourceManager.Instance.GetTexture(currentData.mediaPath, (v) =>
         {
             image.texture = v;
-            canvasGroup.DOFade(1, 0.2f);
+            canvasGroup.DOFade(1, 1f).SetDelay(0.5f);
             currentPlayState = PlayState.Playing;
             if (playImageCoroutine != null)
                 StopCoroutine(playImageCoroutine);
@@ -53,7 +53,7 @@ public class ImageViewer : BaseViewer
 
     public override void Hide()
     {
-        canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
+        canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.1f);
         gameObject.SetActive(false);
     }
 

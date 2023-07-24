@@ -97,7 +97,7 @@ public class PdfFileViewer : BaseViewer
         scrollView.UpdateData(items);
         scrollView.SelectCell(0);
         gameObject.SetActive(true);
-        canvasGroup.DOFade(1, 0.2f);
+        canvasGroup.DOFade(1, 1f).SetDelay(0.5f);
         currentPlayState = PlayState.Playing;
     }
 
@@ -121,7 +121,7 @@ public class PdfFileViewer : BaseViewer
     public override void Hide()
     {
         //Debug.Log("hidepdf");
-        canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
+        canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.1f);
         prevCellButton.onClick.RemoveAllListeners();
         nextCellButton.onClick.RemoveAllListeners();
         scrollView.OnSelectionChanged(null);
@@ -156,6 +156,5 @@ public class PdfFileViewer : BaseViewer
             return MediaManager.Instance.setupDataScriptableAsset.data.setupData.innerDelay;
         }
     }
-
 
 }

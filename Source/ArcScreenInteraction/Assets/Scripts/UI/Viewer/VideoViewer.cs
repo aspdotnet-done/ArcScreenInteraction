@@ -40,7 +40,7 @@ public class VideoViewer : BaseViewer
         MediaPath mp = new MediaPath(currentData.mediaPath, MediaPathType.AbsolutePathOrURL);
         videoPlayer.OpenMedia(mp, false);
         videoPlayer.Play();
-        canvasGroup.DOFade(1, 0.2f);
+        canvasGroup.DOFade(1, 1f).SetDelay(0.5f);
         currentPlayState = PlayState.Playing;
         videoPlayer.Events.AddListener(OnVideoEvent);
 
@@ -81,7 +81,7 @@ public class VideoViewer : BaseViewer
 
     public override void Hide()
     {
-        canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
+        canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.1f);
         gameObject.SetActive(false);
     }
 }
