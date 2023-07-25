@@ -134,6 +134,8 @@ public class MainUI : UI
                 bgImage.texture = t;
                 bgImage.color = new Color(1, 1, 1, 1);
                 bg2Image.color = new Color(1, 1, 1, 0);
+                ResizeImage(bgImage);
+                ResizeImage(bg2Image);
             }
         });
         if (!string.IsNullOrEmpty(AssetUtility.GetAnfangContentJson()))
@@ -159,6 +161,8 @@ public class MainUI : UI
                 bgImage.texture = t;
                 bgImage.color = new Color(1, 1, 1, 1);
                 bg2Image.color = new Color(1, 1, 1, 0);
+                ResizeImage(bgImage);
+                ResizeImage(bg2Image);
             }
         });
         if (!string.IsNullOrEmpty(AssetUtility.GetXiaofangContentJson()))
@@ -184,6 +188,8 @@ public class MainUI : UI
                 bgImage.texture = t;
                 bgImage.color = new Color(1, 1, 1, 1);
                 bg2Image.color = new Color(1, 1, 1, 0);
+                ResizeImage(bgImage);
+                ResizeImage(bg2Image);
             }
         });
         if (!string.IsNullOrEmpty(AssetUtility.GetRenfangContentJson()))
@@ -209,6 +215,8 @@ public class MainUI : UI
         isBg = true;
         bgImage.color = new Color(1, 1, 1, 1);
         bg2Image.color = new Color(1, 1, 1, 0);
+        ResizeImage(bgImage);
+        ResizeImage(bg2Image);
         while (true)
         {
             yield return new WaitForSeconds(mainDelay);
@@ -370,5 +378,18 @@ public class MainUI : UI
         {
             return MediaManager.Instance.setupDataScriptableAsset.data.setupData.mainDelay;
         }
+    }
+    public float maxWidth = 4576f;
+    private void ResizeImage(RawImage image)
+    {
+
+        float aspectRatio = (float)image.texture.height / (float)image.texture.width;
+        //float newHeight = Mathf.Min(maxHeight, image.texture.height);
+        float newWidth = maxWidth;
+        float newHeight = newWidth * aspectRatio;
+        // if (newHeight < image.texture.height)
+        // {
+        image.rectTransform.sizeDelta = new Vector2(newWidth, newHeight);
+        // }
     }
 }

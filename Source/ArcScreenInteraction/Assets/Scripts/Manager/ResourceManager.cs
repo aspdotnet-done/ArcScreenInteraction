@@ -231,7 +231,7 @@ public class ResourceManager : Singleton<ResourceManager>
     public void GetBackgroundList(Action<List<string>> complete)
     {
         DirectoryInfo di = new DirectoryInfo(AssetUtility.GetMainBgFolder());
-        FileInfo[] fis = di.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension == ".jpg" || s.Extension == ".png").ToArray();
+        FileInfo[] fis = di.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".jpeg").ToArray();
         List<string> list = new List<string>();
         foreach (var i in fis)
         {
