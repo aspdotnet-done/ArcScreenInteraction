@@ -150,6 +150,9 @@ public static class AssetUtility
             string dir = "";
 #if UNITY_EDITOR
             dir = Application.dataPath.Replace("/Assets", "");
+
+#elif UNITY_STANDALONE
+                            dir = Application.dataPath.Substring(0, Application.dataPath.LastIndexOf('/')+1);
 #elif UNITY_IOS
                             dir = Application.temporaryCachePath;//·Application/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/Library/Caches/
 #elif UNITY_ANDROID
