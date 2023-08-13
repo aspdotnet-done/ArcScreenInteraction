@@ -243,7 +243,7 @@ public class ResourceManager : Singleton<ResourceManager>
         complete.Invoke(list);
     }
 
-
+    public string backgroundFileName = "bg.jpg";
     /// <summary>
     /// 根据文件夹层级生成媒体数据存储
     /// </summary>
@@ -263,9 +263,9 @@ public class ResourceManager : Singleton<ResourceManager>
             //获取描述文件
             data.condition = AssetUtility.GetAnfangContentJson();
             //背景图是否存在
-            if (File.Exists(AssetUtility.GetAnfangFolder() + "bg.png"))
+            if (File.Exists(AssetUtility.GetAnfangFolder() + backgroundFileName))
             {
-                data.bgPath = AssetUtility.GetAnfangFolder() + "bg.png";
+                data.bgPath = AssetUtility.GetAnfangFolder() + backgroundFileName;
             }
 
             Media media = new Media();
@@ -337,9 +337,9 @@ public class ResourceManager : Singleton<ResourceManager>
             //获取描述文件
             data.condition = AssetUtility.GetXiaofangFolder();
             //背景图是否存在
-            if (File.Exists(AssetUtility.GetXiaofangFolder() + "bg.png"))
+            if (File.Exists(AssetUtility.GetXiaofangFolder() + backgroundFileName))
             {
-                data.bgPath = AssetUtility.GetXiaofangFolder() + "bg.png";
+                data.bgPath = AssetUtility.GetXiaofangFolder() + backgroundFileName;
             }
             Media media = new Media();
             //获取di文件夹下的文件夹
@@ -410,9 +410,9 @@ public class ResourceManager : Singleton<ResourceManager>
             //获取描述文件
             data.condition = AssetUtility.GetRenfangFolder();
             //背景图是否存在
-            if (File.Exists(AssetUtility.GetRenfangFolder() + "bg.png"))
+            if (File.Exists(AssetUtility.GetRenfangFolder() + backgroundFileName))
             {
-                data.bgPath = AssetUtility.GetRenfangFolder() + "bg.png";
+                data.bgPath = AssetUtility.GetRenfangFolder() + backgroundFileName;
             }
             Media media = new Media();
             //获取di文件夹下的文件夹

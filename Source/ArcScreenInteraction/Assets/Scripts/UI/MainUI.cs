@@ -79,7 +79,7 @@ public class MainUI : UI
 
     private SystemData currentSystemData;
     List<Texture2D> bgs = new List<Texture2D>();
-
+    public string backgroundFileName = "bg.jpg";
     IEnumerator Start()
     {
         yield return ResourceManager.Instance != null;
@@ -127,7 +127,7 @@ public class MainUI : UI
     {
         if (loopMainBgCoroutine != null)
             StopCoroutine(loopMainBgCoroutine);
-        ResourceManager.Instance.GetTexture(AssetUtility.GetAnfangFolder() + "bg.png", (t) =>
+        ResourceManager.Instance.GetTexture(AssetUtility.GetAnfangFolder() + backgroundFileName, (t) =>
         {
             if (t != null)
             {
@@ -154,7 +154,7 @@ public class MainUI : UI
     {
         if (loopMainBgCoroutine != null)
             StopCoroutine(loopMainBgCoroutine);
-        ResourceManager.Instance.GetTexture(AssetUtility.GetXiaofangFolder() + "bg.png", (t) =>
+        ResourceManager.Instance.GetTexture(AssetUtility.GetXiaofangFolder() + backgroundFileName, (t) =>
         {
             if (t != null)
             {
@@ -181,7 +181,7 @@ public class MainUI : UI
     {
         if (loopMainBgCoroutine != null)
             StopCoroutine(loopMainBgCoroutine);
-        ResourceManager.Instance.GetTexture(AssetUtility.GetRenfangFolder() + "bg.png", (t) =>
+        ResourceManager.Instance.GetTexture(AssetUtility.GetRenfangFolder() + backgroundFileName, (t) =>
         {
             if (t != null)
             {

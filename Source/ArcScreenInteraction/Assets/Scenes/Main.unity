@@ -2427,10 +2427,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1000, y: 720}
+  m_ReferenceResolution: {x: 4576, y: 1352}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -7276,7 +7276,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 200}
+  m_AnchoredPosition: {x: 0, y: 122}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &436479942
@@ -7487,6 +7487,7 @@ MonoBehaviour:
   topicTitle: {fileID: 186003996}
   topicContent: {fileID: 1143720831}
   topicMoudle: {fileID: 778629349}
+  backgroundFileName: bg.jpg
   maxWidth: 4576
 --- !u!1 &463826291
 GameObject:
@@ -11538,7 +11539,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: f939a8ed17203bb459cc90138bd19a80, type: 3}
+  m_Texture: {fileID: 2800000, guid: d702e5f0c02dfa642a3821f383f93181, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -14957,7 +14958,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -294}
+  m_AnchoredPosition: {x: 0, y: -294.00003}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1067787897
@@ -15611,7 +15612,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 16
+    m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -15621,9 +15622,8 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1.2
-  m_Text: "\u5357\u6D77\u533A\uFF0C\u5E7F\u4E1C\u7701\u4F5B\u5C71\u5E02\u8F96\u533A\uFF0C\u5730\u5904\u5E7F\u4E1C\u7701\u4E2D\u5357\u90E8\u3001\u73E0\u6C5F\u4E09\u89D2\u6D32\u8179\u5730\u3001\u4F5B\u5C71\u5E02\u4E1C\u5317\u90E8\u3002\r\u4E1C\u8FDE\u5E7F\u5DDE\u5E02\u533A\uFF0C\u897F\u90BB\u4E09\u6C34\u533A\u3001\u9AD8\u660E\u533A\uFF0C\u5357\u63A5\u987A\u5FB7\u533A\uFF0C\u4E0E\u6C5F\u95E8\u5E02\u84EC\u6C5F\u533A\u3001\u9E64\u5C71\u5E02\u9694\u897F\r\u6C5F\u76F8\u671B\uFF0C\u5317\u6FD2\u5E7F\u5DDE\u5E02\u82B1\u90FD\u533A\uFF0C\u4E2D\u5357\u90E8\u4E0E\u7985\u57CE\u533A\u63A5\u58E4\uFF0C\u8F96\u533A\u603B\u9762\u79EF1071.55\u5E73\u65B9\u5343\u7C73\u3002\r\u622A\u81F32020\u5E746\u6708\uFF0C\u5357\u6D77\u533A\u5171\u8F961\u4E2A\u8857\u90536\u4E2A\u9547\u3002
-    \u6839\u636E\u7B2C\u4E03\u6B21\u4EBA\u53E3\u666E\u67E5\u6570\u636E\uFF0C\u622A\u81F32020\r\u5E7411\u67081\u65E5\u96F6\u65F6\uFF0C\u5357\u6D77\u533A\u5E38\u4F4F\u4EBA\u53E3\u4E3A3667247\u4EBA"
+    m_LineSpacing: 1.56
+  m_Text: "\u5E7F\u4E1C\u5357\u6D77\u5B89\u5168\u79D1\u6280\u6295\u8D44\u63A7\u80A1\u6709\u9650\u516C\u53F8\u539F\u4E3A\u4F5B\u5C71\u5E02\u5357\u6D77\u533A\u4FDD\u5B89\u670D\u52A1\u603B\u516C\u53F8,\u4E8E1988\u5E74\u7ECF\u5357\u6D77\u53BF\u4EBA\u6C11\u653F\u5E9C\u6279\u51C6\u6210\u7ACB\u7684\u5168\u6C11\u6240\u6709\u5236\u4F01\u4E1A,2018\u5E742\u6708\u5F52\u5C5E\u4F5B\u5C71\u5E02\u5357\u6D77\u533A\u56FD\u6709\u8D44\u4EA7\u76D1\u7763\u7BA1\u7406\u5C40\u7BA1\u7406\u3002\u7ECF2021\u5E747\u6708\u5B8C\u6210\u4F01\u4E1A\u6539\u5236,\u7531\u539F\u6765\u7684\u5168\u6C11\u6240\u6709\u5236\u4F01\u4E1A\u6539\u5236\u4E3A\u56FD\u6709\u72EC\u8D44\u4F01\u4E1A,\u66F4\u540D\u4E3A\u5E7F\u4E1C\u5357\u6D77\u5B89\u5168\u79D1\u6280\u6295\u8D44\u63A7\u80A1\u6709\u9650\u516C\u53F8(\u4EE5\u4E0B\u7B80\u79F0\u201C\u5B89\u79D1\u63A7\u80A1\u516C\u53F8\u201D),\u5B89\u79D1\u63A7\u80A1\u516C\u53F8\u4E00\u76F4\u79C9\u627F\u201C\u79D1\u6280\u6C11\u751F\u4FC3\u53D1\u5C55,\u670D\u52A1\u5357\u6D77\u4FDD\u5E73\u5B89\u201D\u7684\u7ECF\u8425\u7406\u5FF5,\u7ECF\u8FC7\u4E09\u5341\u4F59\u5E74\u591A\u5143\u5316\u53D1\u5C55\u548C\u4E1A\u52A1\u4F18\u5316,\u9010\u6B65\u8F6C\u578B\u6210\u4E3A\u4E00\u5BB6\u6295\u8D44\u63A7\u80A1\u6027\u8D28\u7684\u96C6\u56E2\u516C\u53F8,\u65D7\u4E0B\u7ECF\u8425\u7684\u4EA7\u4E1A\u6DB5\u76D6\u667A\u6167\u79D1\u6280\u5B89\u9632\u3001\u98DF\u54C1\u52A0\u5DE5\u3001\u6D88\u9632\u5DE5\u7A0B\u3001\u673A\u52A8\u8F66\u68C0\u6D4B\u3001\u5370\u7AE0\u523B\u5236\u3001\u7EFC\u5408\u79D1\u7814\u3001\u571F\u58E4\u6CBB\u7406\u53CA\u5730\u4E0B\u6C34\u9632\u6CBB\u3001\u4FDD\u5B89\u7B49\u516B\u5927\u6C11\u751F\u548C\u5B89\u5168\u670D\u52A1\u9886\u57DF\u3002"
 --- !u!222 &1143720832
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23962,8 +23962,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -60.508026}
+  m_SizeDelta: {x: 0, y: -121.016}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1666911681
 GameObject:
@@ -24722,6 +24722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseTestData: 0
+  backgroundFileName: bg.jpg
 --- !u!1 &1739445887
 GameObject:
   m_ObjectHideFlags: 0
@@ -25076,8 +25077,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 149}
-  m_SizeDelta: {x: 1920, y: 977}
+  m_AnchoredPosition: {x: 0, y: 118.40197}
+  m_SizeDelta: {x: 1920, y: 915.804}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1748947434
 CanvasGroup:
