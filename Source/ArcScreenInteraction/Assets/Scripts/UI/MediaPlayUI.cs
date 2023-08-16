@@ -82,7 +82,7 @@ public class MediaPlayUI : UI
     {
         if (isSingle)
             return;
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return))
         {
             lastClickTime = 0;
             timer = 0;
@@ -183,6 +183,11 @@ public class MediaPlayUI : UI
         HideUI();
         MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
         ui.ShowUI();
+    }
+
+    public override void OnBack()
+    {
+        HideClick();
     }
 
 

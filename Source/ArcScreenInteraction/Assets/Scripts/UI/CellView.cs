@@ -23,6 +23,10 @@ public class CellView : MonoBehaviour
     {
         ClickAction?.Invoke(currentMedia);
     }
+    public void Select()
+    {
+        button.Select();
+    }
 
 
     public void Init(Media media, Action<Media> action)

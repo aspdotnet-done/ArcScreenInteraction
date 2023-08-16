@@ -29,6 +29,16 @@ public class MainUI : UI
         }
     }
 
+    private GameObject selection;
+    public GameObject Selection
+    {
+        get
+        {
+            if (selection == null) selection = transform.Find("Selection").gameObject;
+            return selection;
+        }
+    }
+
     private Toggle xiaofangBtn;
     public Toggle XiaofangBtn
     {
@@ -75,6 +85,7 @@ public class MainUI : UI
     [SerializeField] Text topicTitle = default;
     [SerializeField] Text topicContent = default;
     [SerializeField] GameObject topicMoudle = default;
+    [SerializeField] Button settingButton = default;
 
 
     private SystemData currentSystemData;
@@ -251,7 +262,26 @@ public class MainUI : UI
         innerDelaySlider.onValueChanged.AddListener(InnerDelayChange);
         outerDelaySlider.onValueChanged.AddListener(OuterDelayChange);
         mainDelaySlider.onValueChanged.AddListener(MainDelayChange);
+        settingButton.onClick.AddListener(SettingShow);
+        confirmButton.onClick.AddListener(ConfirmSettingClick);
         StartCoroutine(InitData());
+    }
+
+    public override void OnBack()
+    {
+        Debug.Log("main onback");
+    }
+
+    void SettingShow()
+    {
+        settingPanel.SetActive(true);
+        loopTypeDropdown.Select();
+    }
+
+    void ConfirmSettingClick()
+    {
+        settingPanel.SetActive(false);
+        defaultSelectComponent.Select();
     }
 
 
@@ -303,6 +333,7 @@ public class MainUI : UI
             ui.InitClasses();
             ui.ShowUI();
             GetAnfangBg();
+            HideUI();
         }
 
     }
@@ -316,6 +347,7 @@ public class MainUI : UI
             ui.InitClasses();
             ui.ShowUI();
             GetXiaofangBg();
+            HideUI();
         }
     }
     void RenfangClick(bool ison)
@@ -328,6 +360,7 @@ public class MainUI : UI
             ui.InitClasses();
             ui.ShowUI();
             GetRenfangBg();
+            HideUI();
         }
     }
 
@@ -335,12 +368,16 @@ public class MainUI : UI
     {
         if (ison)
         {
-            title.text = "总览";
-            MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
-            ui.HideUI();
-
-            GetMainBg();
+            Refresh();
         }
+    }
+
+    public void Refresh()
+    {
+        title.text = "总览";
+        MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+        ui.HideUI();
+        GetMainBg();
     }
 
 
@@ -353,6 +390,8 @@ public class MainUI : UI
         OverviewBtn.onValueChanged.AddListener(OverviewClick);
         innerDelaySlider.onValueChanged.RemoveAllListeners();
         loopTypeDropdown.onValueChanged.RemoveAllListeners();
+        settingButton.onClick.RemoveAllListeners();
+        confirmButton.onClick.RemoveAllListeners();
     }
     private void InitUI()
     {
@@ -360,16 +399,15 @@ public class MainUI : UI
     }
     public override void ShowUI()
     {
-
-
-        base.ShowUI();
-
-
+        //base.ShowUI();
+        Selection.SetActive(true);
+        Refresh();
     }
 
     public override void HideUI()
     {
-        base.HideUI();
+        //base.HideUI();
+        Selection.SetActive(false);
     }
 
     private float mainDelay

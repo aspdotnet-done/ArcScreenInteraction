@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public enum UIState
 {
@@ -36,6 +36,8 @@ public class UI : MonoBehaviour
     [Range(0, 2)] public float showDuration = 0.2f;
     [Range(0, 2)] public float hideDuration = 0.2f;
 
+    public Selectable defaultSelectComponent;
+
     public float HideHeight = 1080;
 
     private RectTransform panel;
@@ -50,6 +52,20 @@ public class UI : MonoBehaviour
             }
 
             return panel;
+        }
+    }
+
+    IEnumerator Start()
+    {
+        yield return new WaitUntil(() => AppManager.Instance != null);
+        AppManager.Instance.BackAction += OnBack;
+    }
+
+    public virtual void OnBack()
+    {
+        if (CurrentState == UIState.Show)
+        {
+            HideUI();
         }
     }
 
@@ -70,7 +86,11 @@ public class UI : MonoBehaviour
         }
         gameObject.SetActive(true);
         CurrentState = UIState.Show;
-        //Debug.Log("Show");
+        if (defaultSelectComponent != null)
+        {
+            defaultSelectComponent.Select();
+        }
+        Debug.Log("Show");
     }
 
     public virtual void HideUI()

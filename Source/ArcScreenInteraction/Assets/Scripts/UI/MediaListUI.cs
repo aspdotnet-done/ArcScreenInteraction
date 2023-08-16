@@ -126,6 +126,11 @@ public class MediaListUI : UI
             GameObject cell = Instantiate(cellPrefab, contentParent);
             cell.name = "cell" + j;
             cell.GetComponent<CellView>().Init(i, ShowDetailMedia);
+            if (j == 1)
+            {
+                //第一个 默认选中
+                cell.GetComponent<CellView>().Select();
+            }
             cells.Add(cell);
         }
         totalPage = (int)Math.Ceiling((float)cells.Count / pageSize);
@@ -224,6 +229,12 @@ public class MediaListUI : UI
             classesToggle.Add(toggle);
             toggle.onValueChanged.AddListener(classChanged);
         }
+    }
+
+    public override void OnBack()
+    {
+        MainUI ui = UIManager.Instance.GetUI(UIType.Main) as MainUI;
+        ui.ShowUI();
     }
 
     private void classChanged(bool isOn)

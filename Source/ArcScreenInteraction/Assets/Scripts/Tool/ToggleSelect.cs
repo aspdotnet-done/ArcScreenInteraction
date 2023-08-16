@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEditor.Experimental.GraphView;
 
 public class ToggleSelect : MonoBehaviour
 {
@@ -27,4 +29,8 @@ public class ToggleSelect : MonoBehaviour
 
     }
 
+    // public void OnSelect(BaseEventData eventData)
+    // {
+    //     toggle.isOn = true;
+    // }
 }
