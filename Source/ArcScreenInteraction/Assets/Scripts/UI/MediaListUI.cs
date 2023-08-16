@@ -150,14 +150,24 @@ public class MediaListUI : UI
         }
         ChangePage();
         InitDots();
-        contentWidth = 380 * cells.Count + 50 + 72 * (cells.Count - 1);
+        //contentWidth = 380 * cells.Count + 50 + 72 * (cells.Count - 1);
+        contentParent.anchoredPosition=new Vector2(0,contentParent.anchoredPosition.y);
     }
-    private float contentWidth = 0;
-
+    private float contentWidthOffset = 1357f;
+    int counter=1;
     public void CellViewSelect(Vector3 cellPosition)
     {
+        //2048
+        //3856
+        //3404-2048=1356
+        //2048-1356=692
         // float edge = 50 + (180 + 72)
-        // Debug.Log("cellPosition:" + cellPosition);
+         Debug.Log("cellPosition:" + cellPosition);
+         if(cellPosition.x==(692f+(1356f*counter)))
+         {
+            counter++;
+            contentParent.anchoredPosition -= new Vector2(contentWidthOffset,0);
+         }
     }
 
     private void ChangePage()
