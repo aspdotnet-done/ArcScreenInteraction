@@ -101,7 +101,7 @@ public class MainUI : UI
 
     private void GetMainBg()
     {
-        bgs = new List<Texture2D>();
+        bgs = null;
         ResourceManager.Instance.GetBackgroundList((d) =>
         {
             ResourceManager.Instance.GetTextureList(d, (t) =>
@@ -228,25 +228,34 @@ public class MainUI : UI
         bg2Image.color = new Color(1, 1, 1, 0);
         ResizeImage(bgImage);
         ResizeImage(bg2Image);
+
         while (true)
         {
+
             yield return new WaitForSeconds(mainDelay);
+            yield return new WaitUntil(() => bgs != null);
             index++;
             if (index >= bgs.Count)
                 index = 0;
             if (isBg)
             {
                 isBg = false;
-                bg2Image.texture = bgs[index];
-                bg2Image.DOFade(1, 2.5f);
-                bgImage.DOFade(0, 2.5f);
+                if (bgs[index] != null)
+                {
+                    bg2Image.texture = bgs[index];
+                    bg2Image.DOFade(1, 2.5f);
+                    bgImage.DOFade(0, 2.5f);
+                }
             }
             else
             {
                 isBg = true;
-                bgImage.texture = bgs[index];
-                bgImage.DOFade(1, 2.5f);
-                bg2Image.DOFade(0, 2.5f);
+                if (bgs[index] != null)
+                {
+                    bgImage.texture = bgs[index];
+                    bgImage.DOFade(1, 2.5f);
+                    bg2Image.DOFade(0, 2.5f);
+                }
             }
             yield return new WaitForSeconds(2.5f);
         }
@@ -401,6 +410,8 @@ public class MainUI : UI
     {
         //base.ShowUI();
         Selection.SetActive(true);
+        overviewBtn.Select();
+        overviewBtn.isOn = true;
         Refresh();
     }
 

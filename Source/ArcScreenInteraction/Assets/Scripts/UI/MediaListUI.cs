@@ -237,6 +237,15 @@ public class MediaListUI : UI
         ui.ShowUI();
     }
 
+    override public void ShowUI()
+    {
+        base.ShowUI();
+        if (cells.Count > 0)
+        {
+            cells[0].GetComponent<CellView>().Select();
+        }
+    }
+
     private void classChanged(bool isOn)
     {
         if (isOn)

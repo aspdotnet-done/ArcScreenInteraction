@@ -68,7 +68,7 @@ public class MediaPlayUI : UI
 
 
 
-    private void Start()
+    private void Awake()
     {
         HideBtn.onClick.AddListener(HideClick);
         LastBtn.onClick.AddListener(LastClick);
@@ -82,7 +82,7 @@ public class MediaPlayUI : UI
     {
         if (isSingle)
             return;
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             lastClickTime = 0;
             timer = 0;
@@ -187,6 +187,7 @@ public class MediaPlayUI : UI
 
     public override void OnBack()
     {
+        Debug.Log("HideMediaPlayUIByNav");
         HideClick();
     }
 
