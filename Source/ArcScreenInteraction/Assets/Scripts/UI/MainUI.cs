@@ -24,7 +24,7 @@ public class MainUI : UI
     {
         get
         {
-            if (overviewBtn == null) overviewBtn = transform.Find("Selection/overview/Toggle").GetComponent<Toggle>();
+            if (overviewBtn == null) overviewBtn = transform.Find("Selection/overview").GetComponent<Toggle>();
             return overviewBtn;
         }
     }
@@ -34,7 +34,7 @@ public class MainUI : UI
     {
         get
         {
-            if (xiaofangBtn == null) xiaofangBtn = transform.Find("Selection/xiaofang/Toggle").GetComponent<Toggle>();
+            if (xiaofangBtn == null) xiaofangBtn = transform.Find("Selection/xiaofang").GetComponent<Toggle>();
             return xiaofangBtn;
         }
     }
@@ -44,7 +44,7 @@ public class MainUI : UI
     {
         get
         {
-            if (anfangBtn == null) anfangBtn = transform.Find("Selection/anfang/Toggle").GetComponent<Toggle>();
+            if (anfangBtn == null) anfangBtn = transform.Find("Selection/anfang").GetComponent<Toggle>();
             return anfangBtn;
         }
     }
@@ -53,7 +53,7 @@ public class MainUI : UI
     {
         get
         {
-            if (renfangBtn == null) renfangBtn = transform.Find("Selection/renfang/Toggle").GetComponent<Toggle>();
+            if (renfangBtn == null) renfangBtn = transform.Find("Selection/renfang").GetComponent<Toggle>();
             return renfangBtn;
         }
     }
