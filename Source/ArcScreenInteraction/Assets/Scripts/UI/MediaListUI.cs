@@ -26,12 +26,12 @@ public class MediaListUI : UI
     //小点
     [SerializeField] Transform toggleSelectParent;
     [SerializeField] GameObject toggleSelectPrefab;
-    [SerializeField] Transform contentParent;
+    [SerializeField] RectTransform contentParent;
     List<Toggle> toggleSelectList = new List<Toggle>();
     //列表 
     private int totalPage = 0;
     private int currentPage = 0;
-    private int pageSize = 4;
+    private int pageSize = 100;
     [SerializeField] private GameObject cellPrefab;
     private List<GameObject> cells = new List<GameObject>();
 
@@ -50,8 +50,8 @@ public class MediaListUI : UI
         if (currentPage < totalPage - 1)
         {
             currentPage++;
-            //ChangePage();
             toggleSelectList[currentPage].isOn = true;
+
         }
 
     }
@@ -126,19 +126,38 @@ public class MediaListUI : UI
             GameObject cell = Instantiate(cellPrefab, contentParent);
             cell.name = "cell" + j;
             cell.GetComponent<CellView>().Init(i, ShowDetailMedia);
+            cell.GetComponent<CellView>().SelectAction += CellViewSelect;
             if (j == 1)
             {
                 //第一个 默认选中
                 cell.GetComponent<CellView>().Select();
             }
             cells.Add(cell);
+
         }
         totalPage = (int)Math.Ceiling((float)cells.Count / pageSize);
         currentPage = 0;
-        Debug.Log("totalPage:" + totalPage);
+        //Debug.Log("totalPage:" + totalPage);
+        prevCellButton.gameObject.SetActive(false);
+        if (cells.Count <= 4)
+        {
+            nextCellButton.gameObject.SetActive(false);
+            prevCellButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            nextCellButton.gameObject.SetActive(true);
+        }
         ChangePage();
         InitDots();
+        contentWidth = 380 * cells.Count + 50 + 72 * (cells.Count - 1);
+    }
+    private float contentWidth = 0;
 
+    public void CellViewSelect(Vector3 cellPosition)
+    {
+        // float edge = 50 + (180 + 72)
+        // Debug.Log("cellPosition:" + cellPosition);
     }
 
     private void ChangePage()

@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System;
-public class CellView : MonoBehaviour
+using UnityEngine.EventSystems;
+public class CellView : MonoBehaviour, ISelectHandler
 {
     [SerializeField] RawImage image = default;
     [SerializeField] Text message = default;
@@ -65,5 +66,10 @@ public class CellView : MonoBehaviour
             default:
                 break;
         }
+    }
+    public Action<Vector3> SelectAction;
+    public void OnSelect(BaseEventData eventData)
+    {
+        SelectAction?.Invoke(GetComponent<RectTransform>().anchoredPosition);
     }
 }
