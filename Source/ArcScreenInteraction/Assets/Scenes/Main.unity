@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731715, g: 0.13414735, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -646,6 +646,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectScale: 1.1
+  autoSelect: 0
+  button: {fileID: 0}
 --- !u!1 &29771313
 GameObject:
   m_ObjectHideFlags: 0
@@ -6152,6 +6155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectScale: 1.1
+  autoSelect: 0
+  button: {fileID: 0}
 --- !u!1 &374030554
 GameObject:
   m_ObjectHideFlags: 0
@@ -6810,7 +6816,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 730}
+  m_AnchoredPosition: {x: 0, y: 610}
   m_SizeDelta: {x: 1920, y: 1150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &415543181
@@ -7422,6 +7428,7 @@ MonoBehaviour:
   hideDuration: 0.2
   defaultSelectComponent: {fileID: 1936820179}
   HideHeight: 1080
+  useBackAction: 0
   title: {fileID: 1336626386}
   settingPanel: {fileID: 672327972}
   loopTypeDropdown: {fileID: 2045261559}
@@ -7838,6 +7845,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectScale: 1.1
+  autoSelect: 0
+  button: {fileID: 0}
 --- !u!1 &523868525
 GameObject:
   m_ObjectHideFlags: 0
@@ -7857,7 +7867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &523868526
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7870,8 +7880,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 2090974209}
   - {fileID: 1969695107}
+  - {fileID: 2090974209}
   - {fileID: 781940470}
   m_Father: {fileID: 744038047}
   m_RootOrder: 3
@@ -9548,8 +9558,8 @@ RectTransform:
   m_GameObject: {fileID: 672327972}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2083064488}
   m_Father: {fileID: 1044965541}
@@ -9720,9 +9730,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 80, y: 68.55005}
+  m_AnchoredPosition: {x: 80, y: -49.999237}
   m_SizeDelta: {x: 125, y: 237.1}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: -0.000000027033892}
 --- !u!114 &676199297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9836,6 +9846,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectScale: 1.1
+  autoSelect: 0
+  button: {fileID: 0}
 --- !u!1 &682078526
 GameObject:
   m_ObjectHideFlags: 0
@@ -10493,6 +10506,7 @@ MonoBehaviour:
   hideDuration: 0.2
   defaultSelectComponent: {fileID: 2090974210}
   HideHeight: -1352
+  useBackAction: 1
   viewer: {fileID: 0}
   imageViewer: {fileID: 837770411}
   pDFViewer: {fileID: 385392785}
@@ -10877,7 +10891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10918,7 +10932,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -10958,6 +10972,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectScale: 1.2
+  autoSelect: 0
+  button: {fileID: 0}
 --- !u!1 &783141051
 GameObject:
   m_ObjectHideFlags: 0
@@ -11092,6 +11109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectScale: 1.1
+  autoSelect: 0
+  button: {fileID: 0}
 --- !u!1 &800875207
 GameObject:
   m_ObjectHideFlags: 0
@@ -11343,6 +11363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47753f5e5a8227046bb1d1c03603c552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SettingPanel: {fileID: 672327972}
 --- !u!4 &806792623
 Transform:
   m_ObjectHideFlags: 0
@@ -13215,9 +13236,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -80.00098, y: 68.55005}
+  m_AnchoredPosition: {x: -80.00098, y: -49.998993}
   m_SizeDelta: {x: 125, y: 237.1}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: -0.000000078231096}
 --- !u!114 &939847635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13331,6 +13352,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectScale: 1.1
+  autoSelect: 0
+  button: {fileID: 0}
 --- !u!1 &941993303
 GameObject:
   m_ObjectHideFlags: 0
@@ -14385,9 +14409,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 250, y: 68.55005}
+  m_AnchoredPosition: {x: 249.99924, y: -49.999054}
   m_SizeDelta: {x: 125, y: 237.1}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5000001, y: -0.00000013783574}
 --- !u!114 &1005185338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14501,6 +14525,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectScale: 1.1
+  autoSelect: 0
+  button: {fileID: 0}
 --- !u!1 &1005335763
 GameObject:
   m_ObjectHideFlags: 0
@@ -18280,8 +18307,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1274743788}
   - component: {fileID: 1274743791}
-  - component: {fileID: 1274743790}
   - component: {fileID: 1274743789}
+  - component: {fileID: 1274743792}
+  - component: {fileID: 1274743793}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -18350,40 +18378,10 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1274743790}
+  m_TargetGraphic: {fileID: 1274743792}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1274743790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1274743787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1274743791
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18392,6 +18390,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1274743787}
   m_CullTransparentMesh: 1
+--- !u!114 &1274743792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274743787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f1c5417c9d7ab4b84e531f83f60a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.4811321, g: 0.44708973, b: 0.44708973, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 3f91331724a9da84197e9b6d94f0483c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+  borderWidth: 3
+  falloffDistance: 1
+--- !u!114 &1274743793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274743787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8714c362c0c8a6449a9559a31cdab9a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 35
 --- !u!1 &1275861684
 GameObject:
   m_ObjectHideFlags: 0
@@ -25112,6 +25155,7 @@ MonoBehaviour:
   hideDuration: 0.2
   defaultSelectComponent: {fileID: 0}
   HideHeight: 1
+  useBackAction: 0
   prevCellButton: {fileID: 557640970}
   nextCellButton: {fileID: 1518742535}
   playButton: {fileID: 1210000019}
@@ -25863,7 +25907,7 @@ MonoBehaviour:
   _enableKeyboardControls: 1
   KeyVolumeUp: 273
   KeyVolumeDown: 274
-  KeyTogglePlayPause: 32
+  KeyTogglePlayPause: 13
   KeyToggleMute: 109
   KeyJumpForward: 275
   KeyJumpBack: 276
@@ -27919,9 +27963,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -249.99902, y: 68.55005}
+  m_AnchoredPosition: {x: -249.99898, y: -49.99872}
   m_SizeDelta: {x: 125, y: 237.1}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: -0.000000033527613}
 --- !u!114 &1936820179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28035,6 +28079,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectScale: 1.1
+  autoSelect: 0
+  button: {fileID: 0}
 --- !u!1 &1936834790
 GameObject:
   m_ObjectHideFlags: 0
@@ -28691,7 +28738,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 523868526}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -28711,7 +28758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -28746,13 +28793,13 @@ MonoBehaviour:
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 2090974210}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -28792,6 +28839,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectScale: 1.2
+  autoSelect: 0
+  button: {fileID: 0}
 --- !u!1 &1978412733
 GameObject:
   m_ObjectHideFlags: 0
@@ -30559,7 +30609,7 @@ RectTransform:
   m_Children:
   - {fileID: 1301740118}
   m_Father: {fileID: 523868526}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -30583,14 +30633,14 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1969695109}
+    m_SelectOnRight: {fileID: 781940472}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -30643,7 +30693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -30674,6 +30724,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectScale: 1.2
+  autoSelect: 0
+  button: {fileID: 0}
 --- !u!1 &2100299505
 GameObject:
   m_ObjectHideFlags: 0

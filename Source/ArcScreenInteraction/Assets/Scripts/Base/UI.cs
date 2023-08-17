@@ -54,18 +54,16 @@ public class UI : MonoBehaviour
             return panel;
         }
     }
+    public bool useBackAction = true;
 
-    IEnumerator Start()
-    {
-        yield return new WaitUntil(() => AppManager.Instance != null);
-        AppManager.Instance.BackAction += OnBack;
-    }
 
     public virtual void OnBack()
     {
+        if (!useBackAction) return;
         if (CurrentState == UIState.Show)
         {
             HideUI();
+            Debug.Log("back");
         }
     }
 
@@ -91,6 +89,7 @@ public class UI : MonoBehaviour
             defaultSelectComponent.Select();
         }
         Debug.Log("Show");
+        AppManager.Instance.BackAction = OnBack;
     }
 
     public virtual void HideUI()

@@ -34,6 +34,7 @@ public class UINavigationControl : MonoBehaviour
         if (selectedObject == null)
             return;
         //实现按钮点击
+        Debug.Log("Submit");
         ExecuteEvents.Execute(selectedObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
     }
     private void OnMessageReceived(string message)
@@ -62,6 +63,9 @@ public class UINavigationControl : MonoBehaviour
             case NetworkInputAction.Back:
                 AppManager.Instance.BackAction?.Invoke();
                 break;
+            case NetworkInputAction.Home:
+                AppManager.Instance.HomeAction?.Invoke();
+                break;
             default:
                 break;
         }
@@ -87,6 +91,19 @@ public class UINavigationControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H))
         {
             Submit();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            AppManager.Instance.BackAction?.Invoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F8))
+        {
+            AppManager.Instance.HomeAction?.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            AppManager.Instance.SettingAction?.Invoke();
         }
     }
 }

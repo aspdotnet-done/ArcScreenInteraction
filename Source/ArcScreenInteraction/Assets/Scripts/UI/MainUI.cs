@@ -281,7 +281,7 @@ public class MainUI : UI
         Debug.Log("main onback");
     }
 
-    void SettingShow()
+    public void SettingShow()
     {
         settingPanel.SetActive(true);
         loopTypeDropdown.Select();

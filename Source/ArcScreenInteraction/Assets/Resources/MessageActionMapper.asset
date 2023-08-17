@@ -21,9 +21,11 @@ MonoBehaviour:
     action: 3
   - message: right
     action: 4
-  - message: submit
+  - message: confirm
     action: 5
   - message: option
     action: 6
   - message: back
     action: 7
+  - message: home
+    action: 8

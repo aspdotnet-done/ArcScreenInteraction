@@ -11,5 +11,6 @@ public enum NetworkInputAction
     Right,
     Submit,
     Option,
-    Back
+    Back,
+    Home
 }

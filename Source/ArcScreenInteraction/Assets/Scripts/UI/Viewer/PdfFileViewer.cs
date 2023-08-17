@@ -96,6 +96,7 @@ public class PdfFileViewer : BaseViewer
 
         scrollView.UpdateData(items);
         scrollView.SelectCell(0);
+        scrollView.transform.GetChild(0).GetChild(0).GetComponentInChildren<Button>().Select();
         gameObject.SetActive(true);
         canvasGroup.DOFade(1, 1f).SetDelay(0.5f);
         currentPlayState = PlayState.Playing;

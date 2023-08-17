@@ -6,30 +6,37 @@ using UnityEngine.UI;
 
 public class AppManager : Singleton<AppManager>
 {
-    private GameObject SettingPanel;
+    [SerializeField] private GameObject SettingPanel;
     public Action EnterAction;
     public Action BackAction;
     public Action SettingAction;
+    public Action HomeAction;
     // Start is called before the first frame update
     void Start()
     {
         UIManager.Instance.GetUI(UIType.Main).ShowUI();
+        HomeAction += Home;
+        SettingAction += Setting;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SettingAction?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            EnterAction?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            BackAction?.Invoke();
-        }
+
+    }
+
+    void Home()
+    {
+        SettingPanel.SetActive(false);
+        UIManager.Instance.GetUI(UIType.MediaListUI).HideUI();
+        UIManager.Instance.GetUI(UIType.MediaPlayUI).HideUI();
+        UIManager.Instance.GetUI(UIType.Main).ShowUI();
+    }
+    void Setting()
+    {
+        if (!SettingPanel.activeSelf)
+            (UIManager.Instance.GetUI(UIType.Main) as MainUI).SettingShow();
+        else
+            SettingPanel.SetActive(false);
     }
 }

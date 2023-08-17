@@ -36,7 +36,7 @@ namespace RenderHeads.Media.AVProVideo.Demos
         [SerializeField] bool _enableKeyboardControls = true;
         [SerializeField] KeyCode KeyVolumeUp = KeyCode.UpArrow;
         [SerializeField] KeyCode KeyVolumeDown = KeyCode.DownArrow;
-        [SerializeField] KeyCode KeyTogglePlayPause = KeyCode.Space;
+        [SerializeField] KeyCode KeyTogglePlayPause = KeyCode.Return;
         [SerializeField] KeyCode KeyToggleMute = KeyCode.M;
         [SerializeField] KeyCode KeyJumpForward = KeyCode.RightArrow;
         [SerializeField] KeyCode KeyJumpBack = KeyCode.LeftArrow;
@@ -378,10 +378,10 @@ namespace RenderHeads.Media.AVProVideo.Demos
                 time = System.Math.Min(time, timelineRange.startTime + timelineRange.duration);
                 _mediaPlayer.Control.Seek(time);
 
-                if (_overlayManager)
-                {
-                    _overlayManager.TriggerFeedback(deltaTime > 0f ? OverlayManager.Feedback.SeekForward : OverlayManager.Feedback.SeekBack);
-                }
+                // if (_overlayManager)
+                // {
+                //     _overlayManager.TriggerFeedback(deltaTime > 0f ? OverlayManager.Feedback.SeekForward : OverlayManager.Feedback.SeekBack);
+                // }
             }
         }
 
@@ -396,10 +396,10 @@ namespace RenderHeads.Media.AVProVideo.Demos
                 UpdateVolumeSlider();
 
                 // Trigger the overlays
-                if (_overlayManager)
-                {
-                    _overlayManager.TriggerFeedback(delta > 0f ? OverlayManager.Feedback.VolumeUp : OverlayManager.Feedback.VolumeDown);
-                }
+                // if (_overlayManager)
+                // {
+                //     _overlayManager.TriggerFeedback(delta > 0f ? OverlayManager.Feedback.VolumeUp : OverlayManager.Feedback.VolumeDown);
+                // }
             }
         }
 

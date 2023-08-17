@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class MediaPlayUI : UI
 {
@@ -187,8 +188,10 @@ public class MediaPlayUI : UI
 
     public override void OnBack()
     {
-        Debug.Log("HideMediaPlayUIByNav");
-        HideClick();
+        if (!gameObject.activeSelf) return;
+        HideUI();
+        MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+        ui.ShowUI();
     }
 
 
@@ -265,7 +268,7 @@ public class MediaPlayUI : UI
                 break;
         }
         mideaTitle.text = currentDatas[currentIndex].mediaName;
-
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public override void HideUI()

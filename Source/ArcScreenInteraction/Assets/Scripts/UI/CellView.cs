@@ -67,9 +67,9 @@ public class CellView : MonoBehaviour, ISelectHandler
                 break;
         }
     }
-    public Action<Vector3> SelectAction;
+    public Action<CellView> SelectAction;
     public void OnSelect(BaseEventData eventData)
     {
-        SelectAction?.Invoke(GetComponent<RectTransform>().anchoredPosition);
+        SelectAction?.Invoke(this);
     }
 }
