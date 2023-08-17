@@ -6447,6 +6447,8 @@ MonoBehaviour:
   pdfPagePrefab: {fileID: 6866306731993178155, guid: fc85c630b9e35d84f8d89def6df41a5c, type: 3}
   pdfPageParent: {fileID: 1530681983}
   scrollSnap: {fileID: 1849739446}
+  nextPageEvent: {fileID: 11400000, guid: ad817480a957c9d428dbfab207bc3a69, type: 2}
+  prevPageEvent: {fileID: 11400000, guid: b331a572196214c458e3550da1830a99, type: 2}
   activeTime: 5
   maxHeight: 1080
 --- !u!1 &385494153
@@ -7446,7 +7448,7 @@ MonoBehaviour:
   topicMoudle: {fileID: 778629349}
   settingButton: {fileID: 783141053}
   backgroundFileName: bg.jpg
-  maxWidth: 4576
+  maxWidth: 4096
 --- !u!1 &463826291
 GameObject:
   m_ObjectHideFlags: 0
@@ -11492,8 +11494,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 4576, y: 1352}
+  m_AnchoredPosition: {x: 0, y: -0.0000038146973}
+  m_SizeDelta: {x: 4096, y: 1210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &814195603
 MonoBehaviour:
@@ -12511,6 +12513,8 @@ MonoBehaviour:
   pdfPagePrefab: {fileID: 0}
   pdfPageParent: {fileID: 0}
   scrollSnap: {fileID: 0}
+  nextPageEvent: {fileID: 0}
+  prevPageEvent: {fileID: 0}
   activeTime: 5
   maxHeight: 1080
 --- !u!114 &884618680
@@ -21628,8 +21632,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 4576, y: 1352}
+  m_AnchoredPosition: {x: 0, y: -0.0000038146973}
+  m_SizeDelta: {x: 4096, y: 1210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1491696469
 MonoBehaviour:
@@ -23394,6 +23398,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   messageActionMapper: {fileID: 11400000, guid: db85eb9539460f0418f28c8a4818a0c0, type: 2}
+  leftEvent: {fileID: 11400000, guid: b331a572196214c458e3550da1830a99, type: 2}
+  rightEvent: {fileID: 11400000, guid: ad817480a957c9d428dbfab207bc3a69, type: 2}
+  upEvent: {fileID: 11400000, guid: d20564c2c08e8924b8fe180bbf936458, type: 2}
+  downEvent: {fileID: 11400000, guid: 05d1adda93b800c43bc6b15699731434, type: 2}
+  submitEvent: {fileID: 11400000, guid: d9d02fac664dc68458334b47813d0967, type: 2}
+  optionEvent: {fileID: 11400000, guid: d162b765939530043830942e2668bc25, type: 2}
+  backEvent: {fileID: 11400000, guid: 65e2fb3336a967c4589b6289d0ed4b5b, type: 2}
+  homeEvent: {fileID: 11400000, guid: 19b63545d988eb3499bdbb0730d714ad, type: 2}
 --- !u!1 &1621871995
 GameObject:
   m_ObjectHideFlags: 0
@@ -25933,6 +25945,9 @@ MonoBehaviour:
   _segmentsSeek: {fileID: 1766031809}
   _segmentsBuffered: {fileID: 1692761447}
   _segmentsProgress: {fileID: 1157907099}
+  leftArrowPressed: {fileID: 11400000, guid: b331a572196214c458e3550da1830a99, type: 2}
+  rightArrowPressed: {fileID: 11400000, guid: ad817480a957c9d428dbfab207bc3a69, type: 2}
+  submitGameEvent: {fileID: 11400000, guid: d9d02fac664dc68458334b47813d0967, type: 2}
 --- !u!1 &1806794282
 GameObject:
   m_ObjectHideFlags: 0

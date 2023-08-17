@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using ItemDataPDF = UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02.ItemData;
 using ScrollViewPDF = UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02.ScrollView;
 using HorizontalScrollSnap = UnityEngine.UI.Extensions.HorizontalScrollSnap;
+using ScriptableObjectArchitecture;
 public class PdfFileViewer : BaseViewer
 {
     [SerializeField] ScrollViewPDF scrollView = default;
@@ -18,7 +19,8 @@ public class PdfFileViewer : BaseViewer
     private PDFDocument pdfDocument;
     public HorizontalScrollSnap scrollSnap;
 
-
+    [SerializeField] GameEvent nextPageEvent;
+    [SerializeField] GameEvent prevPageEvent;
     void OnSelectionChanged(int index)
     {
         currentPage = index;
@@ -45,34 +47,51 @@ public class PdfFileViewer : BaseViewer
     //点击后自动播放的激活时间
     public float activeTime = 5f;
     float timer = 0;
+    private bool allowAutoPlay
+    {
+        get
+        {
+            return MediaManager.Instance.setupDataScriptableAsset.data.setupData.allowAutoPlay;
+        }
+    }
     private void Update()
+    {
+        if (allowAutoPlay)
+        {
+            if (GetInput())
+            {
+                ResetTimer();
+            }
+            if (Time.time - lastClickTime > activeTime)
+            {
+
+                timer += Time.deltaTime;
+                if (timer > innerDelay)
+                {
+                    timer = 0;
+                    NextPage();
+                }
+            }
+        }
+    }
+    private void OnEnable()
+    {
+        nextPageEvent.AddListener(NextPage);
+        prevPageEvent.AddListener(PrevPage);
+    }
+    private void OnDisable()
+    {
+        nextPageEvent.RemoveListener(NextPage);
+        prevPageEvent.RemoveListener(PrevPage);
+    }
+    private bool GetInput()
     {
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            lastClickTime = 0;
-            timer = 0;
+            return true;
         }
-        if (Time.time - lastClickTime > activeTime)
-        {
-
-            timer += Time.deltaTime;
-            if (timer > innerDelay)
-            {
-                timer = 0;
-                if (currentPage < totalPage - 1)
-                {
-                    scrollView.SelectCell(currentPage + 1);
-                }
-                else
-                {
-                    currentPlayState = PlayState.Complete;
-                }
-            }
-
-        }
+        return false;
     }
-
-
     private int currentPage = 0;
     private int totalPage;
     private List<ItemDataPDF> items;
@@ -102,7 +121,31 @@ public class PdfFileViewer : BaseViewer
         currentPlayState = PlayState.Playing;
     }
 
-
+    public void NextPage()
+    {
+        ResetTimer();
+        if (currentPage < totalPage - 1)
+        {
+            scrollView.SelectCell(currentPage + 1);
+        }
+        else
+        {
+            currentPlayState = PlayState.Complete;
+        }
+    }
+    public void PrevPage()
+    {
+        ResetTimer();
+        if (currentPage > 0)
+        {
+            scrollView.SelectCell(currentPage - 1);
+        }
+    }
+    private void ResetTimer()
+    {
+        lastClickTime = 0;
+        timer = 0;
+    }
     private Texture2D GetPageTexture(int index, float scale = 2f)
     {
         PDFRenderer renderer = new PDFRenderer();
@@ -114,7 +157,6 @@ public class PdfFileViewer : BaseViewer
         renderer.Dispose();
         return tex;
     }
-
     private PDFPage GetPage(int index)
     {
         return pdfDocument.GetPage(index);

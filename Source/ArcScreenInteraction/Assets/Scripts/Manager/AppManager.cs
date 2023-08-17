@@ -11,6 +11,10 @@ public class AppManager : Singleton<AppManager>
     public Action BackAction;
     public Action SettingAction;
     public Action HomeAction;
+    public Action UpAction;
+    public Action DownAction;
+    public Action LeftAction;
+    public Action RightAction;
     // Start is called before the first frame update
     void Start()
     {

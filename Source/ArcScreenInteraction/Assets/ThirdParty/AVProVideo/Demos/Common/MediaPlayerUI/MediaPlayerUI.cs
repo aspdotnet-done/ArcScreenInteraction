@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using RenderHeads.Media.AVProVideo;
 using RenderHeads.Media.AVProVideo.Demos.UI;
+using ScriptableObjectArchitecture;
 
 //-----------------------------------------------------------------------------
 // Copyright 2018-2021 RenderHeads Ltd.  All rights reserved.
@@ -730,7 +731,21 @@ namespace RenderHeads.Media.AVProVideo.Demos
                 }
             }
         }
-
+        [SerializeField] private GameEvent leftArrowPressed;
+        [SerializeField] private GameEvent rightArrowPressed;
+        [SerializeField] private GameEvent submitGameEvent;
+        private void OnEnable()
+        {
+            submitGameEvent.AddListener(TogglePlayPause);
+            leftArrowPressed.AddListener(OnPlayTimeBackButtonPressed);
+            rightArrowPressed.AddListener(OnPlayTimeForwardButtonPressed);
+        }
+        private void OnDisable()
+        {
+            submitGameEvent.RemoveListener(TogglePlayPause);
+            leftArrowPressed.RemoveListener(OnPlayTimeBackButtonPressed);
+            rightArrowPressed.RemoveListener(OnPlayTimeForwardButtonPressed);
+        }
         void Update()
         {
             if (!_mediaPlayer) return;

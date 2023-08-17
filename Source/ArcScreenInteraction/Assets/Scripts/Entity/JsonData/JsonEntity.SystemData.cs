@@ -14,6 +14,7 @@ public class SetupData
     //1-单次播放，2-单次循环  3-全部循环
     public LoopType loopType;
     //public List<MediaData> medias;
+    public bool allowAutoPlay;
     public float innerDelay;
     public float outerDelay;
     public float mainDelay;

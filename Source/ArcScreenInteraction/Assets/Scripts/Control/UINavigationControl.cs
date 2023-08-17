@@ -2,12 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using ScriptableObjectArchitecture;
 
 public class UINavigationControl : MonoBehaviour
 {
     EventSystem eventSystem;
     [SerializeField]
     private MessageActionMapper messageActionMapper;
+    [SerializeField] GameEvent leftEvent;
+    [SerializeField] GameEvent rightEvent;
+    [SerializeField] GameEvent upEvent;
+    [SerializeField] GameEvent downEvent;
+    [SerializeField] GameEvent submitEvent;
+    [SerializeField] GameEvent optionEvent;
+    [SerializeField] GameEvent backEvent;
+    [SerializeField] GameEvent homeEvent;
     private void Awake()
     {
         eventSystem = EventSystem.current;
@@ -44,27 +53,35 @@ public class UINavigationControl : MonoBehaviour
         {
             case NetworkInputAction.Up:
                 Move(MoveDirection.Up);
+                upEvent?.Raise();
                 break;
             case NetworkInputAction.Down:
                 Move(MoveDirection.Down);
+                downEvent?.Raise();
                 break;
             case NetworkInputAction.Left:
                 Move(MoveDirection.Left);
+                leftEvent?.Raise();
                 break;
             case NetworkInputAction.Right:
                 Move(MoveDirection.Right);
+                rightEvent?.Raise();
                 break;
             case NetworkInputAction.Submit:
                 Submit();
+                submitEvent?.Raise();
                 break;
             case NetworkInputAction.Option:
                 AppManager.Instance.SettingAction?.Invoke();
+                optionEvent?.Raise();
                 break;
             case NetworkInputAction.Back:
                 AppManager.Instance.BackAction?.Invoke();
+                backEvent?.Raise();
                 break;
             case NetworkInputAction.Home:
                 AppManager.Instance.HomeAction?.Invoke();
+                homeEvent?.Raise();
                 break;
             default:
                 break;

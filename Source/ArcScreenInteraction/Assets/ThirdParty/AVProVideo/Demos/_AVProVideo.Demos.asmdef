@@ -1,7 +1,9 @@
 {
     "name": "AVProVideo.Demos",
+    "rootNamespace": "",
     "references": [
-        "AVProVideo.Runtime"
+        "AVProVideo.Runtime",
+        "ScriptableObject-Architecture"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -10,5 +12,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
+    "versionDefines": [],
     "noEngineReferences": false
 }
