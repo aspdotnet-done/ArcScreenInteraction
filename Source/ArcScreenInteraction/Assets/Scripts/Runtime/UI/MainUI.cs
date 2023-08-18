@@ -243,6 +243,7 @@ public class MainUI : UI
                 if (bgs[index] != null)
                 {
                     bg2Image.texture = bgs[index];
+                    ResizeImage(bg2Image);
                     bg2Image.DOFade(1, 2.5f);
                     bgImage.DOFade(0, 2.5f);
                 }
@@ -253,6 +254,7 @@ public class MainUI : UI
                 if (bgs[index] != null)
                 {
                     bgImage.texture = bgs[index];
+                    ResizeImage(bgImage);
                     bgImage.DOFade(1, 2.5f);
                     bg2Image.DOFade(0, 2.5f);
                 }
@@ -428,17 +430,12 @@ public class MainUI : UI
             return MediaManager.Instance.setupDataScriptableAsset.data.setupData.mainDelay;
         }
     }
-    public float maxWidth = 4576f;
     private void ResizeImage(RawImage image)
     {
-
-        float aspectRatio = (float)image.texture.height / (float)image.texture.width;
-        //float newHeight = Mathf.Min(maxHeight, image.texture.height);
-        float newWidth = maxWidth;
-        float newHeight = newWidth * aspectRatio;
-        // if (newHeight < image.texture.height)
-        // {
-        image.rectTransform.sizeDelta = new Vector2(newWidth, newHeight);
-        // }
+        var imageFitter = image.GetComponent<ImageFitter>();
+        if (imageFitter != null)
+        {
+            imageFitter.Fit();
+        }
     }
 }

@@ -286,6 +286,11 @@ public class MediaListUI : UI
             var toggle = Instantiate(togglePrefab, classesToggleParent).GetComponent<Toggle>();
             toggle.gameObject.SetActive(true);
             toggle.GetComponentInChildren<Text>().text = t;
+            var autoLayout = toggle.GetComponent<AutoTextLayout>();
+            if (autoLayout)
+            {
+                autoLayout.Fit();
+            }
             toggle.group = classesToggleParent.GetComponent<ToggleGroup>();
             classesToggle.Add(toggle);
             toggle.onValueChanged.AddListener(classChanged);
