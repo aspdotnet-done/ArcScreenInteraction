@@ -27,6 +27,7 @@ public class CellView : MonoBehaviour, ISelectHandler
     public void Select()
     {
         button.Select();
+        button.transform.localScale = Vector3.one * 1.1f;
     }
 
 
