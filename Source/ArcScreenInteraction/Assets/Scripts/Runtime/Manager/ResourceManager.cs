@@ -243,29 +243,271 @@ public class ResourceManager : Singleton<ResourceManager>
         complete.Invoke(list);
     }
 
-    public string backgroundFileName = "bg.jpg";
-    /// <summary>
-    /// 根据文件夹层级生成媒体数据存储
-    /// </summary>
-    /// <param name="complete"></param>
-    public void GenerateMediaDatas(Action<List<MediaData>> complete)
+    public void GetMainItemList(Action<List<string>> complete)
     {
-        List<MediaData> datas = new List<MediaData>();
+        DirectoryInfo di = new DirectoryInfo(AssetUtility.GetMainListFolder());
+        //获取di下的文件夹
+        DirectoryInfo[] dis = di.GetDirectories();
+        //把dis的文件夹名存到List<string>的list中
+        List<string> list = new List<string>();
+        foreach (var i in dis)
+        {
+            list.Add(i.Name);
+        }
+        complete?.Invoke(list);
+    }
+
+    public string backgroundFileName = "bg.jpg";
+    #region 旧代码
+    // /// <summary>
+    // /// 根据文件夹层级生成媒体数据存储
+    // /// </summary>
+    // /// <param name="complete"></param>
+    // public void GenerateMediaDatas(Action<List<MediaData>> complete)
+    // {
+    //     List<MediaData> datas = new List<MediaData>();
+    //     MediaData data = new MediaData();
+    //     //遍历安防文件夹
+    //     DirectoryInfo di = new DirectoryInfo(AssetUtility.GetAnfangFolder());
+    //     if (di.Exists)
+    //     {
+
+    //         data.id = 0;
+    //         data.title = "安防";
+    //         data.folder = AssetUtility.GetAnfangFolder();
+    //         //获取描述文件
+    //         data.condition = AssetUtility.GetAnfangContentJson();
+    //         //背景图是否存在
+    //         if (File.Exists(AssetUtility.GetAnfangFolder() + backgroundFileName))
+    //         {
+    //             data.bgPath = AssetUtility.GetAnfangFolder() + backgroundFileName;
+    //         }
+
+    //         Media media = new Media();
+    //         //获取di文件夹下的文件夹
+    //         DirectoryInfo[] dis = di.GetDirectories();
+    //         foreach (var f in dis)
+    //         {
+    //             data.classes.Add(f.Name);
+    //             //获取f文件夹下后缀为{*.jpg,*.png,*.mp4,*.pdf}的文件
+    //             FileInfo[] fis = f.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
+
+    //             foreach (var i in fis)
+    //             {
+    //                 if (i.Extension == ".jpg" || i.Extension == ".png")
+    //                 {
+    //                     media = new Media();
+    //                     media.mediaType = MediaType.picture;
+    //                     media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+    //                     media.coverPath = AssetUtility.GetAnfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+    //                     media.mediaPath = i.FullName;
+    //                     media.mediaClass = f.Name;
+    //                     data.medias.Add(media);
+    //                 }
+    //                 else if (i.Extension == ".mp4")
+    //                 {
+    //                     media = new Media();
+    //                     media.mediaType = MediaType.video;
+    //                     media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+    //                     media.coverPath = AssetUtility.GetAnfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+    //                     media.mediaPath = i.FullName;
+    //                     media.mediaClass = f.Name;
+    //                     data.medias.Add(media);
+    //                 }
+    //                 else if (i.Extension == ".pdf")
+    //                 {
+    //                     media = new Media();
+    //                     media.mediaType = MediaType.pdf;
+    //                     media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+    //                     media.coverPath = AssetUtility.GetAnfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+    //                     media.mediaPath = i.FullName;
+    //                     media.mediaClass = f.Name;
+    //                     data.medias.Add(media);
+    //                 }
+    //                 else
+    //                 {
+    //                     continue;
+    //                 }
+
+    //             }
+    //         }
+    //         datas.Add(data);
+
+    //     }
+    //     else
+    //     {
+    //         datas.Add(data);
+    //         Debug.LogError("安防文件夹不存在");
+    //     }
+
+    //     data = new MediaData();
+    //     //遍历消防文件夹
+    //     DirectoryInfo di2 = new DirectoryInfo(AssetUtility.GetXiaofangFolder());
+    //     if (di2.Exists)
+    //     {
+
+    //         data.id = 0;
+    //         data.title = "消防";
+    //         data.folder = AssetUtility.GetXiaofangFolder();
+    //         //获取描述文件
+    //         data.condition = AssetUtility.GetXiaofangFolder();
+    //         //背景图是否存在
+    //         if (File.Exists(AssetUtility.GetXiaofangFolder() + backgroundFileName))
+    //         {
+    //             data.bgPath = AssetUtility.GetXiaofangFolder() + backgroundFileName;
+    //         }
+    //         Media media = new Media();
+    //         //获取di文件夹下的文件夹
+    //         DirectoryInfo[] dis = di2.GetDirectories();
+    //         foreach (var f in dis)
+    //         {
+    //             data.classes.Add(f.Name);
+    //             //获取f文件夹下后缀为{*.jpg,*.png,*.mp4,*.pdf}的文件
+    //             FileInfo[] fis = f.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
+
+    //             foreach (var i in fis)
+    //             {
+    //                 if (i.Extension == ".jpg" || i.Extension == ".png")
+    //                 {
+    //                     media = new Media();
+    //                     media.mediaType = MediaType.picture;
+    //                     media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+    //                     media.coverPath = AssetUtility.GetXiaofangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+    //                     media.mediaPath = i.FullName;
+    //                     media.mediaClass = f.Name;
+    //                     data.medias.Add(media);
+    //                 }
+    //                 else if (i.Extension == ".mp4")
+    //                 {
+    //                     media = new Media();
+    //                     media.mediaType = MediaType.video;
+    //                     media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+    //                     media.coverPath = AssetUtility.GetXiaofangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+    //                     media.mediaPath = i.FullName;
+    //                     media.mediaClass = f.Name;
+    //                     data.medias.Add(media);
+    //                 }
+    //                 else if (i.Extension == ".pdf")
+    //                 {
+    //                     media = new Media();
+    //                     media.mediaType = MediaType.pdf;
+    //                     media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+    //                     media.coverPath = AssetUtility.GetXiaofangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+    //                     media.mediaPath = i.FullName;
+    //                     media.mediaClass = f.Name;
+    //                     data.medias.Add(media);
+    //                 }
+    //                 else
+    //                 {
+    //                     continue;
+    //                 }
+
+    //             }
+    //         }
+    //         datas.Add(data);
+
+    //     }
+    //     else
+    //     {
+    //         datas.Add(data);
+    //         Debug.LogError("消防文件夹不存在");
+    //     }
+
+    //     data = new MediaData();
+    //     //遍历人防文件夹
+    //     DirectoryInfo di3 = new DirectoryInfo(AssetUtility.GetRenfangFolder());
+    //     if (di3.Exists)
+    //     {
+
+    //         data.id = 0;
+    //         data.title = "人防";
+    //         data.folder = AssetUtility.GetRenfangFolder();
+    //         //获取描述文件
+    //         data.condition = AssetUtility.GetRenfangFolder();
+    //         //背景图是否存在
+    //         if (File.Exists(AssetUtility.GetRenfangFolder() + backgroundFileName))
+    //         {
+    //             data.bgPath = AssetUtility.GetRenfangFolder() + backgroundFileName;
+    //         }
+    //         Media media = new Media();
+    //         //获取di文件夹下的文件夹
+    //         DirectoryInfo[] dis = di3.GetDirectories();
+    //         foreach (var f in dis)
+    //         {
+    //             data.classes.Add(f.Name);
+    //             //获取f文件夹下后缀为{*.jpg,*.png,*.mp4,*.pdf}的文件
+    //             FileInfo[] fis = f.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
+
+    //             foreach (var i in fis)
+    //             {
+    //                 if (i.Extension == ".jpg" || i.Extension == ".png")
+    //                 {
+    //                     media = new Media();
+    //                     media.mediaType = MediaType.picture;
+    //                     media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+    //                     media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+    //                     media.mediaPath = i.FullName;
+    //                     media.mediaClass = f.Name;
+    //                     data.medias.Add(media);
+    //                 }
+    //                 else if (i.Extension == ".mp4")
+    //                 {
+    //                     media = new Media();
+    //                     media.mediaType = MediaType.video;
+    //                     media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+    //                     media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+    //                     media.mediaPath = i.FullName;
+    //                     media.mediaClass = f.Name;
+    //                     data.medias.Add(media);
+    //                 }
+    //                 else if (i.Extension == ".pdf")
+    //                 {
+    //                     media = new Media();
+    //                     media.mediaType = MediaType.pdf;
+    //                     media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
+    //                     media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+    //                     media.mediaPath = i.FullName;
+    //                     media.mediaClass = f.Name;
+    //                     data.medias.Add(media);
+    //                 }
+    //                 else
+    //                 {
+    //                     continue;
+    //                 }
+
+    //             }
+    //         }
+    //         datas.Add(data);
+
+    //     }
+    //     else
+    //     {
+    //         datas.Add(data);
+    //         Debug.LogError("人防文件夹不存在");
+    //     }
+    //     complete?.Invoke(datas);
+    // }
+    #endregion
+
+
+
+    public MediaData GenerateItemDatas(string itemName, Action<MediaData> complete = null)
+    {
         MediaData data = new MediaData();
-        //遍历安防文件夹
-        DirectoryInfo di = new DirectoryInfo(AssetUtility.GetAnfangFolder());
+
+        DirectoryInfo di = new DirectoryInfo(AssetUtility.GetDetailDataFolder(itemName));
         if (di.Exists)
         {
 
             data.id = 0;
-            data.title = "安防";
-            data.folder = AssetUtility.GetAnfangFolder();
+            data.title = itemName;
+            data.folder = AssetUtility.GetDetailDataFolder(itemName);
             //获取描述文件
             data.condition = AssetUtility.GetAnfangContentJson();
             //背景图是否存在
-            if (File.Exists(AssetUtility.GetAnfangFolder() + backgroundFileName))
+            if (File.Exists(AssetUtility.GetDetailDataFolder(itemName) + backgroundFileName))
             {
-                data.bgPath = AssetUtility.GetAnfangFolder() + backgroundFileName;
+                data.bgPath = AssetUtility.GetDetailDataFolder(itemName) + backgroundFileName;
             }
 
             Media media = new Media();
@@ -284,7 +526,7 @@ public class ResourceManager : Singleton<ResourceManager>
                         media = new Media();
                         media.mediaType = MediaType.picture;
                         media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetAnfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.coverPath = AssetUtility.GetDetailDataFolder(itemName) + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
                         media.mediaPath = i.FullName;
                         media.mediaClass = f.Name;
                         data.medias.Add(media);
@@ -294,7 +536,7 @@ public class ResourceManager : Singleton<ResourceManager>
                         media = new Media();
                         media.mediaType = MediaType.video;
                         media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetAnfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.coverPath = AssetUtility.GetDetailDataFolder(itemName) + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
                         media.mediaPath = i.FullName;
                         media.mediaClass = f.Name;
                         data.medias.Add(media);
@@ -304,7 +546,7 @@ public class ResourceManager : Singleton<ResourceManager>
                         media = new Media();
                         media.mediaType = MediaType.pdf;
                         media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetAnfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
+                        media.coverPath = AssetUtility.GetDetailDataFolder(itemName) + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
                         media.mediaPath = i.FullName;
                         media.mediaClass = f.Name;
                         data.medias.Add(media);
@@ -316,165 +558,18 @@ public class ResourceManager : Singleton<ResourceManager>
 
                 }
             }
-            datas.Add(data);
 
         }
         else
         {
-            datas.Add(data);
-            Debug.LogError("安防文件夹不存在");
+
+            Debug.LogError("文件夹不存在");
         }
 
-        data = new MediaData();
-        //遍历消防文件夹
-        DirectoryInfo di2 = new DirectoryInfo(AssetUtility.GetXiaofangFolder());
-        if (di2.Exists)
-        {
 
-            data.id = 0;
-            data.title = "消防";
-            data.folder = AssetUtility.GetXiaofangFolder();
-            //获取描述文件
-            data.condition = AssetUtility.GetXiaofangFolder();
-            //背景图是否存在
-            if (File.Exists(AssetUtility.GetXiaofangFolder() + backgroundFileName))
-            {
-                data.bgPath = AssetUtility.GetXiaofangFolder() + backgroundFileName;
-            }
-            Media media = new Media();
-            //获取di文件夹下的文件夹
-            DirectoryInfo[] dis = di2.GetDirectories();
-            foreach (var f in dis)
-            {
-                data.classes.Add(f.Name);
-                //获取f文件夹下后缀为{*.jpg,*.png,*.mp4,*.pdf}的文件
-                FileInfo[] fis = f.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
-
-                foreach (var i in fis)
-                {
-                    if (i.Extension == ".jpg" || i.Extension == ".png")
-                    {
-                        media = new Media();
-                        media.mediaType = MediaType.picture;
-                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetXiaofangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
-                        media.mediaPath = i.FullName;
-                        media.mediaClass = f.Name;
-                        data.medias.Add(media);
-                    }
-                    else if (i.Extension == ".mp4")
-                    {
-                        media = new Media();
-                        media.mediaType = MediaType.video;
-                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetXiaofangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
-                        media.mediaPath = i.FullName;
-                        media.mediaClass = f.Name;
-                        data.medias.Add(media);
-                    }
-                    else if (i.Extension == ".pdf")
-                    {
-                        media = new Media();
-                        media.mediaType = MediaType.pdf;
-                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetXiaofangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
-                        media.mediaPath = i.FullName;
-                        media.mediaClass = f.Name;
-                        data.medias.Add(media);
-                    }
-                    else
-                    {
-                        continue;
-                    }
-
-                }
-            }
-            datas.Add(data);
-
-        }
-        else
-        {
-            datas.Add(data);
-            Debug.LogError("消防文件夹不存在");
-        }
-
-        data = new MediaData();
-        //遍历人防文件夹
-        DirectoryInfo di3 = new DirectoryInfo(AssetUtility.GetRenfangFolder());
-        if (di3.Exists)
-        {
-
-            data.id = 0;
-            data.title = "人防";
-            data.folder = AssetUtility.GetRenfangFolder();
-            //获取描述文件
-            data.condition = AssetUtility.GetRenfangFolder();
-            //背景图是否存在
-            if (File.Exists(AssetUtility.GetRenfangFolder() + backgroundFileName))
-            {
-                data.bgPath = AssetUtility.GetRenfangFolder() + backgroundFileName;
-            }
-            Media media = new Media();
-            //获取di文件夹下的文件夹
-            DirectoryInfo[] dis = di3.GetDirectories();
-            foreach (var f in dis)
-            {
-                data.classes.Add(f.Name);
-                //获取f文件夹下后缀为{*.jpg,*.png,*.mp4,*.pdf}的文件
-                FileInfo[] fis = f.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
-
-                foreach (var i in fis)
-                {
-                    if (i.Extension == ".jpg" || i.Extension == ".png")
-                    {
-                        media = new Media();
-                        media.mediaType = MediaType.picture;
-                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
-                        media.mediaPath = i.FullName;
-                        media.mediaClass = f.Name;
-                        data.medias.Add(media);
-                    }
-                    else if (i.Extension == ".mp4")
-                    {
-                        media = new Media();
-                        media.mediaType = MediaType.video;
-                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
-                        media.mediaPath = i.FullName;
-                        media.mediaClass = f.Name;
-                        data.medias.Add(media);
-                    }
-                    else if (i.Extension == ".pdf")
-                    {
-                        media = new Media();
-                        media.mediaType = MediaType.pdf;
-                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetRenfangFolder() + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
-                        media.mediaPath = i.FullName;
-                        media.mediaClass = f.Name;
-                        data.medias.Add(media);
-                    }
-                    else
-                    {
-                        continue;
-                    }
-
-                }
-            }
-            datas.Add(data);
-
-        }
-        else
-        {
-            datas.Add(data);
-            Debug.LogError("人防文件夹不存在");
-        }
-        complete?.Invoke(datas);
-
+        complete?.Invoke(data);
+        return data;
     }
-
-
 
 
 

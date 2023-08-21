@@ -87,15 +87,43 @@ public class MainUI : UI
     [SerializeField] GameObject topicMoudle = default;
     [SerializeField] Button settingButton = default;
 
+    [SerializeField] ScrollView scrollView = default;
+
 
     private SystemData currentSystemData;
     List<Texture2D> bgs = new List<Texture2D>();
-    public string backgroundFileName = "bg.jpg";
+    private List<string> itemNameList = new List<string>();
+    private string backgroundFileName = "bg.jpg";
+
     IEnumerator Start()
     {
         yield return ResourceManager.Instance != null;
         //yield return new WaitUntil(() => MediaManager.Instance != null);
         GetMainBg();
+        ResourceManager.Instance.GetMainItemList((s) =>
+        {
+            itemNameList = s;
+            List<ItemData> itemDatas = new List<ItemData>();
+            foreach (var i in itemNameList)
+            {
+                ItemData d = new ItemData(i, ItemClick);
+                itemDatas.Add(d);
+            }
+            scrollView.UpdateData(itemDatas);
+        });
+    }
+
+    void ItemClick(string itemName)
+    {
+
+
+        title.text = itemName;
+        MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+        ui.InitMediaList(itemName);
+        ui.InitClasses();
+        ui.ShowUI();
+        GetCurrentItemBg(itemName);
+        HideUI();
     }
 
 
@@ -134,65 +162,93 @@ public class MainUI : UI
         }
     }
 
-    private void GetAnfangBg()
+    // private void GetAnfangBg()
+    // {
+    //     if (loopMainBgCoroutine != null)
+    //         StopCoroutine(loopMainBgCoroutine);
+    //     ResourceManager.Instance.GetTexture(AssetUtility.GetAnfangFolder() + backgroundFileName, (t) =>
+    //     {
+    //         if (t != null)
+    //         {
+    //             bgImage.texture = t;
+    //             bgImage.color = new Color(1, 1, 1, 1);
+    //             bg2Image.color = new Color(1, 1, 1, 0);
+    //             ResizeImage(bgImage);
+    //             ResizeImage(bg2Image);
+    //         }
+    //     });
+    //     if (!string.IsNullOrEmpty(AssetUtility.GetAnfangContentJson()))
+    //     {
+    //         Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetAnfangContentJson());
+    //         topicContent.text = t.Description;
+    //         topicTitle.text = t.Title;
+    //         topicMoudle.SetActive(true);
+    //     }
+    //     else
+    //     {
+    //         topicMoudle.SetActive(false);
+    //     }
+    // }
+    // private void GetXiaofangBg()
+    // {
+    //     if (loopMainBgCoroutine != null)
+    //         StopCoroutine(loopMainBgCoroutine);
+    //     ResourceManager.Instance.GetTexture(AssetUtility.GetXiaofangFolder() + backgroundFileName, (t) =>
+    //     {
+    //         if (t != null)
+    //         {
+    //             bgImage.texture = t;
+    //             bgImage.color = new Color(1, 1, 1, 1);
+    //             bg2Image.color = new Color(1, 1, 1, 0);
+    //             ResizeImage(bgImage);
+    //             ResizeImage(bg2Image);
+    //         }
+    //     });
+    //     if (!string.IsNullOrEmpty(AssetUtility.GetXiaofangContentJson()))
+    //     {
+    //         Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetXiaofangContentJson());
+    //         topicContent.text = t.Description;
+    //         topicTitle.text = t.Title;
+    //         topicMoudle.SetActive(true);
+    //     }
+    //     else
+    //     {
+    //         topicMoudle.SetActive(false);
+    //     }
+    // }
+    // private void GetRenfangBg()
+    // {
+    //     if (loopMainBgCoroutine != null)
+    //         StopCoroutine(loopMainBgCoroutine);
+    //     ResourceManager.Instance.GetTexture(AssetUtility.GetRenfangFolder() + backgroundFileName, (t) =>
+    //     {
+    //         if (t != null)
+    //         {
+    //             bgImage.texture = t;
+    //             bgImage.color = new Color(1, 1, 1, 1);
+    //             bg2Image.color = new Color(1, 1, 1, 0);
+    //             ResizeImage(bgImage);
+    //             ResizeImage(bg2Image);
+    //         }
+    //     });
+    //     if (!string.IsNullOrEmpty(AssetUtility.GetRenfangContentJson()))
+    //     {
+    //         Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetRenfangContentJson());
+    //         topicContent.text = t.Description;
+    //         topicTitle.text = t.Title;
+    //         topicMoudle.SetActive(true);
+    //     }
+    //     else
+    //     {
+    //         topicMoudle.SetActive(false);
+    //     }
+    // }
+
+    public void GetCurrentItemBg(string currentItemName)
     {
         if (loopMainBgCoroutine != null)
             StopCoroutine(loopMainBgCoroutine);
-        ResourceManager.Instance.GetTexture(AssetUtility.GetAnfangFolder() + backgroundFileName, (t) =>
-        {
-            if (t != null)
-            {
-                bgImage.texture = t;
-                bgImage.color = new Color(1, 1, 1, 1);
-                bg2Image.color = new Color(1, 1, 1, 0);
-                ResizeImage(bgImage);
-                ResizeImage(bg2Image);
-            }
-        });
-        if (!string.IsNullOrEmpty(AssetUtility.GetAnfangContentJson()))
-        {
-            Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetAnfangContentJson());
-            topicContent.text = t.Description;
-            topicTitle.text = t.Title;
-            topicMoudle.SetActive(true);
-        }
-        else
-        {
-            topicMoudle.SetActive(false);
-        }
-    }
-    private void GetXiaofangBg()
-    {
-        if (loopMainBgCoroutine != null)
-            StopCoroutine(loopMainBgCoroutine);
-        ResourceManager.Instance.GetTexture(AssetUtility.GetXiaofangFolder() + backgroundFileName, (t) =>
-        {
-            if (t != null)
-            {
-                bgImage.texture = t;
-                bgImage.color = new Color(1, 1, 1, 1);
-                bg2Image.color = new Color(1, 1, 1, 0);
-                ResizeImage(bgImage);
-                ResizeImage(bg2Image);
-            }
-        });
-        if (!string.IsNullOrEmpty(AssetUtility.GetXiaofangContentJson()))
-        {
-            Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetXiaofangContentJson());
-            topicContent.text = t.Description;
-            topicTitle.text = t.Title;
-            topicMoudle.SetActive(true);
-        }
-        else
-        {
-            topicMoudle.SetActive(false);
-        }
-    }
-    private void GetRenfangBg()
-    {
-        if (loopMainBgCoroutine != null)
-            StopCoroutine(loopMainBgCoroutine);
-        ResourceManager.Instance.GetTexture(AssetUtility.GetRenfangFolder() + backgroundFileName, (t) =>
+        ResourceManager.Instance.GetTexture(AssetUtility.GetDetailDataFolder(currentItemName) + backgroundFileName, (t) =>
         {
             if (t != null)
             {
@@ -265,10 +321,10 @@ public class MainUI : UI
 
     private void OnEnable()
     {
-        AnfangBtn.onValueChanged.AddListener(AnfangClick);
-        XiaofangBtn.onValueChanged.AddListener(XiaofangClick);
-        RenfangBtn.onValueChanged.AddListener(RenfangClick);
-        OverviewBtn.onValueChanged.AddListener(OverviewClick);
+        // AnfangBtn.onValueChanged.AddListener(AnfangClick);
+        // XiaofangBtn.onValueChanged.AddListener(XiaofangClick);
+        // RenfangBtn.onValueChanged.AddListener(RenfangClick);
+        // OverviewBtn.onValueChanged.AddListener(OverviewClick);
         loopTypeDropdown.onValueChanged.AddListener(LoopTypeChange);
         innerDelaySlider.onValueChanged.AddListener(InnerDelayChange);
         outerDelaySlider.onValueChanged.AddListener(OuterDelayChange);
@@ -307,6 +363,7 @@ public class MainUI : UI
         innerDelaySlider.value = currentSystemData.setupData.innerDelay;
         outerDelaySlider.value = currentSystemData.setupData.outerDelay;
     }
+    public List<string> mainList = new List<string>();
 
     private void LoopTypeChange(int index)
     {
@@ -334,46 +391,46 @@ public class MainUI : UI
         mainDelayText.text = v.ToString();
     }
 
-    void AnfangClick(bool ison)
-    {
-        if (ison)
-        {
-            title.text = "安防";
-            MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
-            ui.InitMediaList(SecurityType.anfang);
-            ui.InitClasses();
-            ui.ShowUI();
-            GetAnfangBg();
-            HideUI();
-        }
+    // void AnfangClick(bool ison)
+    // {
+    //     if (ison)
+    //     {
+    //         title.text = "安防";
+    //         MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+    //         ui.InitMediaList(SecurityType.anfang);
+    //         ui.InitClasses();
+    //         ui.ShowUI();
+    //         GetAnfangBg();
+    //         HideUI();
+    //     }
 
-    }
-    void XiaofangClick(bool ison)
-    {
-        if (ison)
-        {
-            title.text = "消防";
-            MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
-            ui.InitMediaList(SecurityType.xiaofang);
-            ui.InitClasses();
-            ui.ShowUI();
-            GetXiaofangBg();
-            HideUI();
-        }
-    }
-    void RenfangClick(bool ison)
-    {
-        if (ison)
-        {
-            title.text = "人防";
-            MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
-            ui.InitMediaList(SecurityType.renfang);
-            ui.InitClasses();
-            ui.ShowUI();
-            GetRenfangBg();
-            HideUI();
-        }
-    }
+    // }
+    // void XiaofangClick(bool ison)
+    // {
+    //     if (ison)
+    //     {
+    //         title.text = "消防";
+    //         MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+    //         ui.InitMediaList(SecurityType.xiaofang);
+    //         ui.InitClasses();
+    //         ui.ShowUI();
+    //         GetXiaofangBg();
+    //         HideUI();
+    //     }
+    // }
+    // void RenfangClick(bool ison)
+    // {
+    //     if (ison)
+    //     {
+    //         title.text = "人防";
+    //         MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+    //         ui.InitMediaList(SecurityType.renfang);
+    //         ui.InitClasses();
+    //         ui.ShowUI();
+    //         GetRenfangBg();
+    //         HideUI();
+    //     }
+    // }
 
     void OverviewClick(bool ison)
     {
@@ -395,10 +452,10 @@ public class MainUI : UI
 
     private void OnDisable()
     {
-        AnfangBtn.onValueChanged.RemoveListener(AnfangClick);
-        XiaofangBtn.onValueChanged.RemoveListener(XiaofangClick);
-        RenfangBtn.onValueChanged.RemoveListener(RenfangClick);
-        OverviewBtn.onValueChanged.AddListener(OverviewClick);
+        // AnfangBtn.onValueChanged.RemoveListener(AnfangClick);
+        // XiaofangBtn.onValueChanged.RemoveListener(XiaofangClick);
+        // RenfangBtn.onValueChanged.RemoveListener(RenfangClick);
+        //OverviewBtn.onValueChanged.AddListener(OverviewClick);
         innerDelaySlider.onValueChanged.RemoveAllListeners();
         loopTypeDropdown.onValueChanged.RemoveAllListeners();
         settingButton.onClick.RemoveAllListeners();
@@ -412,8 +469,8 @@ public class MainUI : UI
     {
         //base.ShowUI();
         Selection.SetActive(true);
-        overviewBtn.Select();
-        overviewBtn.isOn = true;
+        // overviewBtn.Select();
+        // overviewBtn.isOn = true;
         Refresh();
     }
 

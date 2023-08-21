@@ -86,30 +86,40 @@ public class MediaListUI : UI
 
 
     //显示父级界面
-    public void InitMediaList(SecurityType securityType)
-    {
-        switch (securityType)
-        {
+    // public void InitMediaList(SecurityType securityType)
+    // {
+    //     switch (securityType)
+    //     {
 
-            case SecurityType.xiaofang:
-                var items = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[1];
-                currentMediaDatas = items;
-                MediaList = CopyMedias(currentMediaDatas.medias);
-                InitMediaList(MediaList);
-                break;
-            case SecurityType.anfang:
-                var items1 = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[0];
-                currentMediaDatas = items1;
-                MediaList = CopyMedias(currentMediaDatas.medias);
-                InitMediaList(MediaList);
-                break;
-            case SecurityType.renfang:
-                var items2 = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[2];
-                currentMediaDatas = items2;
-                MediaList = CopyMedias(currentMediaDatas.medias);
-                InitMediaList(MediaList);
-                break;
-        }
+    //         case SecurityType.xiaofang:
+    //             var items = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[1];
+    //             currentMediaDatas = items;
+    //             MediaList = CopyMedias(currentMediaDatas.medias);
+    //             InitMediaList(MediaList);
+    //             break;
+    //         case SecurityType.anfang:
+    //             var items1 = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[0];
+    //             currentMediaDatas = items1;
+    //             MediaList = CopyMedias(currentMediaDatas.medias);
+    //             InitMediaList(MediaList);
+    //             break;
+    //         case SecurityType.renfang:
+    //             var items2 = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[2];
+    //             currentMediaDatas = items2;
+    //             MediaList = CopyMedias(currentMediaDatas.medias);
+    //             InitMediaList(MediaList);
+    //             break;
+    //     }
+    // }
+
+    public void InitMediaList(string itemName)
+    {
+
+        var items = MediaManager.Instance.GetMediaDataItem(itemName);
+        currentMediaDatas = items;
+        MediaList = CopyMedias(currentMediaDatas.medias);
+        InitMediaList(MediaList);
+
     }
 
     private void InitMediaList(List<Media> medias)

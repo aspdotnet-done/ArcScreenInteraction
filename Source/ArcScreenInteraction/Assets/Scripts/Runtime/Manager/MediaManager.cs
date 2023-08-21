@@ -42,10 +42,50 @@ public class MediaManager : Singleton<MediaManager>
         {
             setupDataScriptableAsset.data = data;
         });
-        ResourceManager.Instance.GenerateMediaDatas((data) =>
+        // ResourceManager.Instance.GenerateMediaDatas((data) =>
+        // {
+        //     mediaDatasScriptableAsset.mediaDatas = data;
+        // });
+    }
+
+    public void AddMediaDataItem(MediaData data)
+    {
+        bool containData = false;
+        foreach (var i in mediaDatasScriptableAsset.mediaDatas)
         {
-            mediaDatasScriptableAsset.mediaDatas = data;
-        });
+            if (i.title == data.title)
+            {
+                containData = true;
+                break;
+            }
+        }
+        if (!containData)
+            mediaDatasScriptableAsset.mediaDatas.Add(data);
+    }
+
+    /// </summary>
+    /// <param name="itemName"></param>
+    /// <returns></returns>
+    public MediaData GetMediaDataItem(string itemName)
+    {
+        MediaData mediaData = new MediaData();
+        bool hasData = false;
+        foreach (var i in mediaDatasScriptableAsset.mediaDatas)
+        {
+            if (i.title == itemName)
+            {
+                hasData = true;
+                mediaData = i;
+                break;
+            }
+        }
+        if (!hasData)
+        {
+            mediaData = ResourceManager.Instance.GenerateItemDatas(itemName);
+            AddMediaDataItem(mediaData);
+        }
+        return mediaData;
+
     }
 
     public void UpdateSetupAsset()

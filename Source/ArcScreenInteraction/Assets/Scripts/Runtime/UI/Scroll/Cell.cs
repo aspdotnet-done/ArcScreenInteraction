@@ -28,7 +28,7 @@ public class Cell : FancyCell<ItemData, Context>
         Context.OnCellClicked?.Invoke(Index);
         if (currentItemData != null && currentItemData.ClickAction != null)
         {
-            currentItemData.ClickAction(currentItemData.MediaData);
+            currentItemData.ClickAction(currentItemData.Message);
             Debug.Log(1);
             return;
         }
@@ -38,16 +38,28 @@ public class Cell : FancyCell<ItemData, Context>
     public override void UpdateContent(ItemData itemData)
     {
         currentItemData = itemData;
-        message.text = itemData.MediaData.mediaName;
-        UpdateIcon(itemData.MediaData.mediaType);
+        message.text = itemData.Message;
+        //UpdateIcon(itemData.MediaData.mediaType);
+        string logoPath = AssetUtility.GetDetailDataFolder(itemData.Message) + "icon.jpg";
+
         //判断文件路径是否存在
-        if (File.Exists(itemData.MediaData.coverPath))
+        if (File.Exists(logoPath))
         {
-            ResourceManager.Instance.GetTexture(itemData.MediaData.coverPath, (t) =>
+            ResourceManager.Instance.GetTexture(logoPath, (t) =>
             {
-                if (t == null) return;
                 image.texture = t;
             });
+        }
+        else
+        {
+            logoPath = AssetUtility.GetDetailDataFolder(itemData.Message) + "icon.png";
+            if (File.Exists(logoPath))
+            {
+                ResourceManager.Instance.GetTexture(logoPath, (t) =>
+                {
+                    image.texture = t;
+                });
+            }
         }
 
 
@@ -58,26 +70,26 @@ public class Cell : FancyCell<ItemData, Context>
 
     }
 
-    private void UpdateIcon(MediaType mediaType)
-    {
-        pdfIcon.gameObject.SetActive(false);
-        videoIcon.gameObject.SetActive(false);
-        pictureIcon.gameObject.SetActive(false);
-        switch (mediaType)
-        {
-            case MediaType.pdf:
-                pdfIcon.gameObject.SetActive(true);
-                break;
-            case MediaType.video:
-                videoIcon.gameObject.SetActive(true);
-                break;
-            case MediaType.picture:
-                pictureIcon.gameObject.SetActive(true);
-                break;
-            default:
-                break;
-        }
-    }
+    // private void UpdateIcon(MediaType mediaType)
+    // {
+    //     pdfIcon.gameObject.SetActive(false);
+    //     videoIcon.gameObject.SetActive(false);
+    //     pictureIcon.gameObject.SetActive(false);
+    //     switch (mediaType)
+    //     {
+    //         case MediaType.pdf:
+    //             pdfIcon.gameObject.SetActive(true);
+    //             break;
+    //         case MediaType.video:
+    //             videoIcon.gameObject.SetActive(true);
+    //             break;
+    //         case MediaType.picture:
+    //             pictureIcon.gameObject.SetActive(true);
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
 
     public override void UpdatePosition(float position)
     {
@@ -91,8 +103,7 @@ public class Cell : FancyCell<ItemData, Context>
         animator.speed = 0;
     }
 
-    // GameObject が非アクティブになると Animator がリセットされてしまうため
-    // 現在位置を保持しておいて OnEnable のタイミングで現在位置を再設定します
+
     float currentPosition = 0;
 
     void OnEnable() => UpdatePosition(currentPosition);

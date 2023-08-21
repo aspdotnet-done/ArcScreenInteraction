@@ -3,9 +3,8 @@ using UnityEngine;
 
 public class ItemData
 {
-    public Action<Media> ClickAction = null;
+    public Action<string> ClickAction = null;
     public string Message { get; }
-    public Media MediaData { get; }
     public ItemData(string message)
     {
         Message = message;
@@ -13,9 +12,9 @@ public class ItemData
 
 
 
-    public ItemData(Media mediaData, Action<Media> action)
+    public ItemData(string title, Action<string> action)
     {
-        MediaData = mediaData;
+        Message = title;
         ClickAction = action;
     }
 

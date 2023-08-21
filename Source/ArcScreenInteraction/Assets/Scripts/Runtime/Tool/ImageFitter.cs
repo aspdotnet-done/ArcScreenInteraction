@@ -9,6 +9,17 @@ public enum ImageUIType
     Image,
     RawImage
 }
+public enum ImageMode
+{
+    /// <summary>
+    /// 图片会被拉伸，直到填满目标区域
+    /// </summary>
+    Fill,
+    /// <summary>
+    /// 图片会被缩放，直到完全显示在目标区域内
+    /// </summary>
+    Fit
+}
 [RequireComponent(typeof(RectTransform))]
 public class ImageFitter : MonoBehaviour
 {
@@ -38,6 +49,7 @@ public class ImageFitter : MonoBehaviour
         }
     }
     private ImageUIType _imageUIType = ImageUIType.None;
+    public ImageMode ImageMode = ImageMode.Fill;
     private RectTransform _rectTransform;
     private RectTransform rectTransform
     {
@@ -49,6 +61,11 @@ public class ImageFitter : MonoBehaviour
             }
             return _rectTransform;
         }
+    }
+
+    private void Start()
+    {
+        GetImageType();
     }
     [ContextMenu("Fit")]
     public void Fit()
@@ -63,6 +80,7 @@ public class ImageFitter : MonoBehaviour
             Debug.LogWarning("ImageFitter: No Image or RawImage component found on this GameObject.");
             return;
         }
+
         rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
         rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
         rectTransform.pivot = new Vector2(0.5f, 0.5f);
@@ -74,6 +92,33 @@ public class ImageFitter : MonoBehaviour
         (int textureWidth, int textureHeight) = GetTextureSize();
         float textureRatio = (float)textureWidth / textureHeight;
         // Debug.Log($"texture width:{textureWidth} height:{textureHeight} textureRatio: " + textureRatio);
+
+        if (ImageMode == ImageMode.Fill)
+        {
+            Fill(targetRatio, textureRatio, targetWidth, height, textureWidth, textureHeight);
+        }
+        else if (ImageMode == ImageMode.Fit)
+        {
+            Fit(targetRatio, textureRatio, targetWidth, height, textureWidth, textureHeight);
+        }
+
+    }
+    private void Fit(float targetRatio, float textureRatio, float targetWidth, float height, float textureWidth, float textureHeight)
+    {
+        if (textureRatio < targetRatio)
+        {
+            float scaleFactor = height / textureHeight;
+            rectTransform.sizeDelta = new Vector2(textureWidth * scaleFactor, height);
+        }
+        else
+        {
+            float scaleFactor = targetWidth / textureWidth;
+            rectTransform.sizeDelta = new Vector2(targetWidth, textureHeight * scaleFactor);
+        }
+        rectTransform.anchoredPosition = new Vector2(0, 0);
+    }
+    private void Fill(float targetRatio, float textureRatio, float targetWidth, float height, float textureWidth, float textureHeight)
+    {
         if (textureRatio < targetRatio)
         {
             float scaleFactor = targetWidth / textureWidth;
@@ -90,12 +135,12 @@ public class ImageFitter : MonoBehaviour
     {
         int textureWidth = 0;
         int textureHeight = 0;
-        if (_imageUIType == ImageUIType.Image)
+        if (_imageUIType == ImageUIType.Image && image.sprite != null)
         {
             textureWidth = image.sprite.texture.width;
             textureHeight = image.sprite.texture.height;
         }
-        else if (_imageUIType == ImageUIType.RawImage)
+        else if (_imageUIType == ImageUIType.RawImage && rawImage.texture != null)
         {
             textureWidth = rawImage.texture.width;
             textureHeight = rawImage.texture.height;

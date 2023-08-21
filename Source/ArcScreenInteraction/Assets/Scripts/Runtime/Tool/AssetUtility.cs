@@ -24,22 +24,35 @@ public static class AssetUtility
     {
         return string.Format(AssetResourcesDir + "Medias/{0}/{1}/", parentType, title);
     }
-    public static string GetAnfangFolder()
+    // public static string GetAnfangFolder()
+    // {
+    //     return string.Format(AssetResourcesDir + "Medias/安防数据/");
+    // }
+    // public static string GetRenfangFolder()
+    // {
+    //     return string.Format(AssetResourcesDir + "Medias/人防数据/");
+    // }
+    // public static string GetXiaofangFolder()
+    // {
+    //     return string.Format(AssetResourcesDir + "Medias/消防数据/");
+    // }
+    /// <summary>
+    /// 获取 详情数据文件夹
+    /// </summary>
+    /// <param name="itemName"></param>
+    /// <returns></returns>
+    public static string GetDetailDataFolder(string itemName)
     {
-        return string.Format(AssetResourcesDir + "Medias/安防数据/");
-    }
-    public static string GetRenfangFolder()
-    {
-        return string.Format(AssetResourcesDir + "Medias/人防数据/");
-    }
-    public static string GetXiaofangFolder()
-    {
-        return string.Format(AssetResourcesDir + "Medias/消防数据/");
+        return string.Format(AssetResourcesDir + $"Medias/列表/{itemName}/");
     }
 
     public static string GetMainBgFolder()
     {
         return string.Format(AssetResourcesDir + "Medias/主页数据/");
+    }
+    public static string GetMainListFolder()
+    {
+        return string.Format(AssetResourcesDir + "Medias/列表/");
     }
     public static string GetMainContentJson()
     {
