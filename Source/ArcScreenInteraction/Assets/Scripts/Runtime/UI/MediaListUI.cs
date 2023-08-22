@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.MPE;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -170,7 +171,9 @@ public class MediaListUI : UI
             cells[0].GetComponent<CellView>().Select();
         }
     }
-    private float contentWidthOffset = 1808f;
+    [SerializeField] private float contentWidthOffset = 1808f;
+    [SerializeField] private float lastEdgePosition = 1596f;
+    [SerializeField] private float initScrollPosition = 240f;
     int counter = 1;
     public void CellViewSelect(CellView cell)
     {
@@ -182,7 +185,7 @@ public class MediaListUI : UI
         Vector3 cellPosition = cell.GetComponent<RectTransform>().anchoredPosition;
         //Debug.Log("cellPosition:" + cellPosition);
         //下一页
-        if (cellPosition.x == (240f + (1808f * counter)))
+        if (cellPosition.x == (initScrollPosition + (contentWidthOffset * counter)))
         {
             counter++;
             contentParent.anchoredPosition -= new Vector2(contentWidthOffset, 0);
@@ -190,13 +193,13 @@ public class MediaListUI : UI
         }
         //1596
 
-        if (cellPosition.x == (1596f + (1808f * (counter - 1))))
+        if (cellPosition.x == (lastEdgePosition + (contentWidthOffset * (counter - 1))))
         {
             Debug.Log("counter:" + counter);
             if (!prePageCells.Contains(cell))
                 prePageCells.Add(cell);
         }
-        if (cellPosition.x == (1596f + (1808f * (counter - 2))))
+        if (cellPosition.x == (lastEdgePosition + (contentWidthOffset * (counter - 2))))
         {
             if (prePageCells.Contains(cell))
             {

@@ -87,14 +87,18 @@ public class MainUI : UI
     [SerializeField] GameObject topicMoudle = default;
     [SerializeField] Button settingButton = default;
 
-    [SerializeField] ScrollView scrollView = default;
 
-
+    //列表 
+    private int totalPage = 0;
+    private int currentPage = 0;
+    private int pageSize = 100;
+    [SerializeField] RectTransform scrollView = default;
+    [SerializeField] private GameObject cellPrefab;
     private SystemData currentSystemData;
     List<Texture2D> bgs = new List<Texture2D>();
     private List<string> itemNameList = new List<string>();
     private string backgroundFileName = "bg.jpg";
-
+    private List<GameObject> cells = new List<GameObject>();
     IEnumerator Start()
     {
         yield return ResourceManager.Instance != null;
@@ -104,14 +108,73 @@ public class MainUI : UI
         {
             itemNameList = s;
             List<ItemData> itemDatas = new List<ItemData>();
+            int j = 0;
             foreach (var i in itemNameList)
             {
-                ItemData d = new ItemData(i, ItemClick);
-                itemDatas.Add(d);
+                j++;
+                GameObject cell = Instantiate(cellPrefab, scrollView);
+                cell.name = i;
+                cell.GetComponent<MainItem>().Init(i, ItemClick);
+                cell.GetComponent<MainItem>().SelectAction = CellViewSelect;
+                if (j == 1)
+                {
+                    //第一个 默认选中
+                    cell.GetComponent<MainItem>().Select();
+                }
+                cells.Add(cell);
             }
-            scrollView.UpdateData(itemDatas);
+            scrollView.anchoredPosition = new Vector2(0, scrollView.anchoredPosition.y);
+            counter = 1;
+            prePageCells.Clear();
+            if (cells.Count > 0)
+            {
+                cells[0].GetComponent<MainItem>().Select();
+            }
+
         });
     }
+
+    [SerializeField] private float contentWidthOffset = 1808f;
+    [SerializeField] private float lastEdgePosition = 1596f;
+    [SerializeField] private float initScrollPosition = 240f;
+    int counter = 1;
+    public void CellViewSelect(MainItem cell)
+    {
+        //2048
+        //3856
+        //3856-2048=1808
+        //2048-1808=240
+        // float edge = 50 + (180 + 72)
+        Vector3 cellPosition = cell.GetComponent<RectTransform>().anchoredPosition;
+        //Debug.Log("cellPosition:" + cellPosition);
+        //下一页
+        if (cellPosition.x == (initScrollPosition + (contentWidthOffset * counter)))
+        {
+            counter++;
+            scrollView.anchoredPosition -= new Vector2(contentWidthOffset, 0);
+            cell.Select();
+        }
+        //1596
+
+        if (cellPosition.x == (lastEdgePosition + (contentWidthOffset * (counter - 1))))
+        {
+            Debug.Log("counter:" + counter);
+            if (!prePageCells.Contains(cell))
+                prePageCells.Add(cell);
+        }
+        if (cellPosition.x == (lastEdgePosition + (contentWidthOffset * (counter - 2))))
+        {
+            if (prePageCells.Contains(cell))
+            {
+                counter--;
+                prePageCells.Remove(cell);
+                scrollView.anchoredPosition += new Vector2(contentWidthOffset, 0);
+                cell.Select();
+            }
+        }
+
+    }
+    private List<MainItem> prePageCells = new List<MainItem>();
 
     void ItemClick(string itemName)
     {
@@ -469,15 +532,21 @@ public class MainUI : UI
     {
         //base.ShowUI();
         Selection.SetActive(true);
+        scrollView.gameObject.SetActive(true);
         // overviewBtn.Select();
         // overviewBtn.isOn = true;
         Refresh();
+        if (cells.Count > 0)
+        {
+            cells[0].GetComponent<MainItem>().Select();
+        }
     }
 
     public override void HideUI()
     {
         //base.HideUI();
         Selection.SetActive(false);
+        scrollView.gameObject.SetActive(false);
     }
 
     private float mainDelay

@@ -10,6 +10,7 @@ public class SelectHandleOverride : MonoBehaviour, ISelectHandler, IDeselectHand
     [SerializeField] private float selectScale = 1.1f;
     [SerializeField] private bool autoSelect = false;
     [SerializeField] private Button button;
+    [SerializeField] private bool isScroll = false;
     public void OnDeselect(BaseEventData eventData)
     {
 
@@ -21,6 +22,12 @@ public class SelectHandleOverride : MonoBehaviour, ISelectHandler, IDeselectHand
         if (autoSelect && button != null)
         {
             ExecuteEvents.Execute(button.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
+        }
+        if (isScroll)
+        {
+
+
+            transform.parent.parent.parent.GetComponent<ScrollView>().SelectCell(transform.parent.GetSiblingIndex());
         }
         transform.DOScale(1.1f, 0.2f).SetEase(Ease.OutBack);
     }

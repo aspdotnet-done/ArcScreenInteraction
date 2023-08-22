@@ -107,6 +107,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 224140112732779622}
     m_Modifications:
+    - target: {fileID: -2464275033405984934, guid: c888cb616d37a9442a6ddf4d036d93a7, type: 3}
+      propertyPath: button
+      value: 
+      objectReference: {fileID: 114221931273792762}
+    - target: {fileID: -2464275033405984934, guid: c888cb616d37a9442a6ddf4d036d93a7, type: 3}
+      propertyPath: isScroll
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2464275033405984934, guid: c888cb616d37a9442a6ddf4d036d93a7, type: 3}
+      propertyPath: autoSelect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2464275033405984934, guid: c888cb616d37a9442a6ddf4d036d93a7, type: 3}
+      propertyPath: selectScale
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 997541965664863399, guid: c888cb616d37a9442a6ddf4d036d93a7, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -149,11 +165,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8714599591706295641, guid: c888cb616d37a9442a6ddf4d036d93a7, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 380
+      value: 228
       objectReference: {fileID: 0}
     - target: {fileID: 8714599591706295641, guid: c888cb616d37a9442a6ddf4d036d93a7, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 472
+      value: 283.2
       objectReference: {fileID: 0}
     - target: {fileID: 8714599591706295641, guid: c888cb616d37a9442a6ddf4d036d93a7, type: 3}
       propertyPath: m_LocalPosition.x
