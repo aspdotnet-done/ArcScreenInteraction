@@ -68,6 +68,7 @@ public class MediaManager : Singleton<MediaManager>
     /// <returns></returns>
     public MediaData GetMediaDataItem(string itemName)
     {
+        //Debug.Log("GetMediaDataItem:" + itemName);
         MediaData mediaData = new MediaData();
         bool hasData = false;
         foreach (var i in mediaDatasScriptableAsset.mediaDatas)
@@ -96,6 +97,11 @@ public class MediaManager : Singleton<MediaManager>
     public void PlayMedia(MediaData data)
     {
 
+    }
+    private void OnDestroy()
+    {
+        mediaDatasScriptableAsset.mediaDatas.Clear();
+        setupDataScriptableAsset.data = null;
     }
 
     // Update is called once per frame

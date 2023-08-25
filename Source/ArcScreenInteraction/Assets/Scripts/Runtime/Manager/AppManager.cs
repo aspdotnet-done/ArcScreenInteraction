@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AppManager : Singleton<AppManager>
+public class AppManager : MonoBehaviour
 {
+    public static AppManager Instance;
     [SerializeField] private GameObject SettingPanel;
     public Action EnterAction;
     public Action BackAction;
@@ -15,6 +16,10 @@ public class AppManager : Singleton<AppManager>
     public Action DownAction;
     public Action LeftAction;
     public Action RightAction;
+    private void Awake()
+    {
+        Instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {

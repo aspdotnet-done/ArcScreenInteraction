@@ -125,12 +125,12 @@ public class MediaListUI : UI
 
     private void InitMediaList(List<Media> medias)
     {
-
-        foreach (var c in cells)
+        for (int i = 0; i < contentParent.childCount; i++)
         {
-            Destroy(c);
+            Destroy(contentParent.GetChild(i).gameObject);
         }
         cells.Clear();
+        Debug.Log("cells:" + cells.Count);
         int j = 0;
         foreach (var i in medias)
         {

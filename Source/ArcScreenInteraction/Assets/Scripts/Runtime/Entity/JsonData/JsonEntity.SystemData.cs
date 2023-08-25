@@ -26,3 +26,15 @@ public enum LoopType
     LoopOnce = 1,
     Loop = 2
 }
+
+public class PdfVideoDataList
+{
+    public List<PDFVideoData> list;
+}
+[System.Serializable]
+public class PDFVideoData
+{
+    public string Title;
+    public int PageIndex;
+    public string VideoName;
+}

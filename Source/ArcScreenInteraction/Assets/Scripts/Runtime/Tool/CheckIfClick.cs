@@ -12,11 +12,35 @@ public class CheckIfClick : MonoBehaviour
     void Start()
     {
         lastClickTime = Time.time;
+        AppManager.Instance.LeftAction += () =>
+        {
+            canvasGroup.DOFade(1f, 0.2f).OnComplete(() =>
+            {
+                canvasGroup.interactable = true;
+            });
+            lastClickTime = Time.time;
+        };
+        AppManager.Instance.RightAction += () =>
+        {
+            canvasGroup.DOFade(1f, 0.2f).OnComplete(() =>
+            {
+                canvasGroup.interactable = true;
+            });
+            lastClickTime = Time.time;
+        };
+        AppManager.Instance.EnterAction += () =>
+        {
+            canvasGroup.DOFade(1f, 0.2f).OnComplete(() =>
+            {
+                canvasGroup.interactable = true;
+            });
+            lastClickTime = Time.time;
+        };
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetMouseButtonDown(0))
         {
             canvasGroup.DOFade(1f, 0.2f).OnComplete(() =>
             {

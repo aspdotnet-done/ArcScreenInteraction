@@ -185,9 +185,22 @@ public class MediaPlayUI : UI
         MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
         ui.ShowUI();
     }
+    [HideInInspector]
+    public bool canReturn = true;
+    public void SetCanReturn()
+    {
+        StartCoroutine(WaitForCanReturn());
+    }
 
+    IEnumerator WaitForCanReturn()
+    {
+        yield return new WaitForSeconds(0.1f);
+        canReturn = true;
+    }
     public override void OnBack()
     {
+        if (!canReturn) return;
+
         if (!gameObject.activeSelf) return;
         HideUI();
         MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;

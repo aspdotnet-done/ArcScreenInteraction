@@ -70,6 +70,20 @@ public static class AssetUtility
         else
             return "";
     }
+    public static string GetDetailDataContentJson(string itemName)
+    {
+        if (File.Exists(AssetResourcesDir + $"Medias/列表/{itemName}/描述.json"))
+        {
+            //读取路径的json文件并返回字符串格式
+            StreamReader sr = new StreamReader(AssetResourcesDir + $"Medias/列表/{itemName}/描述.json");
+            string str = sr.ReadToEnd();
+            sr.Close();
+            //Debug.Log(str);
+            return str;
+        }
+        else
+            return "";
+    }
 
     //读取安防文件夹的json文件并返回字符串格式
     public static string GetAnfangContentJson()
@@ -84,6 +98,9 @@ public static class AssetUtility
         else
             return "";
     }
+
+
+
     //读取人防文件夹的json文件并返回字符串格式
     public static string GetRenfangContentJson()
     {

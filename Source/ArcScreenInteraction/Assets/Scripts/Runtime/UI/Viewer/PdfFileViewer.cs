@@ -8,6 +8,7 @@ using ItemDataPDF = UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02.
 using ScrollViewPDF = UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02.ScrollView;
 using HorizontalScrollSnap = UnityEngine.UI.Extensions.HorizontalScrollSnap;
 using ScriptableObjectArchitecture;
+
 public class PdfFileViewer : BaseViewer
 {
     [SerializeField] ScrollViewPDF scrollView = default;
@@ -16,15 +17,51 @@ public class PdfFileViewer : BaseViewer
 
     [SerializeField] private GameObject pdfPagePrefab;
     [SerializeField] private Transform pdfPageParent;
+    [SerializeField] private Button hotPointButton;
+    [SerializeField] private PdfVideoView pdfVideoView;
     private PDFDocument pdfDocument;
     public HorizontalScrollSnap scrollSnap;
 
     [SerializeField] GameEvent nextPageEvent;
     [SerializeField] GameEvent prevPageEvent;
+
+    private List<PDFVideoData> videoDatas;
     void OnSelectionChanged(int index)
     {
         currentPage = index;
         scrollSnap.ChangePage(currentPage);
+        if (GetDataFromPage(index + 1) != null)
+        {
+            hotPointButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            hotPointButton.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnHotPointClick()
+    {
+        pdfVideoView.gameObject.SetActive(true);
+        pdfVideoView.InitVideo(GetDataFromPage(currentPage + 1));
+        MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
+        ui.canReturn = false;
+    }
+    bool firstIn = true;
+    private void ConfirmAction()
+    {
+        if (firstIn)
+        {
+            firstIn = false;
+            return;
+        }
+
+        Debug.Log("confirm1");
+        if (!pdfVideoView.gameObject.activeSelf && GetDataFromPage(currentPage + 1) != null)
+        {
+            Debug.Log("confirm");
+            OnHotPointClick();
+        }
     }
 
     public void SelectPage(int page)
@@ -36,6 +73,8 @@ public class PdfFileViewer : BaseViewer
     public override void Show()
     {
         //Debug.Log("showpdf");
+        firstIn = true;
+        AppManager.Instance.EnterAction += ConfirmAction;
         prevCellButton.onClick.AddListener(scrollView.SelectPrevCell);
         nextCellButton.onClick.AddListener(scrollView.SelectNextCell);
         scrollView.OnSelectionChanged(OnSelectionChanged);
@@ -97,6 +136,13 @@ public class PdfFileViewer : BaseViewer
     private List<ItemDataPDF> items;
     private void LoadPdfComplete(PDFDocument doc)
     {
+        //判断是否有视频
+        (bool hasVideo, string jsonPath) = ResourceManager.Instance.CheckPdfVideoJsonExist(currentData.mediaPath);
+        if (hasVideo)
+        {
+            videoDatas = ResourceManager.Instance.GetPDFVideoDatasFromJson(jsonPath);
+        }
+        //初始化pdf
         currentPage = 0;
         pdfDocument = doc;
         totalPage = doc.GetPageCount();
@@ -119,6 +165,27 @@ public class PdfFileViewer : BaseViewer
         gameObject.SetActive(true);
         canvasGroup.DOFade(1, 1f).SetDelay(0.5f);
         currentPlayState = PlayState.Playing;
+        if (hasVideo && GetDataFromPage(1) != null)
+        {
+            hotPointButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            hotPointButton.gameObject.SetActive(false);
+        }
+    }
+
+    PDFVideoData GetDataFromPage(int page)
+    {
+        if (videoDatas == null) return null;
+        foreach (var p in videoDatas)
+        {
+            if (p.PageIndex == page)
+            {
+                return p;
+            }
+        }
+        return null;
     }
 
     public void NextPage()
@@ -161,8 +228,10 @@ public class PdfFileViewer : BaseViewer
     {
         return pdfDocument.GetPage(index);
     }
+
     public override void Hide()
     {
+        AppManager.Instance.EnterAction -= ConfirmAction;
         //Debug.Log("hidepdf");
         canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.1f);
         prevCellButton.onClick.RemoveAllListeners();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -60,7 +61,7 @@ public class UI : MonoBehaviour
     public virtual void OnBack()
     {
         if (!useBackAction) return;
-        if (CurrentState == UIState.Show)
+        if (CurrentState == UIState.Show && this.enabled == true)
         {
             HideUI();
             Debug.Log("back");

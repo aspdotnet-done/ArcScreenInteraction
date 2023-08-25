@@ -257,6 +257,35 @@ public class ResourceManager : Singleton<ResourceManager>
         complete?.Invoke(list);
     }
 
+    public (bool, string) CheckPdfVideoJsonExist(string pdfFullName)
+    {
+        string pdfVideoJsonPath = pdfFullName.Substring(0, pdfFullName.LastIndexOf(".")) + "/描述.json";
+        if (File.Exists(pdfVideoJsonPath))
+        {
+            return (true, pdfVideoJsonPath);
+        }
+        return (false, "");
+    }
+
+    public List<PDFVideoData> GetPDFVideoDatasFromJson(string jsonPath)
+    {
+        List<PDFVideoData> list = new List<PDFVideoData>();
+        string info;
+        using (StreamReader sr = new StreamReader(jsonPath))
+        {
+            info = sr.ReadToEnd();
+            sr.Close();
+        }
+        list = JsonUtility.FromJson<PdfVideoDataList>(info).list;
+        Debug.Log("path:" + jsonPath);
+        Debug.Log("list:" + list.Count);
+        foreach (var i in list)
+        {
+            i.VideoName = jsonPath.Substring(0, jsonPath.LastIndexOf("/") + 1) + i.VideoName;
+        }
+        return list;
+    }
+
     public string backgroundFileName = "bg.jpg";
     #region 旧代码
     // /// <summary>
@@ -502,8 +531,9 @@ public class ResourceManager : Singleton<ResourceManager>
             data.id = 0;
             data.title = itemName;
             data.folder = AssetUtility.GetDetailDataFolder(itemName);
+
             //获取描述文件
-            data.condition = AssetUtility.GetAnfangContentJson();
+            data.condition = AssetUtility.GetDetailDataContentJson(itemName);
             //背景图是否存在
             if (File.Exists(AssetUtility.GetDetailDataFolder(itemName) + backgroundFileName))
             {

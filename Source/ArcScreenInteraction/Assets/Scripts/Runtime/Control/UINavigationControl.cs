@@ -100,14 +100,17 @@ public class UINavigationControl : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.J))
         {
             Move(MoveDirection.Left);
+            AppManager.Instance.LeftAction?.Invoke();
         }
         else if (Input.GetKeyDown(KeyCode.L))
         {
             Move(MoveDirection.Right);
+            AppManager.Instance.RightAction?.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
             Submit();
+            AppManager.Instance.EnterAction?.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
