@@ -6502,6 +6502,7 @@ MonoBehaviour:
   videoViewer: {fileID: 1430437949}
   canvasBar: {fileID: 523868530}
   mideaTitle: {fileID: 1630545873}
+  mediaPlayerUI: {fileID: 1805794455}
   activeTime: 5
   canReturn: 1
 --- !u!225 &744038049

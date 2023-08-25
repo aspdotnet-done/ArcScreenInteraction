@@ -27,7 +27,7 @@ namespace RenderHeads.Media.AVProVideo.Demos
         [Header("Options")]
 
         [SerializeField] float _keyVolumeDelta = 0.05f;
-        [SerializeField] float _jumpDeltaTime = 5f;
+        [SerializeField] public float _jumpDeltaTime = 5f;
         [SerializeField] bool _showOptions = true;
         [SerializeField] bool _autoHide = true;
         [SerializeField] float _userInactiveDuration = 1.5f;

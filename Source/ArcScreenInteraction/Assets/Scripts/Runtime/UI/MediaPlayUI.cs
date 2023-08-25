@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
+using RenderHeads.Media.AVProVideo.Demos;
+using Button = UnityEngine.UI.Button;
 
 public class MediaPlayUI : UI
 {
@@ -67,14 +70,36 @@ public class MediaPlayUI : UI
         }
     }
 
-
+    [SerializeField]
+    private MediaPlayerUI mediaPlayerUI;
 
     private void Awake()
     {
         HideBtn.onClick.AddListener(HideClick);
         LastBtn.onClick.AddListener(LastClick);
         NextBtn.onClick.AddListener(NextCleck);
+        StartCoroutine(WaitForInit());
+
     }
+    IEnumerator WaitForInit()
+    {
+        yield return new WaitForSeconds(0.1f);
+        AppManager.Instance.EnterAction += mediaPlayerUI.TogglePlayPause;
+        AppManager.Instance.LeftAction += QuickForward;
+        AppManager.Instance.RightAction += QuickBack;
+    }
+
+
+    void QuickForward()
+    {
+        mediaPlayerUI.SeekRelative(mediaPlayerUI._jumpDeltaTime);
+    }
+    void QuickBack()
+    {
+        mediaPlayerUI.SeekRelative(-mediaPlayerUI._jumpDeltaTime);
+    }
+
+
     float timer = 0;
     private float lastClickTime;
     //点击后自动播放的激活时间
