@@ -153,7 +153,9 @@ public class PdfFileViewer : BaseViewer
             Texture2D tex = GetPageTexture(i);
             GameObject page = Instantiate(pdfPagePrefab, pdfPageParent);
             page.GetComponentInChildren<RawImage>().texture = tex;
-            page.GetComponentInChildren<RawImage>().SetNativeSize();
+            //page.GetComponentInChildren<RawImage>().SetNativeSize();
+            page.GetComponentInChildren<ImageFitter>().targetRect = page.GetComponent<RectTransform>();
+            page.GetComponentInChildren<ImageFitter>().Fit();
             ResizeImage(page.GetComponentInChildren<RawImage>());
             page.SetActive(true);
             items.Add(new ItemDataPDF((i + 1).ToString(), tex));

@@ -70,6 +70,11 @@ public class ImageFitter : MonoBehaviour
     [ContextMenu("Fit")]
     public void Fit()
     {
+        Invoke("WaitForFit", 0.1f);
+    }
+
+    void WaitForFit()
+    {
         if (targetRect == null)
         {
             Debug.LogWarning("ImageFitter: No targetRect set.");
@@ -101,8 +106,10 @@ public class ImageFitter : MonoBehaviour
         {
             Fit(targetRatio, textureRatio, targetWidth, height, textureWidth, textureHeight);
         }
-
     }
+
+
+
     private void Fit(float targetRatio, float textureRatio, float targetWidth, float height, float textureWidth, float textureHeight)
     {
         if (textureRatio < targetRatio)
