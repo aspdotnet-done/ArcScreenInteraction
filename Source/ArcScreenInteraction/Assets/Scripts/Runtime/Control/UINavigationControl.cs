@@ -69,6 +69,7 @@ public class UINavigationControl : MonoBehaviour
                 break;
             case NetworkInputAction.Submit:
                 Submit();
+                AppManager.Instance.EnterAction?.Invoke();
                 submitEvent?.Raise();
                 break;
             case NetworkInputAction.Option:
@@ -77,6 +78,7 @@ public class UINavigationControl : MonoBehaviour
                 break;
             case NetworkInputAction.Back:
                 AppManager.Instance.BackAction?.Invoke();
+                AppManager.Instance.BackAction2?.Invoke();
                 backEvent?.Raise();
                 break;
             case NetworkInputAction.Home:
