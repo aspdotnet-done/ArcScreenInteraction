@@ -360,7 +360,7 @@ public class MainUI : UI
     void ConfirmSettingClick()
     {
         settingPanel.SetActive(false);
-        defaultSelectComponent.Select();
+        AppManager.Instance.HomeAction?.Invoke();
     }
 
 

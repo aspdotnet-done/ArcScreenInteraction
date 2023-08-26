@@ -604,12 +604,12 @@ public class ResourceManager : Singleton<ResourceManager>
 
 
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Application.Quit();
-        //在这里检测camera有没有关闭
-    }
+    // private void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Escape))
+    //         Application.Quit();
+    //     //在这里检测camera有没有关闭
+    // }
 
 
     // public static void UnZipFile(string zipPath, string outPath, Action<bool> unzipComplete = null)

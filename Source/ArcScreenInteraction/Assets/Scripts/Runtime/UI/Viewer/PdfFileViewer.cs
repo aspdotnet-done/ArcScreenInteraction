@@ -9,6 +9,7 @@ using ScrollViewPDF = UnityEngine.UI.Extensions.Examples.FancyScrollViewExample0
 using HorizontalScrollSnap = UnityEngine.UI.Extensions.HorizontalScrollSnap;
 using ScriptableObjectArchitecture;
 using UnityEngine.EventSystems;
+using System;
 
 public class PdfFileViewer : BaseViewer
 {
@@ -69,7 +70,14 @@ public class PdfFileViewer : BaseViewer
         // Debug.Log(2);
         // OnHotPointClick();
         // EventSystem.current.SetSelectedGameObject(null);
-        StartCoroutine(WaitAFrame());
+        try
+        {
+            StartCoroutine(WaitAFrame());
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+        }
 
     }
     IEnumerator WaitAFrame()
