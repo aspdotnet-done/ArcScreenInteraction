@@ -31,7 +31,7 @@ public class PdfVideoView : MonoBehaviour
         if (data == null) return;
         currentData = data;
         Debug.Log("InitVideo");
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
         canvasGroup.alpha = 1;
         videoPlayer.url = data.VideoName;
         videoPlayer.Play();
@@ -41,11 +41,13 @@ public class PdfVideoView : MonoBehaviour
     void WaitforPlay()
     {
         //yield return new WaitForSeconds(0.1f);
-        float width = videoPlayer.width;
-        float height = videoPlayer.height;
-        RenderTexture r = new RenderTexture((int)width, (int)height, 0);
-        videoPlayer.targetTexture = r;
-        videoImage.texture = r;
+        //float width = videoPlayer.width;
+        //float height = videoPlayer.height;
+        //RenderTexture r = new RenderTexture((int)width, (int)height, 0);
+        //videoPlayer.targetTexture.width = (int)width;
+        //videoPlayer.targetTexture.height = (int)height;
+        //videoPlayer.targetTexture = r;
+        //videoImage.texture = r;
         imageFitter.Fit();
     }
 
@@ -67,7 +69,7 @@ public class PdfVideoView : MonoBehaviour
         Debug.Log("BackAction");
         canvasGroup.alpha = 0;
         videoPlayer.Stop();
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
         MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
         ui.SetCanReturn();
         ui.pDFViewer.SelectPage(currentData.PageIndex - 1);

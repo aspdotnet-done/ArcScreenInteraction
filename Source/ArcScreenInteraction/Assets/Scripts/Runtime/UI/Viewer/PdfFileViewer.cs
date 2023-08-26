@@ -72,7 +72,7 @@ public class PdfFileViewer : BaseViewer
         // EventSystem.current.SetSelectedGameObject(null);
         try
         {
-            StartCoroutine(WaitAFrame());
+            Invoke("WaitAFrame", 0.05f);
         }
         catch (Exception e)
         {
@@ -80,9 +80,11 @@ public class PdfFileViewer : BaseViewer
         }
 
     }
-    IEnumerator WaitAFrame()
+    void WaitAFrame()
     {
-        yield return new WaitForEndOfFrame();
+        //yield return new WaitForEndOfFrame();
+        MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
+        if (ui.CurrentState == UIState.Hide) return;
         if (GetDataFromPage(currentPage + 1) != null && pdfVideoView.canvasGroup.alpha == 0)
         {
 
