@@ -8,17 +8,18 @@ using ItemDataPDF = UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02.
 using ScrollViewPDF = UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02.ScrollView;
 using HorizontalScrollSnap = UnityEngine.UI.Extensions.HorizontalScrollSnap;
 using ScriptableObjectArchitecture;
+using UnityEngine.EventSystems;
 
 public class PdfFileViewer : BaseViewer
 {
-    [SerializeField] ScrollViewPDF scrollView = default;
+    [SerializeField] public ScrollViewPDF scrollView = default;
     [SerializeField] Button prevCellButton = default;
     [SerializeField] Button nextCellButton = default;
 
     [SerializeField] private GameObject pdfPagePrefab;
     [SerializeField] private Transform pdfPageParent;
-    [SerializeField] private Button hotPointButton;
-    [SerializeField] private PdfVideoView pdfVideoView;
+    [SerializeField] private AutoFit hotPointTitle;
+    [SerializeField] public PdfVideoView pdfVideoView;
     private PDFDocument pdfDocument;
     public HorizontalScrollSnap scrollSnap;
 
@@ -28,15 +29,28 @@ public class PdfFileViewer : BaseViewer
     private List<PDFVideoData> videoDatas;
     void OnSelectionChanged(int index)
     {
+
         currentPage = index;
+        Debug.Log("我来了:" + currentPage);
         scrollSnap.ChangePage(currentPage);
-        if (GetDataFromPage(index + 1) != null)
+        PDFVideoData d = GetDataFromPage(index + 1);
+        if (d != null)
         {
-            hotPointButton.gameObject.SetActive(true);
+            hotPointTitle.SetContent(d.Title);
+            hotPointTitle.GetComponent<CanvasGroup>().alpha = 0;
+            hotPointTitle.gameObject.SetActive(true);
+            hotPointTitle.GetComponent<CanvasGroup>().DOFade(1, 0.2f);
+            if (!string.IsNullOrEmpty(d.Cover))
+            {
+                ResourceManager.Instance.GetTexture(d.Cover, (t) =>
+                {
+                    hotPointTitle.rawImage.texture = t;
+                });
+            }
         }
         else
         {
-            hotPointButton.gameObject.SetActive(false);
+            hotPointTitle.gameObject.SetActive(false);
         }
     }
 
@@ -47,20 +61,29 @@ public class PdfFileViewer : BaseViewer
         MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
         ui.canReturn = false;
     }
-    bool firstIn = true;
+    [HideInInspector]
+    public bool firstIn = true;
     private void ConfirmAction()
     {
-        if (firstIn)
-        {
-            firstIn = false;
-            return;
-        }
+        // if (GetDataFromPage(currentPage + 1) == null || pdfVideoView.canvasGroup.alpha > 0) return;
+        // Debug.Log(2);
+        // OnHotPointClick();
+        // EventSystem.current.SetSelectedGameObject(null);
+        StartCoroutine(WaitAFrame());
 
-        Debug.Log("confirm1");
-        if (!pdfVideoView.gameObject.activeSelf && GetDataFromPage(currentPage + 1) != null)
+    }
+    IEnumerator WaitAFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        if (GetDataFromPage(currentPage + 1) != null && pdfVideoView.canvasGroup.alpha == 0)
         {
-            Debug.Log("confirm");
+
+            Debug.Log(2);
+
             OnHotPointClick();
+            //scrollView.enabled = false;
+            //获取当前uinavigation的焦点
+            EventSystem.current.SetSelectedGameObject(null);
         }
     }
 
@@ -68,18 +91,18 @@ public class PdfFileViewer : BaseViewer
     {
         currentPage = page;
         scrollView.SelectCell(page);
+        scrollView.transform.GetChild(0).GetChild(page).GetComponentInChildren<Button>().Select();
     }
 
     public override void Show()
     {
         //Debug.Log("showpdf");
-        firstIn = true;
         AppManager.Instance.EnterAction += ConfirmAction;
         prevCellButton.onClick.AddListener(scrollView.SelectPrevCell);
         nextCellButton.onClick.AddListener(scrollView.SelectNextCell);
         scrollView.OnSelectionChanged(OnSelectionChanged);
         scrollSnap.OnSelectionPageChangedEvent.AddListener(SelectPage);
-
+        currentPage = 0;
         ResourceManager.Instance.GetPDFData(currentData.mediaPath, LoadPdfComplete);
     }
     private float lastClickTime;
@@ -167,13 +190,24 @@ public class PdfFileViewer : BaseViewer
         gameObject.SetActive(true);
         canvasGroup.DOFade(1, 1f).SetDelay(0.5f);
         currentPlayState = PlayState.Playing;
-        if (hasVideo && GetDataFromPage(1) != null)
+        PDFVideoData d = GetDataFromPage(1);
+        if (hasVideo && d != null)
         {
-            hotPointButton.gameObject.SetActive(true);
+            hotPointTitle.SetContent(d.Title);
+            hotPointTitle.GetComponent<CanvasGroup>().alpha = 0;
+            hotPointTitle.gameObject.SetActive(true);
+            hotPointTitle.GetComponent<CanvasGroup>().DOFade(1, 0.2f);
+            if (!string.IsNullOrEmpty(d.Cover))
+            {
+                ResourceManager.Instance.GetTexture(d.Cover, (t) =>
+                {
+                    hotPointTitle.rawImage.texture = t;
+                });
+            }
         }
         else
         {
-            hotPointButton.gameObject.SetActive(false);
+            hotPointTitle.gameObject.SetActive(false);
         }
     }
 
@@ -231,8 +265,10 @@ public class PdfFileViewer : BaseViewer
         return pdfDocument.GetPage(index);
     }
 
+
     public override void Hide()
     {
+        currentPage = 999;
         AppManager.Instance.EnterAction -= ConfirmAction;
         //Debug.Log("hidepdf");
         canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.1f);
@@ -241,7 +277,6 @@ public class PdfFileViewer : BaseViewer
         scrollView.OnSelectionChanged(null);
         scrollSnap.OnSelectionPageChangedEvent.RemoveAllListeners();
         int cout = pdfPageParent.childCount;
-        Debug.Log("cout:" + cout);
         for (int i = 0; i < cout; i++)
         {
             Destroy(pdfPageParent.GetChild(i).gameObject);

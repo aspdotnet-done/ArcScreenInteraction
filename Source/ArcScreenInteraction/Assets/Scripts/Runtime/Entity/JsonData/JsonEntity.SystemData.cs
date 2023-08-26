@@ -35,6 +35,7 @@ public class PdfVideoDataList
 public class PDFVideoData
 {
     public string Title;
+    public string Cover;
     public int PageIndex;
     public string VideoName;
 }

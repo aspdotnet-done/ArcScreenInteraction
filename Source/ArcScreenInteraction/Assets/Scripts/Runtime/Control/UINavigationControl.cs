@@ -115,6 +115,8 @@ public class UINavigationControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             AppManager.Instance.BackAction?.Invoke();
+            AppManager.Instance.BackAction2?.Invoke();
+            Debug.Log("BackAction0");
         }
 
         if (Input.GetKeyDown(KeyCode.F8))

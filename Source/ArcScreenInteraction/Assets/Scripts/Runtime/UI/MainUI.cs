@@ -82,9 +82,14 @@ public class MainUI : UI
     [SerializeField] Button confirmButton = default;
     [SerializeField] RawImage bgImage = default;
     [SerializeField] RawImage bg2Image = default;
-    [SerializeField] Text topicTitle = default;
-    [SerializeField] Text topicContent = default;
-    [SerializeField] GameObject topicMoudle = default;
+
+    [SerializeField] Text leftTopicTitle = default;
+    [SerializeField] Text leftTopicContent = default;
+    [SerializeField] GameObject leftTopicMoudle = default;
+    [SerializeField] Text rightTopicTitle = default;
+    [SerializeField] Text rightTopicContent = default;
+    [SerializeField] GameObject rightTopicMoudle = default;
+
     [SerializeField] Button settingButton = default;
 
 
@@ -193,6 +198,8 @@ public class MainUI : UI
     private void GetMainBg()
     {
         bgs = null;
+        leftTopicMoudle.SetActive(false);
+        rightTopicMoudle.SetActive(false);
         ResourceManager.Instance.GetBackgroundList((d) =>
         {
             ResourceManager.Instance.GetTextureList(d, (t) =>
@@ -215,100 +222,32 @@ public class MainUI : UI
         if (!string.IsNullOrEmpty(AssetUtility.GetMainContentJson()))
         {
             Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetMainContentJson());
-            topicContent.text = t.Description;
-            topicTitle.text = t.Title;
-            topicMoudle.SetActive(true);
+            leftTopicContent.text = t.LeftDescription;
+            leftTopicTitle.text = t.LeftTitle;
+            if (leftTopicContent.text != "")
+            {
+                leftTopicMoudle.SetActive(true);
+            }
+            rightTopicContent.text = t.RightDescription;
+            rightTopicTitle.text = t.RightTitle;
+            if (rightTopicContent.text != "")
+            {
+                rightTopicMoudle.SetActive(true);
+            }
         }
         else
         {
-            topicMoudle.SetActive(false);
+            leftTopicMoudle.SetActive(false);
+            rightTopicMoudle.SetActive(false);
         }
     }
 
-    // private void GetAnfangBg()
-    // {
-    //     if (loopMainBgCoroutine != null)
-    //         StopCoroutine(loopMainBgCoroutine);
-    //     ResourceManager.Instance.GetTexture(AssetUtility.GetAnfangFolder() + backgroundFileName, (t) =>
-    //     {
-    //         if (t != null)
-    //         {
-    //             bgImage.texture = t;
-    //             bgImage.color = new Color(1, 1, 1, 1);
-    //             bg2Image.color = new Color(1, 1, 1, 0);
-    //             ResizeImage(bgImage);
-    //             ResizeImage(bg2Image);
-    //         }
-    //     });
-    //     if (!string.IsNullOrEmpty(AssetUtility.GetAnfangContentJson()))
-    //     {
-    //         Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetAnfangContentJson());
-    //         topicContent.text = t.Description;
-    //         topicTitle.text = t.Title;
-    //         topicMoudle.SetActive(true);
-    //     }
-    //     else
-    //     {
-    //         topicMoudle.SetActive(false);
-    //     }
-    // }
-    // private void GetXiaofangBg()
-    // {
-    //     if (loopMainBgCoroutine != null)
-    //         StopCoroutine(loopMainBgCoroutine);
-    //     ResourceManager.Instance.GetTexture(AssetUtility.GetXiaofangFolder() + backgroundFileName, (t) =>
-    //     {
-    //         if (t != null)
-    //         {
-    //             bgImage.texture = t;
-    //             bgImage.color = new Color(1, 1, 1, 1);
-    //             bg2Image.color = new Color(1, 1, 1, 0);
-    //             ResizeImage(bgImage);
-    //             ResizeImage(bg2Image);
-    //         }
-    //     });
-    //     if (!string.IsNullOrEmpty(AssetUtility.GetXiaofangContentJson()))
-    //     {
-    //         Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetXiaofangContentJson());
-    //         topicContent.text = t.Description;
-    //         topicTitle.text = t.Title;
-    //         topicMoudle.SetActive(true);
-    //     }
-    //     else
-    //     {
-    //         topicMoudle.SetActive(false);
-    //     }
-    // }
-    // private void GetRenfangBg()
-    // {
-    //     if (loopMainBgCoroutine != null)
-    //         StopCoroutine(loopMainBgCoroutine);
-    //     ResourceManager.Instance.GetTexture(AssetUtility.GetRenfangFolder() + backgroundFileName, (t) =>
-    //     {
-    //         if (t != null)
-    //         {
-    //             bgImage.texture = t;
-    //             bgImage.color = new Color(1, 1, 1, 1);
-    //             bg2Image.color = new Color(1, 1, 1, 0);
-    //             ResizeImage(bgImage);
-    //             ResizeImage(bg2Image);
-    //         }
-    //     });
-    //     if (!string.IsNullOrEmpty(AssetUtility.GetRenfangContentJson()))
-    //     {
-    //         Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetRenfangContentJson());
-    //         topicContent.text = t.Description;
-    //         topicTitle.text = t.Title;
-    //         topicMoudle.SetActive(true);
-    //     }
-    //     else
-    //     {
-    //         topicMoudle.SetActive(false);
-    //     }
-    // }
+
 
     public void GetCurrentItemBg(string currentItemName)
     {
+        leftTopicMoudle.SetActive(false);
+        rightTopicMoudle.SetActive(false);
         if (loopMainBgCoroutine != null)
             StopCoroutine(loopMainBgCoroutine);
         ResourceManager.Instance.GetTexture(AssetUtility.GetDetailDataFolder(currentItemName) + backgroundFileName, (t) =>
@@ -322,16 +261,26 @@ public class MainUI : UI
                 ResizeImage(bg2Image);
             }
         });
-        if (!string.IsNullOrEmpty(AssetUtility.GetRenfangContentJson()))
+        if (!string.IsNullOrEmpty(AssetUtility.GetItemContentJson(currentItemName)))
         {
-            Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetRenfangContentJson());
-            topicContent.text = t.Description;
-            topicTitle.text = t.Title;
-            topicMoudle.SetActive(true);
+            Topic t = JsonUtility.FromJson<Topic>(AssetUtility.GetItemContentJson(currentItemName));
+            leftTopicContent.text = t.LeftDescription;
+            leftTopicTitle.text = t.LeftTitle;
+            if (leftTopicContent.text != "")
+            {
+                leftTopicMoudle.SetActive(true);
+            }
+            rightTopicContent.text = t.RightDescription;
+            rightTopicTitle.text = t.RightTitle;
+            if (rightTopicContent.text != "")
+            {
+                rightTopicMoudle.SetActive(true);
+            }
         }
         else
         {
-            topicMoudle.SetActive(false);
+            leftTopicMoudle.SetActive(false);
+            rightTopicMoudle.SetActive(false);
         }
     }
 
@@ -505,7 +454,7 @@ public class MainUI : UI
 
     public void Refresh()
     {
-        title.text = "总览";
+        title.text = "南海区安全服务运营中心";
         MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
         ui.HideUI();
         GetMainBg();

@@ -259,7 +259,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
     public (bool, string) CheckPdfVideoJsonExist(string pdfFullName)
     {
-        string pdfVideoJsonPath = pdfFullName.Substring(0, pdfFullName.LastIndexOf(".")) + "/描述.json";
+        string pdfVideoJsonPath = pdfFullName.Substring(0, pdfFullName.LastIndexOf(".")) + "/热点视频.json";
         if (File.Exists(pdfVideoJsonPath))
         {
             return (true, pdfVideoJsonPath);
@@ -277,11 +277,10 @@ public class ResourceManager : Singleton<ResourceManager>
             sr.Close();
         }
         list = JsonUtility.FromJson<PdfVideoDataList>(info).list;
-        Debug.Log("path:" + jsonPath);
-        Debug.Log("list:" + list.Count);
         foreach (var i in list)
         {
             i.VideoName = jsonPath.Substring(0, jsonPath.LastIndexOf("/") + 1) + i.VideoName;
+            i.Cover = jsonPath.Substring(0, jsonPath.LastIndexOf("/") + 1) + i.Cover;
         }
         return list;
     }
@@ -1109,6 +1108,8 @@ public enum DownloadType
 [System.Serializable]
 public class Topic
 {
-    public string Title;
-    public string Description;
+    public string LeftTitle;
+    public string LeftDescription;
+    public string RightTitle;
+    public string RightDescription;
 }

@@ -312,6 +312,8 @@ public class MediaPlayUI : UI
     public override void HideUI()
     {
         base.HideUI();
+        pDFViewer.pdfVideoView.canvasGroup.alpha = 0;
+        pDFViewer.pdfVideoView.canvasGroup.gameObject.SetActive(false);
     }
 
     private void HidePlayBar()

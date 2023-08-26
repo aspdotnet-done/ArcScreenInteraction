@@ -10,6 +10,7 @@ public class AppManager : MonoBehaviour
     [SerializeField] private GameObject SettingPanel;
     public Action EnterAction;
     public Action BackAction;
+    public Action BackAction2;
     public Action SettingAction;
     public Action HomeAction;
     public Action UpAction;

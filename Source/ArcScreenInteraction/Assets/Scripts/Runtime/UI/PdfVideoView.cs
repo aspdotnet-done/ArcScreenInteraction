@@ -3,29 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using DG.Tweening;
 
 public class PdfVideoView : MonoBehaviour
 {
-    [SerializeField] private VideoPlayer videoPlayer;
+    [SerializeField] VideoPlayer videoPlayer;
     [SerializeField] ImageFitter imageFitter;
     [SerializeField] RawImage videoImage;
+    public CanvasGroup canvasGroup;
 
     void Start()
     {
-        AppManager.Instance.EnterAction += ConfirmAction;
-        AppManager.Instance.BackAction += BackAction;
+        Invoke("DelayToRuning", 0.1f);
+
     }
 
+    void DelayToRuning()
+    {
+        AppManager.Instance.EnterAction += ConfirmAction;
+        AppManager.Instance.BackAction += BackAction;
+        Debug.Log("初始化");
+    }
+    PDFVideoData currentData;
     public void InitVideo(PDFVideoData data)
     {
+        currentData = null;
+        if (data == null) return;
+        currentData = data;
+        Debug.Log("InitVideo");
+        gameObject.SetActive(true);
+        canvasGroup.alpha = 1;
         videoPlayer.url = data.VideoName;
         videoPlayer.Play();
 
-        StartCoroutine(WaitforPlay());
+        Invoke("WaitforPlay", 0.1f);
     }
-    IEnumerator WaitforPlay()
+    void WaitforPlay()
     {
-        yield return new WaitForSeconds(0.1f);
+        //yield return new WaitForSeconds(0.1f);
         float width = videoPlayer.width;
         float height = videoPlayer.height;
         RenderTexture r = new RenderTexture((int)width, (int)height, 0);
@@ -47,10 +62,17 @@ public class PdfVideoView : MonoBehaviour
     }
     void BackAction()
     {
+        if (canvasGroup.alpha == 0) return;
+        if (!videoPlayer.isPlaying) return;
+        Debug.Log("BackAction");
+        canvasGroup.alpha = 0;
         videoPlayer.Stop();
         gameObject.SetActive(false);
         MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
         ui.SetCanReturn();
+        ui.pDFViewer.SelectPage(currentData.PageIndex - 1);
+
+
     }
 
 

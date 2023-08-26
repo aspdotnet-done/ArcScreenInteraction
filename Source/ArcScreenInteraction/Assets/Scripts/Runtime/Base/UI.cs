@@ -90,7 +90,7 @@ public class UI : MonoBehaviour
             defaultSelectComponent.Select();
         }
         Debug.Log("Show");
-        AppManager.Instance.BackAction = OnBack;
+        AppManager.Instance.BackAction2 = OnBack;
     }
 
     public virtual void HideUI()

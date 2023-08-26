@@ -297,8 +297,9 @@ public class MediaListUI : UI
         foreach (var t in currentMediaDatas.classes)
         {
             var toggle = Instantiate(togglePrefab, classesToggleParent).GetComponent<Toggle>();
+            toggle.GetComponentInChildren<AutoFit>().SetContent(t);
             toggle.gameObject.SetActive(true);
-            toggle.GetComponentInChildren<Text>().text = t;
+            //toggle.GetComponentInChildren<Text>().text = t;
             var autoLayout = toggle.GetComponent<AutoTextLayout>();
             if (autoLayout)
             {
@@ -328,7 +329,12 @@ public class MediaListUI : UI
         {
             EventSystem.current.SetSelectedGameObject(lastSelectObject);
         }
-        AppManager.Instance.BackAction = OnBack;
+        AppManager.Instance.BackAction += OnBack;
+    }
+    override public void HideUI()
+    {
+        base.HideUI();
+        //AppManager.Instance.BackAction -= OnBack;
     }
 
     private void classChanged(bool isOn)
