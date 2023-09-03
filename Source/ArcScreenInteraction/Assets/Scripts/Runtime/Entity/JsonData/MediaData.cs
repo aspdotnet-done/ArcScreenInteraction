@@ -34,7 +34,9 @@ public class Media
 }
 public enum MediaType//1-pdf,2-video,3-pitcure
 {
-    pdf = 1,
-    video = 2,
-    picture = 3
+    PDF = 1,
+    VIDEO = 2,
+    PICTURE = 3,
+    MONITOR = 4
+
 }

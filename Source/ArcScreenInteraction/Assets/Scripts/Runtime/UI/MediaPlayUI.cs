@@ -15,6 +15,7 @@ public class MediaPlayUI : UI
     [SerializeField] public ImageViewer imageViewer;
     [SerializeField] public PdfFileViewer pDFViewer;
     [SerializeField] public VideoViewer videoViewer;
+    [SerializeField] public MonitorViewer monitorViewer;
     [SerializeField] public CanvasGroup canvasBar;
     [SerializeField] public Text mideaTitle;
     private Button hideBtn;
@@ -281,41 +282,43 @@ public class MediaPlayUI : UI
         timer = 0;
         ShowUI();
         Debug.Log("ShowMedia");
-        pDFViewer.Hide();
-        imageViewer.Hide();
-        videoViewer.Hide();
-        switch (currentDatas[currentIndex].mediaType)
-        {
-            case MediaType.pdf:
-                viewer = pDFViewer;
-                viewer.currentPlayState = PlayState.Init;
-                pDFViewer.LoadMedias(currentDatas[currentIndex]);
-                pDFViewer.Show();
-                break;
-            case MediaType.video:
-                viewer = videoViewer;
-                viewer.currentPlayState = PlayState.Init;
-                videoViewer.LoadMedias(currentDatas[currentIndex]);
-                videoViewer.Show();
-                break;
-            case MediaType.picture:
-                viewer = imageViewer;
-                viewer.currentPlayState = PlayState.Init;
-                imageViewer.LoadMedias(currentDatas[currentIndex]);
-                imageViewer.Show();
-                break;
-        }
-        mideaTitle.text = currentDatas[currentIndex].mediaName;
+        HideAllViewer();
+        var selectedMedia = currentDatas[currentIndex];
+        viewer = SelectedViewer(selectedMedia.mediaType);
+        viewer.currentPlayState = PlayState.Init;
+        viewer.LoadMedia(selectedMedia);
+        viewer.Show();
+        mideaTitle.text = selectedMedia.mediaName;
         EventSystem.current.SetSelectedGameObject(null);
     }
-
+    private BaseViewer SelectedViewer(MediaType mediaType)
+    {
+        switch (mediaType)
+        {
+            case MediaType.PDF:
+                return pDFViewer;
+            case MediaType.VIDEO:
+                return videoViewer;
+            case MediaType.PICTURE:
+                return imageViewer;
+            case MediaType.MONITOR:
+                return monitorViewer;
+        }
+        return null;
+    }
     public override void HideUI()
     {
         base.HideUI();
         pDFViewer.pdfVideoView.canvasGroup.alpha = 0;
         pDFViewer.pdfVideoView.canvasGroup.gameObject.SetActive(false);
     }
-
+    private void HideAllViewer()
+    {
+        pDFViewer.Hide();
+        imageViewer.Hide();
+        videoViewer.Hide();
+        monitorViewer.Hide();
+    }
     private void HidePlayBar()
     {
         canvasBar.DOFade(0, 0.2f).OnComplete(() =>

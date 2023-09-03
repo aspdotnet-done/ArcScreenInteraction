@@ -43,7 +43,6 @@ public class MediaListUI : UI
         HideBtn.onClick.AddListener(HideClick);
         prevCellButton.onClick.AddListener(LastPage);
         nextCellButton.onClick.AddListener(NextPage);
-
     }
 
     private void NextPage()
@@ -176,11 +175,7 @@ public class MediaListUI : UI
     int counter = 1;
     public void CellViewSelect(CellView cell)
     {
-        //2048
-        //3856
-        //3856-2048=1808
-        //2048-1808=240
-        // float edge = 50 + (180 + 72)
+
         Vector3 cellPosition = cell.GetComponent<RectTransform>().anchoredPosition;
         //Debug.Log("cellPosition:" + cellPosition);
         //下一页

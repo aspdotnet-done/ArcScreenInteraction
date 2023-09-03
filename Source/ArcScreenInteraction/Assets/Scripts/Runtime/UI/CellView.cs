@@ -5,15 +5,15 @@ using UnityEngine.UI;
 using System.IO;
 using System;
 using UnityEngine.EventSystems;
+
 public class CellView : MonoBehaviour, ISelectHandler
 {
     [SerializeField] RawImage image = default;
     [SerializeField] Text message = default;
     [SerializeField] Button button = default;
 
-    [SerializeField] Image pdfIcon = default;
-    [SerializeField] Image videoIcon = default;
-    [SerializeField] Image pictureIcon = default;
+    [SerializeField] Image iconImage = default;
+    [SerializeField] MediaIconAsset mediaIconAsset;
     private Media currentMedia;
     private void Start()
     {
@@ -50,23 +50,7 @@ public class CellView : MonoBehaviour, ISelectHandler
 
     private void UpdateIcon(MediaType mediaType)
     {
-        pdfIcon.gameObject.SetActive(false);
-        videoIcon.gameObject.SetActive(false);
-        pictureIcon.gameObject.SetActive(false);
-        switch (mediaType)
-        {
-            case MediaType.pdf:
-                pdfIcon.gameObject.SetActive(true);
-                break;
-            case MediaType.video:
-                videoIcon.gameObject.SetActive(true);
-                break;
-            case MediaType.picture:
-                pictureIcon.gameObject.SetActive(true);
-                break;
-            default:
-                break;
-        }
+        iconImage.sprite = mediaIconAsset.GetIcon(mediaType);
     }
     public Action<CellView> SelectAction;
     public void OnSelect(BaseEventData eventData)

@@ -32,7 +32,7 @@ public class PdfFileViewer : BaseViewer
     {
 
         currentPage = index;
-        Debug.Log("我来了:" + currentPage);
+        Debug.Log("当前页码:" + currentPage);
         scrollSnap.ChangePage(currentPage);
         PDFVideoData d = GetDataFromPage(index + 1);
         if (d != null)

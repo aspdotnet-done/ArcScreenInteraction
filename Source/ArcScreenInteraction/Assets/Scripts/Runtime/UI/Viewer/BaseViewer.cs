@@ -11,9 +11,9 @@ public enum PlayState
 public abstract class BaseViewer : MonoBehaviour
 {
     [SerializeField] public CanvasGroup canvasGroup;
-    protected Media currentData;
+    public Media currentData;
     public PlayState currentPlayState;
-    public void LoadMedias(Media data)
+    public void LoadMedia(Media data)
     {
         currentData = data;
         Debug.Log("BaseViewer LoadMedias");

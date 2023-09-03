@@ -541,51 +541,14 @@ public class ResourceManager : Singleton<ResourceManager>
 
             Media media = new Media();
             //获取di文件夹下的文件夹
-            DirectoryInfo[] dis = di.GetDirectories();
-            foreach (var f in dis)
+            DirectoryInfo[] dirInfos = di.GetDirectories();
+            foreach (var dirInfo in dirInfos)
             {
-                data.classes.Add(f.Name);
-                //获取f文件夹下后缀为{*.jpg,*.png,*.mp4,*.pdf}的文件
-                FileInfo[] fis = f.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension == ".jpg" || s.Extension == ".png" || s.Extension == ".mp4" || s.Extension == ".pdf").ToArray();
-
-                foreach (var i in fis)
-                {
-                    if (i.Extension == ".jpg" || i.Extension == ".png")
-                    {
-                        media = new Media();
-                        media.mediaType = MediaType.picture;
-                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetDetailDataFolder(itemName) + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
-                        media.mediaPath = i.FullName;
-                        media.mediaClass = f.Name;
-                        data.medias.Add(media);
-                    }
-                    else if (i.Extension == ".mp4")
-                    {
-                        media = new Media();
-                        media.mediaType = MediaType.video;
-                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetDetailDataFolder(itemName) + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
-                        media.mediaPath = i.FullName;
-                        media.mediaClass = f.Name;
-                        data.medias.Add(media);
-                    }
-                    else if (i.Extension == ".pdf")
-                    {
-                        media = new Media();
-                        media.mediaType = MediaType.pdf;
-                        media.mediaName = i.Name.Substring(0, i.Name.LastIndexOf("."));
-                        media.coverPath = AssetUtility.GetDetailDataFolder(itemName) + f.Name + "/covers/" + media.mediaName + "_cover.jpg";
-                        media.mediaPath = i.FullName;
-                        media.mediaClass = f.Name;
-                        data.medias.Add(media);
-                    }
-                    else
-                    {
-                        continue;
-                    }
-
-                }
+                data.classes.Add(dirInfo.Name);
+                ProcessPicture(data, dirInfo);
+                ProcessVideo(data, dirInfo);
+                ProcessPdf(data, dirInfo);
+                ProcessMonitor(data, dirInfo);
             }
 
         }
@@ -599,10 +562,65 @@ public class ResourceManager : Singleton<ResourceManager>
         complete?.Invoke(data);
         return data;
     }
+    private void ProcessPicture(MediaData data, DirectoryInfo info)
+    {
+        FileInfo[] files = info.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension.ToLower() == ".jpg" || s.Extension.ToLower() == ".png").ToArray();
+        foreach (var file in files)
+        {
+            var media = new Media();
+            media.mediaType = MediaType.PICTURE;
+            media.mediaName = file.Name.Substring(0, file.Name.LastIndexOf("."));
+            media.coverPath = data.folder + info.Name + "/covers/" + media.mediaName + ".jpg";
+            media.mediaPath = file.FullName;
+            media.mediaClass = info.Name;
+            data.medias.Add(media);
+        }
 
+    }
+    private void ProcessVideo(MediaData data, DirectoryInfo info)
+    {
+        FileInfo[] files = info.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension.ToLower() == ".mp4").ToArray();
+        foreach (var file in files)
+        {
+            var media = new Media();
+            media.mediaType = MediaType.VIDEO;
+            media.mediaName = file.Name.Substring(0, file.Name.LastIndexOf("."));
+            media.coverPath = data.folder + info.Name + "/covers/" + media.mediaName + ".jpg";
+            media.mediaPath = file.FullName;
+            media.mediaClass = info.Name;
+            data.medias.Add(media);
+        }
+    }
+    private void ProcessPdf(MediaData data, DirectoryInfo info)
+    {
+        FileInfo[] files = info.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension.ToLower() == ".pdf").ToArray();
+        foreach (var file in files)
+        {
+            var media = new Media();
+            media.mediaType = MediaType.PDF;
+            media.mediaName = file.Name.Substring(0, file.Name.LastIndexOf("."));
+            media.coverPath = data.folder + info.Name + "/covers/" + media.mediaName + ".jpg";
+            media.mediaPath = file.FullName;
+            media.mediaClass = info.Name;
+            data.medias.Add(media);
+        }
 
+    }
+    private void ProcessMonitor(MediaData data, DirectoryInfo info)
+    {
+        FileInfo[] files = info.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension.ToLower() == ".monitor").ToArray();
+        foreach (var file in files)
+        {
+            var media = new Media();
+            media.mediaType = MediaType.MONITOR;
+            media.mediaName = file.Name.Substring(0, file.Name.LastIndexOf("."));
+            media.coverPath = data.folder + info.Name + "/covers/" + media.mediaName + ".jpg";
+            media.mediaPath = file.FullName;
+            media.mediaClass = info.Name;
+            data.medias.Add(media);
+        }
 
-
+    }
 
     // private void Update()
     // {

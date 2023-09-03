@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8698c20240d3f6f4b816f1d0a7af2f64, type: 3}
+  m_Name: MediaIconAsset
+  m_EditorClassIdentifier: 
+  mediaIcons:
+  - Name: PICTURE
+    mediaType: 3
+    icon: {fileID: 21300000, guid: a42d39da1bfdd4849836ac575bcacd3e, type: 3}
+  - Name: VIDEO
+    mediaType: 2
+    icon: {fileID: 21300000, guid: dc7073322dffb7246a5030d9663eff33, type: 3}
+  - Name: PDF
+    mediaType: 1
+    icon: {fileID: 21300000, guid: 14836fe89e899d94d8e2d7c566d47540, type: 3}
+  - Name: MONITOR
+    mediaType: 4
+    icon: {fileID: 21300000, guid: ec4fe4e1d28c3ce4093c75f601cf1953, type: 3}
