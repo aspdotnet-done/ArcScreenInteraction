@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using RenderHeads.Media.AVProLiveCamera;
 
 public enum ImageUIType
 {
     None,
     Image,
-    RawImage
+    RawImage,
+    LiveCameraUGUI
 }
 public enum ImageMode
 {
@@ -46,6 +48,18 @@ public class ImageFitter : MonoBehaviour
                 _rawImage = GetComponent<RawImage>();
             }
             return _rawImage;
+        }
+    }
+    private AVProLiveCameraUGUIComponent _liveCameraUGUIComponent;
+    private AVProLiveCameraUGUIComponent liveCameraUGUIComponent
+    {
+        get
+        {
+            if (_liveCameraUGUIComponent == null)
+            {
+                _liveCameraUGUIComponent = GetComponent<AVProLiveCameraUGUIComponent>();
+            }
+            return _liveCameraUGUIComponent;
         }
     }
     private ImageUIType _imageUIType = ImageUIType.None;
@@ -152,6 +166,11 @@ public class ImageFitter : MonoBehaviour
             textureWidth = rawImage.texture.width;
             textureHeight = rawImage.texture.height;
         }
+        else if (_imageUIType == ImageUIType.LiveCameraUGUI && liveCameraUGUIComponent != null)
+        {
+            textureWidth = liveCameraUGUIComponent.mainTexture.width;
+            textureHeight = liveCameraUGUIComponent.mainTexture.height;
+        }
         return (textureWidth, textureHeight);
     }
     private void OnValidate()
@@ -167,6 +186,10 @@ public class ImageFitter : MonoBehaviour
         else if (rawImage != null)
         {
             _imageUIType = ImageUIType.RawImage;
+        }
+        else if (liveCameraUGUIComponent != null)
+        {
+            _imageUIType = ImageUIType.LiveCameraUGUI;
         }
         else
         {
