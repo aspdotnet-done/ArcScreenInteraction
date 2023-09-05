@@ -193,12 +193,16 @@ public class PdfFileViewer : BaseViewer
             page.SetActive(true);
             items.Add(new ItemDataPDF((i + 1).ToString(), tex));
         }
+        pdfPageParent.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 
         scrollView.UpdateData(items);
         scrollView.SelectCell(0);
         scrollView.transform.GetChild(0).GetChild(0).GetComponentInChildren<Button>().Select();
         gameObject.SetActive(true);
-        canvasGroup.DOFade(1, 1f).SetDelay(0.5f);
+        canvasGroup.DOFade(1, 1f).SetDelay(0.5f).OnComplete(() =>
+        {
+            scrollView.transform.GetChild(0).GetChild(0).GetComponentInChildren<Button>().Select();
+        });
         currentPlayState = PlayState.Playing;
         PDFVideoData d = GetDataFromPage(1);
         if (hasVideo && d != null)
@@ -279,8 +283,9 @@ public class PdfFileViewer : BaseViewer
     public override void Hide()
     {
         currentPage = 999;
-        AppManager.Instance.EnterAction -= ConfirmAction;
-        //Debug.Log("hidepdf");
+        if (AppManager.Instance != null)
+            AppManager.Instance.EnterAction -= ConfirmAction;
+        Debug.Log("hidepdf");
         canvasGroup.GetComponent<CanvasGroup>().DOFade(0, 0.1f);
         prevCellButton.onClick.RemoveAllListeners();
         nextCellButton.onClick.RemoveAllListeners();
@@ -291,7 +296,10 @@ public class PdfFileViewer : BaseViewer
         {
             Destroy(pdfPageParent.GetChild(i).gameObject);
         }
+        pdfPageParent.GetComponent<RectTransform>().offsetMin = Vector2.zero;
+        pdfPageParent.GetComponent<RectTransform>().offsetMax = Vector2.zero;
         gameObject.SetActive(false);
+        Debug.Log("hidepdf2");
     }
     public float maxHeight = 1080f;
 

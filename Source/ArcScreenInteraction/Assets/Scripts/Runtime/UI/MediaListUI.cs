@@ -32,7 +32,7 @@ public class MediaListUI : UI
     //列表 
     private int totalPage = 0;
     private int currentPage = 0;
-    private int pageSize = 100;
+    private int pageSize = 4;
     [SerializeField] private GameObject cellPrefab;
     private List<GameObject> cells = new List<GameObject>();
 
@@ -50,8 +50,8 @@ public class MediaListUI : UI
         if (currentPage < totalPage - 1)
         {
             currentPage++;
-            toggleSelectList[currentPage].isOn = true;
-
+            //toggleSelectList[currentPage].isOn = true;
+            ChangePage();
         }
 
     }
@@ -60,7 +60,8 @@ public class MediaListUI : UI
         if (currentPage > 0)
         {
             currentPage--;
-            toggleSelectList[currentPage].isOn = true;
+            //toggleSelectList[currentPage].isOn = true;
+            ChangePage();
         }
     }
 
@@ -145,7 +146,7 @@ public class MediaListUI : UI
             cells.Add(cell);
 
         }
-        totalPage = (int)Math.Ceiling((float)cells.Count / pageSize);
+        totalPage = (int)Math.Ceiling((float)cells.Count / 4);
         currentPage = 0;
         //Debug.Log("totalPage:" + totalPage);
         prevCellButton.gameObject.SetActive(false);
@@ -176,33 +177,53 @@ public class MediaListUI : UI
     public void CellViewSelect(CellView cell)
     {
 
-        Vector3 cellPosition = cell.GetComponent<RectTransform>().anchoredPosition;
-        //Debug.Log("cellPosition:" + cellPosition);
-        //下一页
-        if (cellPosition.x == (initScrollPosition + (contentWidthOffset * counter)))
-        {
-            counter++;
-            contentParent.anchoredPosition -= new Vector2(contentWidthOffset, 0);
-            cell.Select();
-        }
-        //1596
+        // Vector3 cellPosition = cell.GetComponent<RectTransform>().anchoredPosition;
+        // Debug.Log("cellPosition:" + cellPosition);
+        // //下一页
+        // if (cellPosition.x == (initScrollPosition + (contentWidthOffset * counter)))
+        // {
+        //     Debug.Log("1 counter:" + counter + "| prePageCells" + prePageCells.Count);
+        //     counter++;
+        //     contentParent.anchoredPosition -= new Vector2(contentWidthOffset, 0);
+        //     cell.Select();
+        // }
+        // //1596
 
-        if (cellPosition.x == (lastEdgePosition + (contentWidthOffset * (counter - 1))))
-        {
-            Debug.Log("counter:" + counter);
-            if (!prePageCells.Contains(cell))
-                prePageCells.Add(cell);
-        }
-        if (cellPosition.x == (lastEdgePosition + (contentWidthOffset * (counter - 2))))
-        {
-            if (prePageCells.Contains(cell))
-            {
-                counter--;
-                prePageCells.Remove(cell);
-                contentParent.anchoredPosition += new Vector2(contentWidthOffset, 0);
-                cell.Select();
-            }
-        }
+        // if (cellPosition.x == (lastEdgePosition + (contentWidthOffset * (counter - 1))))
+        // {
+        //     Debug.Log("2 counter:" + counter + "| prePageCells" + prePageCells.Count);
+        //     if (!prePageCells.Contains(cell))
+        //         prePageCells.Add(cell);
+        // }
+        // if (cellPosition.x == (lastEdgePosition + (contentWidthOffset * (counter - 2))))
+        // {
+        //     Debug.Log("3 counter:" + counter + "| prePageCells" + prePageCells.Count);
+        //     if (prePageCells.Contains(cell))
+        //     {
+        //         counter--;
+        //         prePageCells.Remove(cell);
+        //         contentParent.anchoredPosition += new Vector2(contentWidthOffset, 0);
+        //         cell.Select();
+        //     }
+        // }
+        // //上一页是否显示
+        // if (counter > 0)
+        // {
+        //     prevCellButton.gameObject.SetActive(true);
+        // }
+        // else
+        // {
+        //     prevCellButton.gameObject.SetActive(false);
+        // }
+        // //下一页是否显示
+        // if (counter < totalPage)
+        // {
+        //     nextCellButton.gameObject.SetActive(true);
+        // }
+        // else
+        // {
+        //     nextCellButton.gameObject.SetActive(false);
+        // }
 
     }
     private List<CellView> prePageCells = new List<CellView>();
@@ -221,12 +242,43 @@ public class MediaListUI : UI
             end = cells.Count;
         }
         Debug.Log("start:" + start + "end:" + end + "cells.Count:" + cells.Count);
-
+        bool isSelect = false;
         for (int j = start; j < end; j++)
         {
             cells[j].SetActive(true);
+            if (!isSelect)
+            {
+                StartCoroutine(WaitForSelect(cells[j]));
+                isSelect = true;
+            }
+        }
+        //上一页是否显示
+        if (currentPage > 0)
+        {
+            prevCellButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            prevCellButton.gameObject.SetActive(false);
+        }
+        //下一页是否显示
+        if (currentPage < totalPage - 1)
+        {
+            nextCellButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            nextCellButton.gameObject.SetActive(false);
         }
 
+    }
+
+    IEnumerator WaitForSelect(GameObject obj)
+    {
+        yield return 0;
+        EventSystem.current.SetSelectedGameObject(null);
+        yield return 0;
+        EventSystem.current.SetSelectedGameObject(obj);
     }
 
     private void InitDots()

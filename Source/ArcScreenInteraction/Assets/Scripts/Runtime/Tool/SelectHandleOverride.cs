@@ -21,6 +21,7 @@ public class SelectHandleOverride : MonoBehaviour, ISelectHandler, IDeselectHand
     {
         if (autoSelect && button != null)
         {
+            Debug.Log("OnSelect");
             ExecuteEvents.Execute(button.gameObject, new BaseEventData(EventSystem.current), ExecuteEvents.submitHandler);
         }
         if (isScroll)
@@ -35,7 +36,7 @@ public class SelectHandleOverride : MonoBehaviour, ISelectHandler, IDeselectHand
     // Start is called before the first frame update
     void Start()
     {
-        //button = GetComponent<Button>();
+        button = GetComponent<Button>();
     }
 
     // Update is called once per frame

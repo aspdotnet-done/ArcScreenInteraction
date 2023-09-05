@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class AppManager : MonoBehaviour
 {
@@ -32,7 +33,11 @@ public class AppManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //输出当前选择的UI
+        if (EventSystem.current.currentSelectedGameObject != null)
+            Debug.Log(EventSystem.current.currentSelectedGameObject?.name);
+        else
+            Debug.Log("null");
     }
 
     void Home()
