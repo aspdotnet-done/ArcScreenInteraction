@@ -16,6 +16,7 @@ public class PdfFileViewer : BaseViewer
     [SerializeField] public ScrollViewPDF scrollView = default;
     [SerializeField] Button prevCellButton = default;
     [SerializeField] Button nextCellButton = default;
+    [SerializeField] ScrollRect pageScroll = default;
 
     [SerializeField] private GameObject pdfPagePrefab;
     [SerializeField] private Transform pdfPageParent;
@@ -194,15 +195,13 @@ public class PdfFileViewer : BaseViewer
             items.Add(new ItemDataPDF((i + 1).ToString(), tex));
         }
         pdfPageParent.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-
+        pageScroll.horizontalNormalizedPosition = 0;
         scrollView.UpdateData(items);
         scrollView.SelectCell(0);
         scrollView.transform.GetChild(0).GetChild(0).GetComponentInChildren<Button>().Select();
         gameObject.SetActive(true);
-        canvasGroup.DOFade(1, 1f).SetDelay(0.5f).OnComplete(() =>
-        {
-            scrollView.transform.GetChild(0).GetChild(0).GetComponentInChildren<Button>().Select();
-        });
+        StartCoroutine(ScrollReset());
+        canvasGroup.DOFade(1, 1f).SetDelay(0.2f);
         currentPlayState = PlayState.Playing;
         PDFVideoData d = GetDataFromPage(1);
         if (hasVideo && d != null)
@@ -223,6 +222,12 @@ public class PdfFileViewer : BaseViewer
         {
             hotPointTitle.gameObject.SetActive(false);
         }
+    }
+
+    IEnumerator ScrollReset()
+    {
+        yield return new WaitForSeconds(0.1f);
+        pageScroll.horizontalNormalizedPosition = 0;
     }
 
     PDFVideoData GetDataFromPage(int page)
@@ -270,7 +275,7 @@ public class PdfFileViewer : BaseViewer
         Texture2D tex = renderer.RenderPageToTexture(pdfDocument.GetPage(index), (int)(pdfDocument.GetPage(index).GetPageSize().x * scale), (int)(pdfDocument.GetPage(index).GetPageSize().y * scale));
 
         tex.filterMode = FilterMode.Bilinear;
-        tex.anisoLevel = 8;
+        //tex.anisoLevel = 8;
         renderer.Dispose();
         return tex;
     }
@@ -315,6 +320,7 @@ public class PdfFileViewer : BaseViewer
         // {
         image.rectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         // }
+        Debug.Log("newHeight:" + newHeight + "newWidth:" + newWidth);
     }
     private float innerDelay
     {
