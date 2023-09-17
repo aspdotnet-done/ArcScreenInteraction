@@ -20,7 +20,7 @@ namespace UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02
 
         public override void Initialize()
         {
-            button.onClick.AddListener(() => Context.OnCellClicked?.Invoke(Index));
+            //button.onClick.AddListener(() => Context.OnCellClicked?.Invoke(Index));
         }
 
         public override void UpdateContent(ItemData itemData)
@@ -32,7 +32,7 @@ namespace UnityEngine.UI.Extensions.Examples.FancyScrollViewExample02
             image.texture = itemData.texture;
             image.color = selected
                 ? new Color32(255, 255, 255, 255)
-                : new Color32(120, 120, 120, 120);
+                : new Color32(255, 255, 255, 120);
 
         }
 

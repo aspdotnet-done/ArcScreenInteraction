@@ -183,10 +183,9 @@ public class MainUI : UI
 
     void ItemClick(string itemName)
     {
-
-
         title.text = itemName;
         MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
+        ui.gameObject.SetActive(true);
         ui.InitMediaList(itemName);
         ui.InitClasses();
         ui.ShowUI();

@@ -88,9 +88,6 @@ public class PdfFileViewer : BaseViewer
         if (ui.CurrentState == UIState.Hide) return;
         if (GetDataFromPage(currentPage + 1) != null && pdfVideoView.canvasGroup.alpha == 0)
         {
-
-            Debug.Log(2);
-
             OnHotPointClick();
             //scrollView.enabled = false;
             //获取当前uinavigation的焦点

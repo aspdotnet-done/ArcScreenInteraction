@@ -30,7 +30,7 @@ public class SelectHandleOverride : MonoBehaviour, ISelectHandler, IDeselectHand
 
             transform.parent.parent.parent.GetComponent<ScrollView>().SelectCell(transform.parent.GetSiblingIndex());
         }
-        transform.DOScale(1.1f, 0.2f).SetEase(Ease.OutBack);
+        transform.DOScale(selectScale, 0.2f).SetEase(Ease.OutBack);
     }
 
     // Start is called before the first frame update

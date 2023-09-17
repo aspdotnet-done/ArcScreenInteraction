@@ -29,6 +29,8 @@ public class UINavigationControl : MonoBehaviour
     {
         NetworkInput.OnMessageReceived -= OnMessageReceived;
     }
+
+    private GameObject lastSelected;
     public void Move(MoveDirection direction)
     {
         AxisEventData data = new AxisEventData(EventSystem.current);
@@ -128,6 +130,19 @@ public class UINavigationControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             AppManager.Instance.SettingAction?.Invoke();
+        }
+
+
+        if (eventSystem.currentSelectedGameObject)
+        {
+            lastSelected = eventSystem.currentSelectedGameObject;
+        }
+        else
+        {
+            if (lastSelected != null)
+            {
+                eventSystem.SetSelectedGameObject(lastSelected);
+            }
         }
     }
 }

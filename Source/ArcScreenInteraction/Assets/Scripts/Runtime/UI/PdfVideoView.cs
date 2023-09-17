@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using DG.Tweening;
+using Cysharp.Threading.Tasks;
 
 public class PdfVideoView : MonoBehaviour
 {
@@ -15,7 +16,14 @@ public class PdfVideoView : MonoBehaviour
     void Start()
     {
         Invoke("DelayToRuning", 0.1f);
+        videoPlayer.loopPointReached += VideoPlayer_loopPointReached;
+    }
 
+    private async void VideoPlayer_loopPointReached(VideoPlayer source)
+    {
+        Debug.Log("VideoPlayer_loopPointReached");
+        await UniTask.Delay(1000);
+        BackAction();
     }
 
     void DelayToRuning()
@@ -24,8 +32,9 @@ public class PdfVideoView : MonoBehaviour
         AppManager.Instance.BackAction += BackAction;
         Debug.Log("初始化");
     }
+
     PDFVideoData currentData;
-    public void InitVideo(PDFVideoData data)
+    public async void InitVideo(PDFVideoData data)
     {
         currentData = null;
         if (data == null) return;
@@ -36,19 +45,9 @@ public class PdfVideoView : MonoBehaviour
         videoPlayer.url = data.VideoName;
         videoPlayer.Play();
 
-        Invoke("WaitforPlay", 0.1f);
-    }
-    void WaitforPlay()
-    {
-        //yield return new WaitForSeconds(0.1f);
-        //float width = videoPlayer.width;
-        //float height = videoPlayer.height;
-        //RenderTexture r = new RenderTexture((int)width, (int)height, 0);
-        //videoPlayer.targetTexture.width = (int)width;
-        //videoPlayer.targetTexture.height = (int)height;
-        //videoPlayer.targetTexture = r;
-        //videoImage.texture = r;
+        await UniTask.WaitUntil(() => videoPlayer.isPlaying);
         imageFitter.Fit();
+
     }
 
     void ConfirmAction()
@@ -65,7 +64,6 @@ public class PdfVideoView : MonoBehaviour
     void BackAction()
     {
         if (canvasGroup.alpha == 0) return;
-        if (!videoPlayer.isPlaying) return;
         Debug.Log("BackAction");
         canvasGroup.alpha = 0;
         videoPlayer.Stop();
@@ -73,8 +71,6 @@ public class PdfVideoView : MonoBehaviour
         MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
         ui.SetCanReturn();
         ui.pDFViewer.SelectPage(currentData.PageIndex - 1);
-
-
     }
 
 
