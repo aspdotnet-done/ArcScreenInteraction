@@ -31,7 +31,6 @@ public class PdfFileViewer : BaseViewer
     private List<PDFVideoData> videoDatas;
     void OnSelectionChanged(int index)
     {
-
         currentPage = index;
         Debug.Log("当前页码:" + currentPage);
         scrollSnap.ChangePage(currentPage);
@@ -67,10 +66,6 @@ public class PdfFileViewer : BaseViewer
     public bool firstIn = true;
     private void ConfirmAction()
     {
-        // if (GetDataFromPage(currentPage + 1) == null || pdfVideoView.canvasGroup.alpha > 0) return;
-        // Debug.Log(2);
-        // OnHotPointClick();
-        // EventSystem.current.SetSelectedGameObject(null);
         try
         {
             Invoke("WaitAFrame", 0.05f);
@@ -99,12 +94,11 @@ public class PdfFileViewer : BaseViewer
     {
         currentPage = page;
         scrollView.SelectCell(page);
-        scrollView.transform.GetChild(0).GetChild(page).GetComponentInChildren<Button>().Select();
+        //scrollView.transform.GetChild(0).GetChild(page).GetComponentInChildren<Button>().Select();
     }
 
     public override void Show()
     {
-        //Debug.Log("showpdf");
         AppManager.Instance.EnterAction += ConfirmAction;
         prevCellButton.onClick.AddListener(scrollView.SelectPrevCell);
         nextCellButton.onClick.AddListener(scrollView.SelectNextCell);
@@ -317,7 +311,6 @@ public class PdfFileViewer : BaseViewer
         // {
         image.rectTransform.sizeDelta = new Vector2(newWidth, newHeight);
         // }
-        Debug.Log("newHeight:" + newHeight + "newWidth:" + newWidth);
     }
     private float innerDelay
     {

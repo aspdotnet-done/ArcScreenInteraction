@@ -139,7 +139,7 @@ public class UINavigationControl : MonoBehaviour
         }
         else
         {
-            if (lastSelected != null)
+            if (lastSelected != null && eventSystem.currentSelectedGameObject == null)
             {
                 eventSystem.SetSelectedGameObject(lastSelected);
             }

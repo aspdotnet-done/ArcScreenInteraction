@@ -32,7 +32,7 @@ public class MediaListUI : UI
     //列表 
     private int totalPage = 0;
     private int currentPage = 0;
-    private int pageSize = 4;
+    private int pageSize = 5;
     [SerializeField] private GameObject cellPrefab;
     private List<GameObject> cells = new List<GameObject>();
 
@@ -44,11 +44,18 @@ public class MediaListUI : UI
         prevCellButton.onClick.AddListener(LastPage);
         nextCellButton.onClick.AddListener(NextPage);
     }
-
+    private void OnDisable()
+    {
+        isLastPage = false;
+        HideBtn.onClick.RemoveListener(HideClick);
+        prevCellButton.onClick.RemoveAllListeners();
+        nextCellButton.onClick.RemoveAllListeners();
+    }
     private void NextPage()
     {
         if (currentPage < totalPage - 1)
         {
+            isLastPage = false;
             currentPage++;
             //toggleSelectList[currentPage].isOn = true;
             ChangePage();
@@ -59,8 +66,8 @@ public class MediaListUI : UI
     {
         if (currentPage > 0)
         {
+            isLastPage = true;
             currentPage--;
-            //toggleSelectList[currentPage].isOn = true;
             ChangePage();
         }
     }
@@ -70,13 +77,6 @@ public class MediaListUI : UI
     private List<Media> MediaList = new List<Media>();
     private Media currentMediaData;
 
-
-
-    private void ShowConfirmPanel()
-    {
-
-
-    }
     private void PlayClick()
     {
         MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
@@ -84,42 +84,12 @@ public class MediaListUI : UI
         HideUI();
     }
 
-
-    //显示父级界面
-    // public void InitMediaList(SecurityType securityType)
-    // {
-    //     switch (securityType)
-    //     {
-
-    //         case SecurityType.xiaofang:
-    //             var items = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[1];
-    //             currentMediaDatas = items;
-    //             MediaList = CopyMedias(currentMediaDatas.medias);
-    //             InitMediaList(MediaList);
-    //             break;
-    //         case SecurityType.anfang:
-    //             var items1 = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[0];
-    //             currentMediaDatas = items1;
-    //             MediaList = CopyMedias(currentMediaDatas.medias);
-    //             InitMediaList(MediaList);
-    //             break;
-    //         case SecurityType.renfang:
-    //             var items2 = MediaManager.Instance.mediaDatasScriptableAsset.mediaDatas[2];
-    //             currentMediaDatas = items2;
-    //             MediaList = CopyMedias(currentMediaDatas.medias);
-    //             InitMediaList(MediaList);
-    //             break;
-    //     }
-    // }
-
     public void InitMediaList(string itemName)
     {
-
         var items = MediaManager.Instance.GetMediaDataItem(itemName);
         currentMediaDatas = items;
         MediaList = CopyMedias(currentMediaDatas.medias);
         InitMediaList(MediaList);
-
     }
 
     private void InitMediaList(List<Media> medias)
@@ -177,56 +147,9 @@ public class MediaListUI : UI
     public void CellViewSelect(CellView cell)
     {
 
-        // Vector3 cellPosition = cell.GetComponent<RectTransform>().anchoredPosition;
-        // Debug.Log("cellPosition:" + cellPosition);
-        // //下一页
-        // if (cellPosition.x == (initScrollPosition + (contentWidthOffset * counter)))
-        // {
-        //     Debug.Log("1 counter:" + counter + "| prePageCells" + prePageCells.Count);
-        //     counter++;
-        //     contentParent.anchoredPosition -= new Vector2(contentWidthOffset, 0);
-        //     cell.Select();
-        // }
-        // //1596
-
-        // if (cellPosition.x == (lastEdgePosition + (contentWidthOffset * (counter - 1))))
-        // {
-        //     Debug.Log("2 counter:" + counter + "| prePageCells" + prePageCells.Count);
-        //     if (!prePageCells.Contains(cell))
-        //         prePageCells.Add(cell);
-        // }
-        // if (cellPosition.x == (lastEdgePosition + (contentWidthOffset * (counter - 2))))
-        // {
-        //     Debug.Log("3 counter:" + counter + "| prePageCells" + prePageCells.Count);
-        //     if (prePageCells.Contains(cell))
-        //     {
-        //         counter--;
-        //         prePageCells.Remove(cell);
-        //         contentParent.anchoredPosition += new Vector2(contentWidthOffset, 0);
-        //         cell.Select();
-        //     }
-        // }
-        // //上一页是否显示
-        // if (counter > 0)
-        // {
-        //     prevCellButton.gameObject.SetActive(true);
-        // }
-        // else
-        // {
-        //     prevCellButton.gameObject.SetActive(false);
-        // }
-        // //下一页是否显示
-        // if (counter < totalPage)
-        // {
-        //     nextCellButton.gameObject.SetActive(true);
-        // }
-        // else
-        // {
-        //     nextCellButton.gameObject.SetActive(false);
-        // }
-
     }
     private List<CellView> prePageCells = new List<CellView>();
+    private bool isLastPage = false;
 
     private void ChangePage()
     {
@@ -242,16 +165,20 @@ public class MediaListUI : UI
             end = cells.Count;
         }
         Debug.Log("start:" + start + "end:" + end + "cells.Count:" + cells.Count);
-        bool isSelect = false;
         for (int j = start; j < end; j++)
         {
             cells[j].SetActive(true);
-            if (!isSelect)
-            {
-                StartCoroutine(WaitForSelect(cells[j]));
-                isSelect = true;
-            }
         }
+        int selectIndex = 0;
+        if (isLastPage)
+        {
+            selectIndex = end - 1;
+        }
+        else
+        {
+            selectIndex = start;
+        }
+        StartCoroutine(WaitForSelect(cells[selectIndex]));
         //上一页是否显示
         if (currentPage > 0)
         {
@@ -272,7 +199,6 @@ public class MediaListUI : UI
         }
 
     }
-
     IEnumerator WaitForSelect(GameObject obj)
     {
         yield return 0;
@@ -433,16 +359,4 @@ public class MediaListUI : UI
 
         return list;
     }
-
-
-
-    private void OnDisable()
-    {
-        HideBtn.onClick.RemoveListener(HideClick);
-        prevCellButton.onClick.RemoveAllListeners();
-        nextCellButton.onClick.RemoveAllListeners();
-        //playButton.onClick.RemoveListener(PlayClick);
-
-    }
-
 }

@@ -3,8 +3,14 @@
         {
             "Title": "平安南海",
             "Cover": "平安南海.png",
-            "PageIndex": 3,
+            "PageIndex": 2,
             "VideoName": "平安南海.mp4"
+        },
+        {
+            "Title": "智慧消防",
+            "Cover": "智慧消防.png",
+            "PageIndex": 8,
+            "VideoName": "智慧消防.mp4"
         }
     ]
 }

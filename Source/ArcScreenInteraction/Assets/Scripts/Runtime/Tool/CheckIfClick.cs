@@ -8,28 +8,17 @@ public class CheckIfClick : MonoBehaviour
     public CanvasGroup canvasGroup;
     private float lastClickTime;
     public float hideTime = 10f;
-
+    private bool isShow = false;
     void Start()
     {
         lastClickTime = Time.time;
-        AppManager.Instance.LeftAction += () =>
-        {
-            canvasGroup.DOFade(1f, 0.2f).OnComplete(() =>
-            {
-                canvasGroup.interactable = true;
-            });
-            lastClickTime = Time.time;
-        };
-        AppManager.Instance.RightAction += () =>
-        {
-            canvasGroup.DOFade(1f, 0.2f).OnComplete(() =>
-            {
-                canvasGroup.interactable = true;
-            });
-            lastClickTime = Time.time;
-        };
         AppManager.Instance.EnterAction += () =>
         {
+            if (isShow)
+            {
+                return;
+            }
+            isShow = true;
             canvasGroup.DOFade(1f, 0.2f).OnComplete(() =>
             {
                 canvasGroup.interactable = true;
@@ -37,11 +26,26 @@ public class CheckIfClick : MonoBehaviour
             lastClickTime = Time.time;
         };
     }
+    private void OnEnable()
+    {
+        canvasGroup.alpha = 0f;
+        canvasGroup.interactable = false;
+    }
+    private void OnDisable()
+    {
+        canvasGroup.alpha = 0f;
+        canvasGroup.interactable = false;
+    }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (isShow)
+            {
+                return;
+            }
+            isShow = true;
             canvasGroup.DOFade(1f, 0.2f).OnComplete(() =>
             {
                 canvasGroup.interactable = true;
@@ -49,8 +53,9 @@ public class CheckIfClick : MonoBehaviour
             lastClickTime = Time.time;
         }
 
-        if (Time.time - lastClickTime > hideTime)
+        if (isShow && (Time.time - lastClickTime > hideTime))
         {
+            isShow = false;
             canvasGroup.DOFade(0f, 0.2f);
             canvasGroup.interactable = false;
         }
