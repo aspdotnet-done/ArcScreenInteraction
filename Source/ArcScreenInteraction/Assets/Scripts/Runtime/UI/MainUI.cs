@@ -4,21 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
-
+using ScriptableObjectArchitecture;
 
 public class MainUI : UI
 {
-
-
-    private Transform bg;
-    public Transform Bg
-    {
-        get
-        {
-            if (bg == null) bg = transform.parent.Find("BG");
-            return bg;
-        }
-    }
     private Toggle overviewBtn;
     public Toggle OverviewBtn
     {
@@ -36,35 +25,6 @@ public class MainUI : UI
         {
             if (selection == null) selection = transform.Find("Selection").gameObject;
             return selection;
-        }
-    }
-
-    private Toggle xiaofangBtn;
-    public Toggle XiaofangBtn
-    {
-        get
-        {
-            if (xiaofangBtn == null) xiaofangBtn = transform.Find("Selection/xiaofang").GetComponent<Toggle>();
-            return xiaofangBtn;
-        }
-    }
-
-    private Toggle anfangBtn;
-    public Toggle AnfangBtn
-    {
-        get
-        {
-            if (anfangBtn == null) anfangBtn = transform.Find("Selection/anfang").GetComponent<Toggle>();
-            return anfangBtn;
-        }
-    }
-    private Toggle renfangBtn;
-    public Toggle RenfangBtn
-    {
-        get
-        {
-            if (renfangBtn == null) renfangBtn = transform.Find("Selection/renfang").GetComponent<Toggle>();
-            return renfangBtn;
         }
     }
     [SerializeField] Text title = default;
@@ -91,12 +51,7 @@ public class MainUI : UI
     [SerializeField] GameObject rightTopicMoudle = default;
 
     [SerializeField] Button settingButton = default;
-
-
-    //列表 
-    private int totalPage = 0;
-    private int currentPage = 0;
-    private int pageSize = 100;
+    //列表
     [SerializeField] RectTransform scrollView = default;
     [SerializeField] private GameObject cellPrefab;
     private SystemData currentSystemData;
@@ -104,10 +59,10 @@ public class MainUI : UI
     private List<string> itemNameList = new List<string>();
     private string backgroundFileName = "bg.jpg";
     private List<GameObject> cells = new List<GameObject>();
+
     IEnumerator Start()
     {
         yield return ResourceManager.Instance != null;
-        //yield return new WaitUntil(() => MediaManager.Instance != null);
         GetMainBg();
         ResourceManager.Instance.GetMainItemList((s) =>
         {
@@ -145,13 +100,7 @@ public class MainUI : UI
     int counter = 1;
     public void CellViewSelect(MainItem cell)
     {
-        //2048
-        //3856
-        //3856-2048=1808
-        //2048-1808=240
-        // float edge = 50 + (180 + 72)
         Vector3 cellPosition = cell.GetComponent<RectTransform>().anchoredPosition;
-        //Debug.Log("cellPosition:" + cellPosition);
         //下一页
         if (cellPosition.x == (initScrollPosition + (contentWidthOffset * counter)))
         {
@@ -159,7 +108,6 @@ public class MainUI : UI
             scrollView.anchoredPosition -= new Vector2(contentWidthOffset, 0);
             cell.Select();
         }
-        //1596
 
         if (cellPosition.x == (lastEdgePosition + (contentWidthOffset * (counter - 1))))
         {
@@ -192,7 +140,6 @@ public class MainUI : UI
         GetCurrentItemBg(itemName);
         HideUI();
     }
-
 
     private void GetMainBg()
     {
@@ -240,9 +187,6 @@ public class MainUI : UI
             rightTopicMoudle.SetActive(false);
         }
     }
-
-
-
     public void GetCurrentItemBg(string currentItemName)
     {
         leftTopicMoudle.SetActive(false);
@@ -282,8 +226,6 @@ public class MainUI : UI
             rightTopicMoudle.SetActive(false);
         }
     }
-
-
 
     private int index = 0;
     Coroutine loopMainBgCoroutine;
@@ -332,43 +274,15 @@ public class MainUI : UI
 
     private void OnEnable()
     {
-        // AnfangBtn.onValueChanged.AddListener(AnfangClick);
-        // XiaofangBtn.onValueChanged.AddListener(XiaofangClick);
-        // RenfangBtn.onValueChanged.AddListener(RenfangClick);
-        // OverviewBtn.onValueChanged.AddListener(OverviewClick);
         loopTypeDropdown.onValueChanged.AddListener(LoopTypeChange);
         innerDelaySlider.onValueChanged.AddListener(InnerDelayChange);
         outerDelaySlider.onValueChanged.AddListener(OuterDelayChange);
         mainDelaySlider.onValueChanged.AddListener(MainDelayChange);
-        settingButton.onClick.AddListener(SettingShow);
-        confirmButton.onClick.AddListener(ConfirmSettingClick);
         StartCoroutine(InitData());
     }
-
-    public override void OnBack()
-    {
-        Debug.Log("main onback");
-    }
-
-    public void SettingShow()
-    {
-        settingPanel.SetActive(true);
-        loopTypeDropdown.Select();
-    }
-
-    void ConfirmSettingClick()
-    {
-        settingPanel.SetActive(false);
-        AppManager.Instance.HomeAction?.Invoke();
-    }
-
-
-
     IEnumerator InitData()
     {
         yield return new WaitForSeconds(0.5f);
-        //yield return new WaitUntil(() => MediaManager.Instance != null);
-        //yield return new WaitUntil(() => MediaManager.Instance.setupDataScriptableAsset != null);
         currentSystemData = MediaManager.Instance.setupDataScriptableAsset.data;
         loopTypeDropdown.value = (int)currentSystemData.setupData.loopType;
         innerDelaySlider.value = currentSystemData.setupData.innerDelay;
@@ -380,7 +294,6 @@ public class MainUI : UI
     {
         MediaManager.Instance.setupDataScriptableAsset.data.setupData.loopType = (LoopType)index;
         MediaManager.Instance.UpdateSetupAsset();
-        //Debug.Log($"LoopTypeChange {index}");
     }
     private void InnerDelayChange(float v)
     {

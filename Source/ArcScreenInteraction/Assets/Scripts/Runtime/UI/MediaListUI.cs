@@ -38,14 +38,16 @@ public class MediaListUI : UI
 
 
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         HideBtn.onClick.AddListener(HideClick);
         prevCellButton.onClick.AddListener(LastPage);
         nextCellButton.onClick.AddListener(NextPage);
     }
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         isLastPage = false;
         HideBtn.onClick.RemoveListener(HideClick);
         prevCellButton.onClick.RemoveAllListeners();
@@ -57,7 +59,6 @@ public class MediaListUI : UI
         {
             isLastPage = false;
             currentPage++;
-            //toggleSelectList[currentPage].isOn = true;
             ChangePage();
         }
 
@@ -107,7 +108,6 @@ public class MediaListUI : UI
             GameObject cell = Instantiate(cellPrefab, contentParent);
             cell.name = "cell" + j;
             cell.GetComponent<CellView>().Init(i, ShowDetailMedia);
-            cell.GetComponent<CellView>().SelectAction += CellViewSelect;
             if (j == 1)
             {
                 //第一个 默认选中
@@ -140,14 +140,8 @@ public class MediaListUI : UI
             cells[0].GetComponent<CellView>().Select();
         }
     }
-    [SerializeField] private float contentWidthOffset = 1808f;
-    [SerializeField] private float lastEdgePosition = 1596f;
-    [SerializeField] private float initScrollPosition = 240f;
     int counter = 1;
-    public void CellViewSelect(CellView cell)
-    {
 
-    }
     private List<CellView> prePageCells = new List<CellView>();
     private bool isLastPage = false;
 
@@ -301,12 +295,10 @@ public class MediaListUI : UI
         {
             EventSystem.current.SetSelectedGameObject(lastSelectObject);
         }
-        AppManager.Instance.BackAction += OnBack;
     }
     override public void HideUI()
     {
         base.HideUI();
-        //AppManager.Instance.BackAction -= OnBack;
     }
 
     private void classChanged(bool isOn)

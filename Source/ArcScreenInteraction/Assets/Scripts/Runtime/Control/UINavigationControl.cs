@@ -17,6 +17,8 @@ public class UINavigationControl : MonoBehaviour
     [SerializeField] GameEvent optionEvent;
     [SerializeField] GameEvent backEvent;
     [SerializeField] GameEvent homeEvent;
+
+    #region Unity Functions
     private void Awake()
     {
         eventSystem = EventSystem.current;
@@ -29,7 +31,57 @@ public class UINavigationControl : MonoBehaviour
     {
         NetworkInput.OnMessageReceived -= OnMessageReceived;
     }
+    private void Update()
+    {
+        string simulateInputString = Input.inputString;
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            simulateInputString = "up";
+        }
+        else if (Input.GetKeyDown(KeyCode.K))
+        {
+            simulateInputString = "down";
+        }
+        else if (Input.GetKeyDown(KeyCode.J))
+        {
+            simulateInputString = "left";
+        }
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            simulateInputString = "right";
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            simulateInputString = "home";
+        }
+        else if (Input.GetKeyDown(KeyCode.U))
+        {
+            simulateInputString = "confirm";
+        }
+        else if (Input.GetKeyDown(KeyCode.O))
+        {
+            simulateInputString = "option";
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            simulateInputString = "back";
+        }
+        OnMessageReceived(simulateInputString);
 
+
+        if (eventSystem.currentSelectedGameObject)
+        {
+            lastSelected = eventSystem.currentSelectedGameObject;
+        }
+        else
+        {
+            if (lastSelected != null && eventSystem.currentSelectedGameObject == null)
+            {
+                eventSystem.SetSelectedGameObject(lastSelected);
+            }
+        }
+    }
+    #endregion
     private GameObject lastSelected;
     public void Move(MoveDirection direction)
     {
@@ -71,78 +123,20 @@ public class UINavigationControl : MonoBehaviour
                 break;
             case NetworkInputAction.Submit:
                 Submit();
-                AppManager.Instance.EnterAction?.Invoke();
                 submitEvent?.Raise();
                 break;
             case NetworkInputAction.Option:
-                AppManager.Instance.SettingAction?.Invoke();
                 optionEvent?.Raise();
                 break;
             case NetworkInputAction.Back:
-                AppManager.Instance.BackAction?.Invoke();
-                AppManager.Instance.BackAction2?.Invoke();
                 backEvent?.Raise();
                 break;
             case NetworkInputAction.Home:
-                AppManager.Instance.HomeAction?.Invoke();
                 homeEvent?.Raise();
                 break;
             default:
                 break;
         }
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            Move(MoveDirection.Up);
-        }
-        else if (Input.GetKeyDown(KeyCode.K))
-        {
-            Move(MoveDirection.Down);
-        }
-        else if (Input.GetKeyDown(KeyCode.J))
-        {
-            Move(MoveDirection.Left);
-            AppManager.Instance.LeftAction?.Invoke();
-        }
-        else if (Input.GetKeyDown(KeyCode.L))
-        {
-            Move(MoveDirection.Right);
-            AppManager.Instance.RightAction?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Submit();
-            AppManager.Instance.EnterAction?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            AppManager.Instance.BackAction?.Invoke();
-            AppManager.Instance.BackAction2?.Invoke();
-            Debug.Log("BackAction0");
-        }
 
-        if (Input.GetKeyDown(KeyCode.F8))
-        {
-            AppManager.Instance.HomeAction?.Invoke();
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            AppManager.Instance.SettingAction?.Invoke();
-        }
-
-
-        if (eventSystem.currentSelectedGameObject)
-        {
-            lastSelected = eventSystem.currentSelectedGameObject;
-        }
-        else
-        {
-            if (lastSelected != null && eventSystem.currentSelectedGameObject == null)
-            {
-                eventSystem.SetSelectedGameObject(lastSelected);
-            }
-        }
-    }
 }

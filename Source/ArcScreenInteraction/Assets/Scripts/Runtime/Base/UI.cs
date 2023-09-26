@@ -5,7 +5,7 @@ using System.Threading;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-
+using ScriptableObjectArchitecture;
 public enum UIState
 {
     Hide,
@@ -57,6 +57,15 @@ public class UI : MonoBehaviour
     }
     public bool useBackAction = true;
 
+    [SerializeField] GameEvent backEvent;
+    protected virtual void OnEnable()
+    {
+        backEvent.AddListener(OnBack);
+    }
+    protected virtual void OnDisable()
+    {
+        backEvent.RemoveListener(OnBack);
+    }
 
     public virtual void OnBack()
     {
@@ -90,7 +99,6 @@ public class UI : MonoBehaviour
             defaultSelectComponent.Select();
         }
         Debug.Log("Show");
-        AppManager.Instance.BackAction2 = OnBack;
     }
 
     public virtual void HideUI()
@@ -133,94 +141,6 @@ public class UI : MonoBehaviour
             default:
                 break;
         }
-    }
-    /// <summary>
-    /// 按钮果冻效果
-    /// </summary>
-    /// <param name="tran"></param>
-    /// <param name="size"></param>
-    /// <param name="completeAction"></param>
-    /// <param name="scaleEaseType"></param>
-    /// <param name="isMinis"></param>
-    public void ScaleTransform(Transform tran, float size = 1.3f, Action completeAction = null, Ease scaleEaseType = Ease.InQuad, bool isMinis = true)
-    {
-        if (isMinis)
-        {
-            tran.localScale = Vector3.zero;
-        }
-        tran.DOScale(Vector3.one * size, 0.3f).SetEase(scaleEaseType).OnComplete(() =>
-        {
-            tran.DOScale(Vector3.one, 0.2f).OnComplete(() =>
-            {
-                completeAction?.Invoke();
-            });
-        });
-    }
-
-    public void ScaleTransform(Transform tran, bool isMinis)
-    {
-        ScaleTransform(tran, 1.3f, null, Ease.InQuad, isMinis);
-    }
-    public void ScaleTransform(Transform tran, float size, bool isMinis)
-    {
-        ScaleTransform(tran, size, null, Ease.InQuad, isMinis);
-    }
-    public void ScaleTransform(Transform tran, Action completeAction, bool isMinis)
-    {
-        ScaleTransform(tran, 1.3f, completeAction, Ease.InQuad, isMinis);
-    }
-    public void ScaleTransform(Transform tran, Action completeAction, float size, bool isMinis)
-    {
-        ScaleTransform(tran, size, completeAction, Ease.InQuad, isMinis);
-    }
-    /// <summary>
-    /// 左右侧面板平移方法
-    /// </summary>
-    public void SideMoveTransform(RectTransform tran, Side initSize)
-    {
-        float posX = tran.anchoredPosition.x;
-        float posY = tran.anchoredPosition.y;
-        switch (initSize)
-        {
-            case Side.Left:
-                tran.anchoredPosition = new Vector3(-1000f, tran.anchoredPosition.y, 0);
-                tran.DOAnchorPos3DX(posX, 0.2f).OnComplete(() =>
-                {
-                    ScaleTransform(tran, 1.1f, false);
-                });
-                break;
-            case Side.Right:
-                tran.anchoredPosition = new Vector3(1000f, tran.anchoredPosition.y, 0);
-                tran.DOAnchorPos3DX(posX, 0.2f).OnComplete(() =>
-                {
-                    ScaleTransform(tran, 1.1f, false);
-                });
-                break;
-            case Side.Up:
-                tran.anchoredPosition = new Vector3(tran.anchoredPosition.x, 1000, 0);
-                tran.DOAnchorPos3DY(posY, 0.2f).OnComplete(() =>
-                {
-                    ScaleTransform(tran, 1.1f, false);
-                });
-                break;
-            case Side.Down:
-                tran.anchoredPosition = new Vector3(tran.anchoredPosition.x, -1000, 0);
-                tran.DOAnchorPos3DY(posY, 0.2f).OnComplete(() =>
-                {
-                    ScaleTransform(tran, 1.1f, false);
-                });
-                break;
-        }
-        tran.GetComponent<CanvasGroup>().alpha = 1;
-
-    }
-
-    public enum Side
-    {
-        Left,
-        Right,
-        Up,
-        Down
     }
 }
 

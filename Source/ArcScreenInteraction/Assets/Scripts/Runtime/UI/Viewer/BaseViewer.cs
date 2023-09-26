@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ScriptableObjectArchitecture;
 public enum PlayState
 {
     Playing,
@@ -13,6 +14,24 @@ public abstract class BaseViewer : MonoBehaviour
     [SerializeField] public CanvasGroup canvasGroup;
     public Media currentData;
     public PlayState currentPlayState;
+    [SerializeField] protected GameEvent nextPageEvent;
+    [SerializeField] protected GameEvent prevPageEvent;
+    [SerializeField] protected GameEvent submitEvent;
+    [SerializeField] protected GameEvent backEvent;
+    protected virtual void OnEnable()
+    {
+        nextPageEvent.AddListener(Next);
+        prevPageEvent.AddListener(Previous);
+        submitEvent.AddListener(Play);
+        backEvent.AddListener(Return);
+    }
+    protected virtual void OnDisable()
+    {
+        nextPageEvent.RemoveListener(Next);
+        prevPageEvent.RemoveListener(Previous);
+        submitEvent.RemoveListener(Play);
+        backEvent.RemoveListener(Return);
+    }
     public void LoadMedia(Media data)
     {
         currentData = data;

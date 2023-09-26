@@ -5,18 +5,27 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
+using ScriptableObjectArchitecture;
 
 public class PdfVideoView : MonoBehaviour
 {
     [SerializeField] VideoPlayer videoPlayer;
     [SerializeField] ImageFitter imageFitter;
-    [SerializeField] RawImage videoImage;
-    public CanvasGroup canvasGroup;
+    [SerializeField] GameEvent backEvent;
+    [SerializeField] GameEvent enterEvent;
 
-    void Start()
+    public CanvasGroup canvasGroup;
+    private void OnEnable()
     {
-        Invoke("DelayToRuning", 0.1f);
+        backEvent.AddListener(BackAction);
+        enterEvent.AddListener(ConfirmAction);
         videoPlayer.loopPointReached += VideoPlayer_loopPointReached;
+    }
+    private void OnDisable()
+    {
+        backEvent.RemoveListener(BackAction);
+        enterEvent.RemoveListener(ConfirmAction);
+        videoPlayer.loopPointReached -= VideoPlayer_loopPointReached;
     }
 
     private async void VideoPlayer_loopPointReached(VideoPlayer source)
@@ -26,12 +35,6 @@ public class PdfVideoView : MonoBehaviour
         BackAction();
     }
 
-    void DelayToRuning()
-    {
-        AppManager.Instance.EnterAction += ConfirmAction;
-        AppManager.Instance.BackAction += BackAction;
-        Debug.Log("初始化");
-    }
 
     PDFVideoData currentData;
     public async void InitVideo(PDFVideoData data)
@@ -64,13 +67,10 @@ public class PdfVideoView : MonoBehaviour
     void BackAction()
     {
         if (canvasGroup.alpha == 0) return;
-        Debug.Log("BackAction");
         canvasGroup.alpha = 0;
         videoPlayer.Stop();
-        //gameObject.SetActive(false);
         MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
         ui.SetCanReturn();
-        ui.pDFViewer.SelectPage(currentData.PageIndex - 1);
     }
 
 

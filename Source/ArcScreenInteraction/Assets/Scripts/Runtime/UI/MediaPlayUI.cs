@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 using RenderHeads.Media.AVProVideo.Demos;
 using Button = UnityEngine.UI.Button;
+using ScriptableObjectArchitecture;
 
 public class MediaPlayUI : UI
 {
@@ -18,35 +19,9 @@ public class MediaPlayUI : UI
     [SerializeField] public MonitorViewer monitorViewer;
     [SerializeField] public CanvasGroup canvasBar;
     [SerializeField] public Text mideaTitle;
-    private Button hideBtn;
-    public Button HideBtn
-    {
-        get
-        {
-            if (hideBtn == null) hideBtn = transform.Find("PlayBar/Return").GetComponent<Button>();
-            return hideBtn;
-        }
-    }
-
-    private Button lastBtn;
-    public Button LastBtn
-    {
-        get
-        {
-            if (lastBtn == null) lastBtn = transform.Find("PlayBar/Left").GetComponent<Button>();
-            return lastBtn;
-        }
-    }
-
-    private Button nextBtn;
-    public Button NextBtn
-    {
-        get
-        {
-            if (nextBtn == null) nextBtn = transform.Find("PlayBar/Right").GetComponent<Button>();
-            return nextBtn;
-        }
-    }
+    [SerializeField] private GameEvent leftEvent;
+    [SerializeField] private GameEvent rightEvent;
+    [SerializeField] private GameEvent submitEvent;
     public bool isLoopPlay
     {
         get
@@ -54,43 +29,20 @@ public class MediaPlayUI : UI
             return MediaManager.Instance.setupDataScriptableAsset.data.setupData.loopType == LoopType.Loop;
         }
     }
-
-    public bool isOncePlay
-    {
-        get
-        {
-            return MediaManager.Instance.setupDataScriptableAsset.data.setupData.loopType == LoopType.LoopOnce;
-        }
-    }
-
-    public bool isSingle
-    {
-        get
-        {
-            return MediaManager.Instance.setupDataScriptableAsset.data.setupData.loopType == LoopType.Single;
-        }
-    }
-
     [SerializeField]
     private MediaPlayerUI mediaPlayerUI;
-
-    private void Awake()
+    protected override void OnEnable()
     {
-        HideBtn.onClick.AddListener(HideClick);
-        LastBtn.onClick.AddListener(LastClick);
-        NextBtn.onClick.AddListener(NextCleck);
-        StartCoroutine(WaitForInit());
-
+        leftEvent.AddListener(QuickForward);
+        rightEvent.AddListener(QuickBack);
+        submitEvent.AddListener(mediaPlayerUI.TogglePlayPause);
     }
-    IEnumerator WaitForInit()
+    protected override void OnDisable()
     {
-        yield return new WaitForSeconds(0.1f);
-        AppManager.Instance.EnterAction += mediaPlayerUI.TogglePlayPause;
-        AppManager.Instance.LeftAction += QuickForward;
-        AppManager.Instance.RightAction += QuickBack;
+        leftEvent.RemoveListener(QuickForward);
+        rightEvent.RemoveListener(QuickBack);
+        submitEvent.RemoveListener(mediaPlayerUI.TogglePlayPause);
     }
-
-
     void QuickForward()
     {
         mediaPlayerUI.SeekRelative(mediaPlayerUI._jumpDeltaTime);
@@ -98,118 +50,6 @@ public class MediaPlayUI : UI
     void QuickBack()
     {
         mediaPlayerUI.SeekRelative(-mediaPlayerUI._jumpDeltaTime);
-    }
-
-
-    float timer = 0;
-    private float lastClickTime;
-    //点击后自动播放的激活时间
-    public float activeTime = 5f;
-    private void Update()
-    {
-        if (isSingle)
-            return;
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            lastClickTime = 0;
-            timer = 0;
-        }
-
-        if (Time.time - lastClickTime > activeTime)
-        {
-
-            if (viewer.currentPlayState == PlayState.Complete)
-            {
-                timer += Time.deltaTime;
-
-                if (timer > outerDelay)
-                {
-                    timer = 0;
-                    if (CheckIsLast())//最后一个
-                    {
-                        if (!isLoopPlay)
-                        {
-                            //结束 返回首页
-                            HideClick();
-                        }
-                        else
-                        {
-                            NextCleck();
-                        }
-                        //结束 返回首页
-                        //HideClick();
-                    }
-                    else
-                    {
-                        NextCleck();
-                    }
-                }
-            }
-        }
-
-    }
-    private void LastClick()
-    {
-        lastClickTime = 0;
-        timer = 0;
-        if (CheckIsFirst())
-        {
-            if (isLoopPlay)
-            {
-                currentIndex = currentDatas.Count - 1;
-                ShowMedia();
-            }
-            else
-            {
-                Debug.Log("前面没有了");
-                return;
-            }
-        }
-        else
-        {
-            currentIndex -= 1;
-            ShowMedia();
-        }
-    }
-    private void NextCleck()
-    {
-        lastClickTime = 0;
-        timer = 0;
-        if (CheckIsLast())
-        {
-            if (isLoopPlay)
-            {
-                currentIndex = 0;
-                ShowMedia();
-            }
-            else
-            {
-                Debug.Log("后面没有了");
-                return;
-            }
-        }
-        else
-        {
-            currentIndex += 1;
-            ShowMedia();
-        }
-    }
-
-    private bool CheckIsLast()
-    {
-        return currentDatas.Count == currentIndex + 1;
-    }
-    private bool CheckIsFirst()
-    {
-        return currentIndex == 0;
-    }
-
-
-    private void HideClick()
-    {
-        HideUI();
-        MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
-        ui.ShowUI();
     }
     [HideInInspector]
     public bool canReturn = true;
@@ -238,48 +78,16 @@ public class MediaPlayUI : UI
     private int currentIndex = 0;
     public void Init(List<Media> datas, Media media)
     {
-        lastClickTime = 0;
-        timer = 0;
-        Debug.Log("InitMedia");
-        //获取media在datas中的索引
         int index = datas.FindIndex((item) =>
         {
             return item.mediaName == media.mediaName;
         });
         currentDatas = datas;
         currentIndex = index;
-
         ShowMedia();
     }
-
-
-
-    private float innerDelay
-    {
-        get
-        {
-            return MediaManager.Instance.setupDataScriptableAsset.data.setupData.innerDelay;
-        }
-    }
-    private float outerDelay
-    {
-        get
-        {
-            return MediaManager.Instance.setupDataScriptableAsset.data.setupData.outerDelay;
-        }
-    }
-    private LoopType loopType
-    {
-        get
-        {
-            return MediaManager.Instance.setupDataScriptableAsset.data.setupData.loopType;
-        }
-    }
-
     public void ShowMedia()
     {
-        lastClickTime = 0;
-        timer = 0;
         ShowUI();
         Debug.Log("ShowMedia");
         HideAllViewer();
