@@ -527,16 +527,16 @@ public class ResourceManager : Singleton<ResourceManager>
         if (di.Exists)
         {
 
-            data.id = 0;
-            data.title = itemName;
-            data.folder = AssetUtility.GetDetailDataFolder(itemName);
+            data.ID = 0;
+            data.Title = itemName;
+            data.Folder = AssetUtility.GetDetailDataFolder(itemName);
 
             //获取描述文件
-            data.condition = AssetUtility.GetDetailDataContentJson(itemName);
+            data.Condition = AssetUtility.GetDetailDataContentJson(itemName);
             //背景图是否存在
             if (File.Exists(AssetUtility.GetDetailDataFolder(itemName) + backgroundFileName))
             {
-                data.bgPath = AssetUtility.GetDetailDataFolder(itemName) + backgroundFileName;
+                data.BGPath = AssetUtility.GetDetailDataFolder(itemName) + backgroundFileName;
             }
 
             Media media = new Media();
@@ -544,7 +544,10 @@ public class ResourceManager : Singleton<ResourceManager>
             DirectoryInfo[] dirInfos = di.GetDirectories();
             foreach (var dirInfo in dirInfos)
             {
-                data.classes.Add(dirInfo.Name);
+                var classData = new ClassData();
+                classData.Title = dirInfo.Name;
+                classData.Icon = Load<Sprite>(AssetUtility.GetDetailDataFolder(itemName) + dirInfo.Name + "/icon.png");
+                data.ClassesData.Add(classData);
                 ProcessPicture(data, dirInfo);
                 ProcessVideo(data, dirInfo);
                 ProcessPdf(data, dirInfo);
@@ -570,10 +573,10 @@ public class ResourceManager : Singleton<ResourceManager>
             var media = new Media();
             media.mediaType = MediaType.PICTURE;
             media.mediaName = file.Name.Substring(0, file.Name.LastIndexOf("."));
-            media.coverPath = data.folder + info.Name + "/covers/" + media.mediaName + ".jpg";
+            media.coverPath = data.Folder + info.Name + "/covers/" + media.mediaName + ".jpg";
             media.mediaPath = file.FullName;
             media.mediaClass = info.Name;
-            data.medias.Add(media);
+            data.Medias.Add(media);
         }
 
     }
@@ -585,10 +588,10 @@ public class ResourceManager : Singleton<ResourceManager>
             var media = new Media();
             media.mediaType = MediaType.VIDEO;
             media.mediaName = file.Name.Substring(0, file.Name.LastIndexOf("."));
-            media.coverPath = data.folder + info.Name + "/covers/" + media.mediaName + ".jpg";
+            media.coverPath = data.Folder + info.Name + "/covers/" + media.mediaName + ".jpg";
             media.mediaPath = file.FullName;
             media.mediaClass = info.Name;
-            data.medias.Add(media);
+            data.Medias.Add(media);
         }
     }
     private void ProcessPdf(MediaData data, DirectoryInfo info)
@@ -599,10 +602,10 @@ public class ResourceManager : Singleton<ResourceManager>
             var media = new Media();
             media.mediaType = MediaType.PDF;
             media.mediaName = file.Name.Substring(0, file.Name.LastIndexOf("."));
-            media.coverPath = data.folder + info.Name + "/covers/" + media.mediaName + ".jpg";
+            media.coverPath = data.Folder + info.Name + "/covers/" + media.mediaName + ".jpg";
             media.mediaPath = file.FullName;
             media.mediaClass = info.Name;
-            data.medias.Add(media);
+            data.Medias.Add(media);
         }
 
     }
@@ -614,10 +617,10 @@ public class ResourceManager : Singleton<ResourceManager>
             var media = new Media();
             media.mediaType = MediaType.MONITOR;
             media.mediaName = file.Name.Substring(0, file.Name.LastIndexOf("."));
-            media.coverPath = data.folder + info.Name + "/covers/" + media.mediaName + ".jpg";
+            media.coverPath = data.Folder + info.Name + "/covers/" + media.mediaName + ".jpg";
             media.mediaPath = file.FullName;
             media.mediaClass = info.Name;
-            data.medias.Add(media);
+            data.Medias.Add(media);
         }
 
     }

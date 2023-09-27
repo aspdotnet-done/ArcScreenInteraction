@@ -53,7 +53,7 @@ public class MediaManager : Singleton<MediaManager>
         bool containData = false;
         foreach (var i in mediaDatasScriptableAsset.mediaDatas)
         {
-            if (i.title == data.title)
+            if (i.Title == data.Title)
             {
                 containData = true;
                 break;
@@ -73,7 +73,7 @@ public class MediaManager : Singleton<MediaManager>
         bool hasData = false;
         foreach (var i in mediaDatasScriptableAsset.mediaDatas)
         {
-            if (i.title == itemName)
+            if (i.Title == itemName)
             {
                 hasData = true;
                 mediaData = i;

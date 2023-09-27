@@ -33,12 +33,14 @@ public class MediaPlayUI : UI
     private MediaPlayerUI mediaPlayerUI;
     protected override void OnEnable()
     {
+        base.OnEnable();
         leftEvent.AddListener(QuickForward);
         rightEvent.AddListener(QuickBack);
         submitEvent.AddListener(mediaPlayerUI.TogglePlayPause);
     }
     protected override void OnDisable()
     {
+        base.OnDisable();
         leftEvent.RemoveListener(QuickForward);
         rightEvent.RemoveListener(QuickBack);
         submitEvent.RemoveListener(mediaPlayerUI.TogglePlayPause);
@@ -65,6 +67,7 @@ public class MediaPlayUI : UI
     }
     public override void OnBack()
     {
+        Debug.Log("OnBack");
         if (!canReturn) return;
 
         if (!gameObject.activeSelf) return;

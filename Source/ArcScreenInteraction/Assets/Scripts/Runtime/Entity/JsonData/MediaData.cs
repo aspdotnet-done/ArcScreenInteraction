@@ -1,23 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 [System.Serializable]
 public class MediaData
 {
-    public int id;
-    public string title;
-    public string folder;
-    public string condition;
-    public string bgPath;
-    public List<Media> medias = new List<Media>();
-    public List<string> classes = new List<string>();
+    public int ID;
+    public string Title;
+    public string Folder;
+    public string Condition;
+    public string BGPath;
+    public List<Media> Medias = new List<Media>();
+    public List<ClassData> ClassesData = new List<ClassData>();
 
     public string MediaPathFolder
     {
         get
         {
 
-            return AssetUtility.GetMediaFolderPath(folder, title);
+            return AssetUtility.GetMediaFolderPath(Folder, Title);
         }
     }
 
@@ -39,4 +40,10 @@ public enum MediaType//1-pdf,2-video,3-pitcure
     PICTURE = 3,
     MONITOR = 4
 
+}
+[Serializable]
+public class ClassData
+{
+    public string Title;
+    public Sprite Icon;
 }

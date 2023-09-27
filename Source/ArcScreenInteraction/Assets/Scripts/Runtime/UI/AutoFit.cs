@@ -36,14 +36,14 @@ public class AutoFit : MonoBehaviour
     public void SetContent(string content)
     {
         contentText.text = content;
-        FitSize();
+        StartCoroutine(FitSizeRoutine());
     }
     private void SetTextCount() => lastTextCount = contentText.text.Length;
     private void ClearContent()
     {
         contentText.text = "";
         SetTextCount();
-        FitSize();
+        FitSizeRoutine();
     }
 
     [ContextMenu("SetText")]
@@ -51,8 +51,9 @@ public class AutoFit : MonoBehaviour
     {
         SetContent("1242342423432432");
     }
-    private void FitSize()
+    private IEnumerator FitSizeRoutine()
     {
+        yield return new WaitForEndOfFrame();
         float textPreferredWidth = contentText.preferredWidth;
         var rectSize = currentRectTransform.sizeDelta;
         contentSize = expandLeft + textPreferredWidth + expandRight;

@@ -13,7 +13,6 @@ public class SelectHandleOverride : MonoBehaviour, ISelectHandler, IDeselectHand
     [SerializeField] private bool isScroll = false;
     public void OnDeselect(BaseEventData eventData)
     {
-
         transform.DOScale(1f, 0.2f).SetEase(Ease.OutBack);
     }
 
@@ -39,9 +38,4 @@ public class SelectHandleOverride : MonoBehaviour, ISelectHandler, IDeselectHand
         button = GetComponent<Button>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
