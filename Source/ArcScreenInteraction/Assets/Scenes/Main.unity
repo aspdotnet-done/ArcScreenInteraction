@@ -541,7 +541,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 1145, y: -50}
-  m_SizeDelta: {x: 263.118, y: 60.666}
+  m_SizeDelta: {x: 283.11798, y: 71.483}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &26486214
 MonoBehaviour:
@@ -609,10 +609,11 @@ MonoBehaviour:
     Icon: {fileID: 0}
   title: {fileID: 1198570917}
   bg: {fileID: 26486219}
+  icon: {fileID: 1415855188}
   selectedBackgroundColor: {r: 0, g: 0.22352941, b: 0.5568628, a: 1}
-  unSelectedBackgroundColor: {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 0.41960785}
+  unSelectedBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
   selectedTextColor: {r: 1, g: 1, b: 1, a: 1}
-  unSelectedTextColor: {r: 0.7058824, g: 0.7058824, b: 0.7058824, a: 1}
+  unSelectedTextColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
 --- !u!114 &26486216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,7 +626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectScale: 1.5
+  selectScale: 1.2
   autoSelect: 0
   button: {fileID: 0}
   isScroll: 0
@@ -658,7 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8714c362c0c8a6449a9559a31cdab9a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 24.63
+  radius: 14.52
 --- !u!114 &26486219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -712,8 +713,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 10
-    m_Right: 10
+    m_Left: 20
+    m_Right: 20
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 3
@@ -4660,6 +4661,7 @@ GameObject:
   - component: {fileID: 436479941}
   - component: {fileID: 436479943}
   - component: {fileID: 436479942}
+  - component: {fileID: 436479944}
   m_Layer: 0
   m_Name: BottomClasses
   m_TagString: Untagged
@@ -4726,6 +4728,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &436479944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436479940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 0
 --- !u!1 &455379481
 GameObject:
   m_ObjectHideFlags: 0
@@ -5517,7 +5533,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &557640969
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5668,11 +5684,11 @@ RectTransform:
   m_Father: {fileID: 1492537696}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: -0.000000044703484, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0.000030518}
+  m_SizeDelta: {x: 0, y: 794.79}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &560159449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5690,7 +5706,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 3
+  m_ChildAlignment: 4
   m_Spacing: 72
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -10361,7 +10377,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 149.118, y: -30.333}
+  m_AnchoredPosition: {x: 159.118, y: -35.7415}
   m_SizeDelta: {x: 208, y: 37.263}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1198570917
@@ -12698,7 +12714,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 23.558998, y: -30.333}
+  m_AnchoredPosition: {x: 33.559, y: -35.7415}
   m_SizeDelta: {x: 27.118, y: 27.118}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1415855188
@@ -13881,7 +13897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1518742534
 RectTransform:
   m_ObjectHideFlags: 0

@@ -42,10 +42,6 @@ public class MediaManager : Singleton<MediaManager>
         {
             setupDataScriptableAsset.data = data;
         });
-        // ResourceManager.Instance.GenerateMediaDatas((data) =>
-        // {
-        //     mediaDatasScriptableAsset.mediaDatas = data;
-        // });
     }
 
     public void AddMediaDataItem(MediaData data)
@@ -98,22 +94,10 @@ public class MediaManager : Singleton<MediaManager>
     {
 
     }
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         mediaDatasScriptableAsset.mediaDatas.Clear();
         setupDataScriptableAsset.data = null;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-}
-
-public enum SecurityType
-{
-    xiaofang,
-    anfang,
-    renfang
 }

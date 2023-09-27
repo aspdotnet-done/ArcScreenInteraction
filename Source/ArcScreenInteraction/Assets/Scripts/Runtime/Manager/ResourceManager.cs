@@ -546,7 +546,15 @@ public class ResourceManager : Singleton<ResourceManager>
             {
                 var classData = new ClassData();
                 classData.Title = dirInfo.Name;
-                classData.Icon = Load<Sprite>(AssetUtility.GetDetailDataFolder(itemName) + dirInfo.Name + "/icon.png");
+                string iconPath = AssetUtility.GetDetailDataFolder(itemName) + dirInfo.Name + "/icon.png";
+                Debug.Log(iconPath);
+                if (File.Exists(iconPath))
+                {
+                    ReadSprite(iconPath, (sprite) =>
+                    {
+                        classData.Icon = sprite;
+                    });
+                }
                 data.ClassesData.Add(classData);
                 ProcessPicture(data, dirInfo);
                 ProcessVideo(data, dirInfo);
@@ -565,11 +573,16 @@ public class ResourceManager : Singleton<ResourceManager>
         complete?.Invoke(data);
         return data;
     }
+
     private void ProcessPicture(MediaData data, DirectoryInfo info)
     {
         FileInfo[] files = info.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(s => s.Extension.ToLower() == ".jpg" || s.Extension.ToLower() == ".png").ToArray();
         foreach (var file in files)
         {
+            if (IsPredefinedFile(file.Name))
+            {
+                continue;
+            }
             var media = new Media();
             media.mediaType = MediaType.PICTURE;
             media.mediaName = file.Name.Substring(0, file.Name.LastIndexOf("."));
@@ -579,6 +592,10 @@ public class ResourceManager : Singleton<ResourceManager>
             data.Medias.Add(media);
         }
 
+    }
+    private bool IsPredefinedFile(string fileName)
+    {
+        return fileName == "icon.png" || fileName == "热点视频.json";
     }
     private void ProcessVideo(MediaData data, DirectoryInfo info)
     {
@@ -625,71 +642,25 @@ public class ResourceManager : Singleton<ResourceManager>
 
     }
 
-    // private void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.Escape))
-    //         Application.Quit();
-    //     //在这里检测camera有没有关闭
-    // }
-
-
-    // public static void UnZipFile(string zipPath, string outPath, Action<bool> unzipComplete = null)
-    // {
-    //     if (!File.Exists(zipPath))
-    //     {
-    //         Debug.LogError("没有此路径文件：" + zipPath);
-    //         unzipComplete?.Invoke(false);
-    //         return;
-    //     }
-
-    //     using (ZipInputStream stream = new ZipInputStream(File.OpenRead(zipPath)))
-    //     {
-    //         try
-    //         {
-    //             ZipEntry theEntry;
-    //             while ((theEntry = stream.GetNextEntry()) != null)
-    //             {
-    //                 string fileName = Path.GetFileName(theEntry.Name);
-    //                 string filePath = Path.Combine(outPath, theEntry.Name);
-    //                 string directoryName = Path.GetDirectoryName(filePath);
-
-    //                 // 创建压缩文件中文件的位置
-    //                 if (directoryName.Length > 0)
-    //                 {
-    //                     Directory.CreateDirectory(directoryName);
-    //                 }
-
-    //                 if (fileName != String.Empty)
-    //                 {
-    //                     using (FileStream streamWriter = File.Create(filePath))
-    //                     {
-    //                         int size = 2048;
-    //                         byte[] data = new byte[2048];
-    //                         while (true)
-    //                         {
-    //                             size = stream.Read(data, 0, data.Length);
-    //                             if (size > 0)
-    //                             {
-    //                                 streamWriter.Write(data, 0, size);
-    //                             }
-    //                             else
-    //                             {
-    //                                 break;
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //             }
-
-    //             unzipComplete?.Invoke(true);
-    //         }
-    //         catch (Exception ex)
-    //         {
-    //             Debug.Log(ex.Message);
-    //             unzipComplete?.Invoke(false);
-    //         }
-    //     }
-    // }
+    private void ReadSprite(string path, Action<Sprite> complete)
+    {
+        StartCoroutine(ReadSpriteIenumerator(path, complete));
+    }
+    private IEnumerator ReadSpriteIenumerator(string path, Action<Sprite> complete)
+    {
+        using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture("file:///" + path))
+        {
+            yield return uwr.SendWebRequest();
+            if (uwr.result == UnityWebRequest.Result.ConnectionError || uwr.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(uwr.error);
+                yield break;
+            }
+            Texture2D texture = DownloadHandlerTexture.GetContent(uwr);
+            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+            complete?.Invoke(sprite);
+        }
+    }
 
     /// <summary>
     /// 删除指定文件夹

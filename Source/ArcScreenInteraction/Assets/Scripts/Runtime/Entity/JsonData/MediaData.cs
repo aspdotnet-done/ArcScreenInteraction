@@ -45,5 +45,5 @@ public enum MediaType//1-pdf,2-video,3-pitcure
 public class ClassData
 {
     public string Title;
-    public Sprite Icon;
+    public Sprite Icon = null;
 }

@@ -50,7 +50,6 @@ public class MediaListUI : UI
         currentMediaDatas = items;
         MediaList = CopyMedias(currentMediaDatas.Medias);
         InitClasses();
-
     }
     IEnumerator WaitForSelect(GameObject obj)
     {
@@ -112,11 +111,11 @@ public class MediaListUI : UI
             toggle.group = classesToggleParent.GetComponent<ToggleGroup>();
             classesToggle.Add(toggle);
         }
-        if (currentMediaDatas.ClassesData.Count > 0)
+        if (classesToggle.Count > 0)
         {
-            string initialClass = currentMediaDatas.ClassesData[0].Title;
+            var toggle = classesToggle[0];
             await UniTask.DelayFrame(1);
-            OnSelectClassChanged(initialClass);
+            toggle.isOn = true;
         }
     }
     public override void OnBack()

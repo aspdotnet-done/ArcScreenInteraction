@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.UI.ProceduralImage;
-
+using Cysharp.Threading.Tasks;
 
 public class ToggleClasses : MonoBehaviour
 {
@@ -26,6 +26,7 @@ public class ToggleClasses : MonoBehaviour
     }
     [SerializeField] private Text title;
     [SerializeField] private ProceduralImage bg;
+    [SerializeField] private Image icon;
     [SerializeField] private Color selectedBackgroundColor;
     [SerializeField] private Color unSelectedBackgroundColor;
     [SerializeField] private Color selectedTextColor;
@@ -44,8 +45,15 @@ public class ToggleClasses : MonoBehaviour
         autoFit.SetContent(classData.Title);
         bg.color = unSelectedBackgroundColor;
         title.color = unSelectedTextColor;
+        icon.gameObject.SetActive(false);
+        SetIconAsync();
     }
-
+    private async void SetIconAsync()
+    {
+        await UniTask.WaitUntil(() => classData.Icon != null);
+        icon.gameObject.SetActive(true);
+        icon.sprite = classData.Icon;
+    }
     private void OnValueChanged(bool value)
     {
         if (value)
