@@ -24,7 +24,7 @@ public class MediaListUI : UI
     private List<Toggle> classesToggle = new List<Toggle>();
     [SerializeField] RectTransform contentParent;
     [SerializeField] private GameObject cellPrefab;
-    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private RectTransform scrollRect;
     private List<GameObject> cells = new List<GameObject>();
     protected override void OnEnable()
     {
@@ -169,6 +169,16 @@ public class MediaListUI : UI
                 StartCoroutine(WaitForSelect(cell));
             }
         }
+        StartCoroutine(InitialListPositionRoutine());
+    }
+    private IEnumerator InitialListPositionRoutine()
+    {
+        yield return null;
+        if (contentParent.rect.width <= scrollRect.rect.width)
+        {
+            var pos = new Vector2(0, contentParent.anchoredPosition.y);
+            contentParent.anchoredPosition = pos;
+        }
     }
     [Range(0, 100)]
     public float CellExpandWidth = 10;
@@ -176,7 +186,7 @@ public class MediaListUI : UI
     {
         RectTransform selectedRectTransform = baseEventData.selectedObject.GetComponent<RectTransform>();
 
-        var width = scrollRect.GetComponent<RectTransform>().rect.width;
+        var width = scrollRect.rect.width;
         var contentWidth = contentParent.rect.width;
         var overflow = (contentWidth - width) / 2f;
 

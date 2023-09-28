@@ -540,8 +540,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1145, y: -50}
-  m_SizeDelta: {x: 283.11798, y: 71.483}
+  m_AnchoredPosition: {x: 212.00403, y: -50}
+  m_SizeDelta: {x: 424.008, y: 94.976}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &26486214
 MonoBehaviour:
@@ -626,7 +626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f1d7846a67a7ad4a82ce3ba2f773b29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectScale: 1.2
+  selectScale: 1.1
   autoSelect: 0
   button: {fileID: 0}
   isScroll: 0
@@ -713,12 +713,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 20
-    m_Right: 20
+    m_Left: 30
+    m_Right: 30
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 3
-  m_Spacing: 8
+  m_Spacing: 16
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -10467,8 +10467,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 159.118, y: -35.7415}
-  m_SizeDelta: {x: 208, y: 37.263}
+  m_AnchoredPosition: {x: 244.008, y: -47.488}
+  m_SizeDelta: {x: 320, y: 89.329}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1198570917
 MonoBehaviour:
@@ -10492,11 +10492,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 24
-    m_FontStyle: 0
+    m_FontSize: 36
+    m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 2
-    m_MaxSize: 33
+    m_MaxSize: 36
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -12804,8 +12804,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 33.559, y: -35.7415}
-  m_SizeDelta: {x: 27.118, y: 27.118}
+  m_AnchoredPosition: {x: 48.003998, y: -47.488}
+  m_SizeDelta: {x: 56.008, y: 56.008}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1415855188
 MonoBehaviour:
@@ -15801,7 +15801,7 @@ MonoBehaviour:
   classesToggleParent: {fileID: 436479941}
   contentParent: {fileID: 560159448}
   cellPrefab: {fileID: 8929415675700776871, guid: c888cb616d37a9442a6ddf4d036d93a7, type: 3}
-  scrollRect: {fileID: 1492537704}
+  scrollRect: {fileID: 1492537696}
   CellExpandWidth: 10
 --- !u!1 &1750894011
 GameObject:
