@@ -10,6 +10,7 @@ using HorizontalScrollSnap = UnityEngine.UI.Extensions.HorizontalScrollSnap;
 using ScriptableObjectArchitecture;
 using UnityEngine.EventSystems;
 using System;
+using System.Net.NetworkInformation;
 
 public class PdfFileViewer : BaseViewer
 {
@@ -17,13 +18,21 @@ public class PdfFileViewer : BaseViewer
     [SerializeField] private AutoFit hotPointTitle;
     [SerializeField] public PdfVideoView pdfVideoView;
     private PDFDocument pdfDocument;
+    public int currentPage = 0;
+    private int totalPage;
+    private List<ItemDataPDF> items;
 
-    private List<PDFVideoData> videoDatas;
+    public List<PDFVideoData> videoDatas;
+    private bool pageHasHotPoint = false;
+    private bool hotpointIsPlaying = false;
 
     #region override functions
     public override void Show()
     {
         currentPage = 0;
+        pageHasHotPoint = false;
+        hotpointIsPlaying = false;
+        pdfVideoView.OnBack += PdfVideoView_OnBack;
         ResourceManager.Instance.GetPDFData(currentData.mediaPath, LoadPdfComplete);
     }
     public override void Hide()
@@ -35,24 +44,19 @@ public class PdfFileViewer : BaseViewer
     public override void Next()
     {
         base.Next();
+        if (hotpointIsPlaying) return;
         NextPage();
     }
     public override void Previous()
     {
         base.Previous();
+        if (hotpointIsPlaying) return;
         PrevPage();
     }
     public override void Play()
     {
         base.Play();
-        try
-        {
-            Invoke("WaitAFrame", 0.05f);
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e.Message);
-        }
+        OnHotPointClick();
     }
     public override void Return()
     {
@@ -61,26 +65,22 @@ public class PdfFileViewer : BaseViewer
     #endregion
     private void OnHotPointClick()
     {
-        Debug.Log("OnHotPointClick");
-        pdfVideoView.gameObject.SetActive(true);
-        pdfVideoView.InitVideo(GetDataFromPage(currentPage + 1));
-        MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
-        ui.canReturn = false;
-    }
-
-    void WaitAFrame()
-    {
-        MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
-        if (ui.CurrentState == UIState.Hide) return;
-        if (GetDataFromPage(currentPage + 1) != null && pdfVideoView.canvasGroup.alpha == 0)
+        if (pageHasHotPoint && !hotpointIsPlaying)
         {
-            OnHotPointClick();
+            hotpointIsPlaying = true;
+            Debug.Log("OnHotPointClick");
+            pdfVideoView.gameObject.SetActive(true);
+            pdfVideoView.InitVideo(GetDataFromPage(currentPage + 1));
+            MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
+            ui.canReturn = false;
         }
     }
-
-    private int currentPage = 0;
-    private int totalPage;
-    private List<ItemDataPDF> items;
+    private void PdfVideoView_OnBack()
+    {
+        hotpointIsPlaying = false;
+        MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
+        ui.SetCanReturn();
+    }
     private void LoadPdfComplete(PDFDocument doc)
     {
         currentPage = 0;
@@ -115,12 +115,14 @@ public class PdfFileViewer : BaseViewer
         var data = GetDataFromPage(page);
         if (data == null)
         {
+            pageHasHotPoint = false;
             hotPointTitle.gameObject.SetActive(false);
             return;
         }
+        pageHasHotPoint = true;
+        hotPointTitle.gameObject.SetActive(true);
         hotPointTitle.SetContent(data.Title);
         hotPointTitle.GetComponent<CanvasGroup>().alpha = 0;
-        hotPointTitle.gameObject.SetActive(true);
         hotPointTitle.GetComponent<CanvasGroup>().DOFade(1, 0.2f);
         if (!string.IsNullOrEmpty(data.Cover))
         {
@@ -147,7 +149,7 @@ public class PdfFileViewer : BaseViewer
         pdfPageRawImage.texture = items[index].texture;
         var fitter = pdfPageRawImage.GetComponent<ImageFitter>();
         fitter.Fit();
-        CheckHoitPoint(index);
+        CheckHoitPoint(index + 1);
     }
 
 

@@ -6,6 +6,8 @@ using UnityEngine.Video;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
 using ScriptableObjectArchitecture;
+using System;
+using UnityEngine.Windows;
 
 public class PdfVideoView : MonoBehaviour
 {
@@ -13,8 +15,20 @@ public class PdfVideoView : MonoBehaviour
     [SerializeField] ImageFitter imageFitter;
     [SerializeField] GameEvent backEvent;
     [SerializeField] GameEvent enterEvent;
-
+    public event Action OnBack;
     public CanvasGroup canvasGroup;
+    [SerializeField] private Image playImage;
+    private CanvasGroup _playImageCanvasGroup;
+    private CanvasGroup playImageCanvasGroup
+    {
+        get
+        {
+            if (_playImageCanvasGroup == null) _playImageCanvasGroup = playImage.GetComponent<CanvasGroup>();
+            return _playImageCanvasGroup;
+        }
+    }
+    [SerializeField] private Sprite playIcon;
+    [SerializeField] private Sprite pauseIcon;
     private void OnEnable()
     {
         backEvent.AddListener(BackAction);
@@ -39,8 +53,10 @@ public class PdfVideoView : MonoBehaviour
     PDFVideoData currentData;
     public async void InitVideo(PDFVideoData data)
     {
-        currentData = null;
-        if (data == null) return;
+        if (data == null || !File.Exists(data.VideoName))
+        {
+            BackAction();
+        }
         currentData = data;
         Debug.Log("InitVideo");
         //gameObject.SetActive(true);
@@ -50,7 +66,6 @@ public class PdfVideoView : MonoBehaviour
 
         await UniTask.WaitUntil(() => videoPlayer.isPlaying);
         imageFitter.Fit();
-
     }
 
     void ConfirmAction()
@@ -58,19 +73,29 @@ public class PdfVideoView : MonoBehaviour
         if (videoPlayer.isPaused)
         {
             videoPlayer.Play();
+            SetIconAndHideAsync(pauseIcon);
         }
         else
         {
             videoPlayer.Pause();
+            SetIconAndHideAsync(playIcon);
         }
     }
+    private async void SetIconAndHideAsync(Sprite icon)
+    {
+        playImage.sprite = icon;
+        playImageCanvasGroup.alpha = 1;
+        await UniTask.Delay(1500);
+        playImageCanvasGroup.DOFade(0, 0.5f);
+    }
+
     void BackAction()
     {
         if (canvasGroup.alpha == 0) return;
         canvasGroup.alpha = 0;
+        playImageCanvasGroup.alpha = 0;
         videoPlayer.Stop();
-        MediaPlayUI ui = UIManager.Instance.GetUI(UIType.MediaPlayUI) as MediaPlayUI;
-        ui.SetCanReturn();
+        OnBack?.Invoke();
     }
 
 

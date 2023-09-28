@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
+using Extensions;
+using DG.Tweening;
 
 public class MediaListUI : UI
 {
@@ -22,6 +24,7 @@ public class MediaListUI : UI
     private List<Toggle> classesToggle = new List<Toggle>();
     [SerializeField] RectTransform contentParent;
     [SerializeField] private GameObject cellPrefab;
+    [SerializeField] private ScrollRect scrollRect;
     private List<GameObject> cells = new List<GameObject>();
     protected override void OnEnable()
     {
@@ -86,7 +89,6 @@ public class MediaListUI : UI
         MainUI ui = UIManager.Instance.GetUI(UIType.Main) as MainUI;
         ui.OverviewBtn.isOn = true;
         HideUI();
-
     }
 
 
@@ -157,6 +159,8 @@ public class MediaListUI : UI
             var media = mediaList[i];
             var cell = Instantiate(cellPrefab, contentParent);
             cell.SetActive(true);
+            var eventTrigger = cell.GetComponent<EventTrigger>();
+            eventTrigger.AddListener(EventTriggerType.Select, OnMediaCellSelected);
             var cellView = cell.GetComponent<CellView>();
             cellView.Init(media, ShowDetailMedia);
             cells.Add(cell);
@@ -164,6 +168,31 @@ public class MediaListUI : UI
             {
                 StartCoroutine(WaitForSelect(cell));
             }
+        }
+    }
+    [Range(0, 100)]
+    public float CellExpandWidth = 10;
+    private void OnMediaCellSelected(BaseEventData baseEventData)
+    {
+        RectTransform selectedRectTransform = baseEventData.selectedObject.GetComponent<RectTransform>();
+
+        var width = scrollRect.GetComponent<RectTransform>().rect.width;
+        var contentWidth = contentParent.rect.width;
+        var overflow = (contentWidth - width) / 2f;
+
+        var leftBorder = overflow - selectedRectTransform.offsetMin.x + CellExpandWidth;
+        var rightBorder = -(overflow + (selectedRectTransform.offsetMax.x - contentWidth) + CellExpandWidth);
+        float duration = 0.2f;
+
+        if (leftBorder > contentParent.anchoredPosition.x)
+        {
+            var pos = new Vector2(leftBorder, contentParent.anchoredPosition.y);
+            contentParent.DOAnchorPos(pos, duration);
+        }
+        else if (rightBorder < contentParent.anchoredPosition.x)
+        {
+            var pos = new Vector2(rightBorder, contentParent.anchoredPosition.y);
+            contentParent.DOAnchorPos(pos, duration);
         }
     }
     /// <summary>
