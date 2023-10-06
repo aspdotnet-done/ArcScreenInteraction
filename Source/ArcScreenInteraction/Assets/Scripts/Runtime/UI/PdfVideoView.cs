@@ -7,7 +7,7 @@ using DG.Tweening;
 using Cysharp.Threading.Tasks;
 using ScriptableObjectArchitecture;
 using System;
-using UnityEngine.Windows;
+using System.IO;
 
 public class PdfVideoView : MonoBehaviour
 {

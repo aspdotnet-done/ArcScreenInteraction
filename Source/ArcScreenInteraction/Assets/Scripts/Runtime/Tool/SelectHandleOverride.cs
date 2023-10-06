@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using UnityEngine.UI;
+using System;
 
 public class SelectHandleOverride : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
@@ -11,13 +12,17 @@ public class SelectHandleOverride : MonoBehaviour, ISelectHandler, IDeselectHand
     [SerializeField] private bool autoSelect = false;
     [SerializeField] private Button button;
     [SerializeField] private bool isScroll = false;
+    public event Action OnSelectEvent;
+    public event Action OnDeselectEvent;
     public void OnDeselect(BaseEventData eventData)
     {
+        OnDeselectEvent?.Invoke();
         transform.DOScale(1f, 0.2f).SetEase(Ease.OutBack);
     }
 
     public void OnSelect(BaseEventData eventData)
     {
+        OnSelectEvent?.Invoke();
         if (autoSelect && button != null)
         {
             Debug.Log("OnSelect");
