@@ -63,8 +63,8 @@ public class ImageSlide : MonoBehaviour
     {
         while (State == SlideState.Playing)
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(Config.Interval));
             await SlideToNextAsync();
+            await UniTask.Delay(TimeSpan.FromSeconds(Config.Interval));
         }
     }
     private async UniTask SlideToNextAsync()

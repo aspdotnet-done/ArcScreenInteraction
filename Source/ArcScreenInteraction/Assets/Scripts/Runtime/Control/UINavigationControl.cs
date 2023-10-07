@@ -75,14 +75,23 @@ public class UINavigationControl : MonoBehaviour
         }
         else
         {
-            if (lastSelected != null && eventSystem.currentSelectedGameObject == null)
+            if (!lockDetect && lastSelected != null && eventSystem.currentSelectedGameObject == null)
             {
-                eventSystem.SetSelectedGameObject(lastSelected);
+                StartCoroutine(SelectLater(lastSelected));
             }
         }
     }
     #endregion
+    private bool lockDetect = false;
     private GameObject lastSelected;
+    private IEnumerator SelectLater(GameObject go)
+    {
+        lockDetect = true;
+        yield return new WaitForSeconds(0.1f);
+        if (eventSystem.currentSelectedGameObject == null)
+            eventSystem.SetSelectedGameObject(go);
+        lockDetect = false;
+    }
     public void Move(MoveDirection direction)
     {
         AxisEventData data = new AxisEventData(EventSystem.current);

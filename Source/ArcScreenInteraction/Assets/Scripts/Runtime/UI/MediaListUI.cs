@@ -25,6 +25,8 @@ public class MediaListUI : UI
     [SerializeField] RectTransform contentParent;
     [SerializeField] private GameObject cellPrefab;
     [SerializeField] private RectTransform scrollRect;
+    [SerializeField] private RectTransform leftHasContentUI;
+    [SerializeField] private RectTransform rightHasContentUI;
     private List<GameObject> cells = new List<GameObject>();
     protected override void OnEnable()
     {
@@ -52,6 +54,8 @@ public class MediaListUI : UI
         var items = MediaManager.Instance.GetMediaDataItem(itemName);
         currentMediaDatas = items;
         MediaList = CopyMedias(currentMediaDatas.Medias);
+        leftHasContentUI.gameObject.SetActive(false);
+        rightHasContentUI.gameObject.SetActive(false);
         InitClasses();
     }
     IEnumerator WaitForSelect(GameObject obj)

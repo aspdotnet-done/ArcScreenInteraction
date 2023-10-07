@@ -136,7 +136,7 @@ public class MainUI : UI
         MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
         ui.gameObject.SetActive(true);
         ui.InitMediaList(itemName);
-
+        currentSelectIndex = itemNameList.IndexOf(itemName);
         ui.ShowUI();
         GetCurrentItemBg(itemName);
         HideUI();
@@ -287,10 +287,10 @@ public class MainUI : UI
         Refresh();
         if (cells.Count > 0)
         {
-            cells[0].GetComponent<MainItem>().Select();
+            cells[currentSelectIndex].GetComponent<MainItem>().Select();
         }
     }
-
+    private int currentSelectIndex = 0;
     public override void HideUI()
     {
         imageSlide.PauseSlide();
