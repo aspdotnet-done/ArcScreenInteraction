@@ -60,10 +60,11 @@ public class MainUI : UI
     private string backgroundFileName = "bg.jpg";
     private List<GameObject> cells = new List<GameObject>();
 
+    [SerializeField] private ImageSlide imageSlide = default;
+
     IEnumerator Start()
     {
         yield return ResourceManager.Instance != null;
-        GetMainBg();
         ResourceManager.Instance.GetMainItemList((s) =>
         {
             itemNameList = s;
@@ -148,21 +149,11 @@ public class MainUI : UI
         rightTopicMoudle.SetActive(false);
         ResourceManager.Instance.GetBackgroundList((d) =>
         {
-            ResourceManager.Instance.GetTextureList(d, (t) =>
+            ResourceManager.Instance.GetTextureList(d, (textures) =>
             {
-                bgs = t;
-                if (t.Count > 0)
-                {
-                    bgImage.texture = bgs[0];
-                    bgImage.color = new Color(1, 1, 1, 1);
-                    bg2Image.color = new Color(1, 1, 1, 0);
-                }
-                if (t.Count > 1)
-                {
-                    if (loopMainBgCoroutine != null)
-                        StopCoroutine(loopMainBgCoroutine);
-                    loopMainBgCoroutine = StartCoroutine(LoopMainBg());
-                }
+                bgs = textures;
+                imageSlide.SetTextures(bgs);
+                imageSlide.StartSlide();
             });
         });
         if (!string.IsNullOrEmpty(AssetUtility.GetMainContentJson()))
@@ -191,8 +182,6 @@ public class MainUI : UI
     {
         leftTopicMoudle.SetActive(false);
         rightTopicMoudle.SetActive(false);
-        if (loopMainBgCoroutine != null)
-            StopCoroutine(loopMainBgCoroutine);
         ResourceManager.Instance.GetTexture(AssetUtility.GetDetailDataFolder(currentItemName) + backgroundFileName, (t) =>
         {
             if (t != null)
@@ -227,58 +216,24 @@ public class MainUI : UI
         }
     }
 
-    private int index = 0;
-    Coroutine loopMainBgCoroutine;
-    bool isBg = true;
-    IEnumerator LoopMainBg()
+    protected override void OnEnable()
     {
-        isBg = true;
-        bgImage.color = new Color(1, 1, 1, 1);
-        bg2Image.color = new Color(1, 1, 1, 0);
-        ResizeImage(bgImage);
-        ResizeImage(bg2Image);
-
-        while (true)
-        {
-
-            yield return new WaitForSeconds(mainDelay);
-            yield return new WaitUntil(() => bgs != null);
-            index++;
-            if (index >= bgs.Count)
-                index = 0;
-            if (isBg)
-            {
-                isBg = false;
-                if (bgs[index] != null)
-                {
-                    bg2Image.texture = bgs[index];
-                    ResizeImage(bg2Image);
-                    bg2Image.DOFade(1, 2.5f);
-                    bgImage.DOFade(0, 2.5f);
-                }
-            }
-            else
-            {
-                isBg = true;
-                if (bgs[index] != null)
-                {
-                    bgImage.texture = bgs[index];
-                    ResizeImage(bgImage);
-                    bgImage.DOFade(1, 2.5f);
-                    bg2Image.DOFade(0, 2.5f);
-                }
-            }
-            yield return new WaitForSeconds(2.5f);
-        }
-    }
-
-    private void OnEnable()
-    {
+        base.OnEnable();
         loopTypeDropdown.onValueChanged.AddListener(LoopTypeChange);
         innerDelaySlider.onValueChanged.AddListener(InnerDelayChange);
         outerDelaySlider.onValueChanged.AddListener(OuterDelayChange);
         mainDelaySlider.onValueChanged.AddListener(MainDelayChange);
         StartCoroutine(InitData());
+    }
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        innerDelaySlider.onValueChanged.RemoveAllListeners();
+        loopTypeDropdown.onValueChanged.RemoveAllListeners();
+        outerDelaySlider.onValueChanged.RemoveAllListeners();
+        mainDelaySlider.onValueChanged.RemoveAllListeners();
+        settingButton.onClick.RemoveAllListeners();
+        confirmButton.onClick.RemoveAllListeners();
     }
     IEnumerator InitData()
     {
@@ -314,56 +269,6 @@ public class MainUI : UI
         MediaManager.Instance.UpdateSetupAsset();
         mainDelayText.text = v.ToString();
     }
-
-    // void AnfangClick(bool ison)
-    // {
-    //     if (ison)
-    //     {
-    //         title.text = "安防";
-    //         MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
-    //         ui.InitMediaList(SecurityType.anfang);
-    //         ui.InitClasses();
-    //         ui.ShowUI();
-    //         GetAnfangBg();
-    //         HideUI();
-    //     }
-
-    // }
-    // void XiaofangClick(bool ison)
-    // {
-    //     if (ison)
-    //     {
-    //         title.text = "消防";
-    //         MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
-    //         ui.InitMediaList(SecurityType.xiaofang);
-    //         ui.InitClasses();
-    //         ui.ShowUI();
-    //         GetXiaofangBg();
-    //         HideUI();
-    //     }
-    // }
-    // void RenfangClick(bool ison)
-    // {
-    //     if (ison)
-    //     {
-    //         title.text = "人防";
-    //         MediaListUI ui = UIManager.Instance.GetUI(UIType.MediaListUI) as MediaListUI;
-    //         ui.InitMediaList(SecurityType.renfang);
-    //         ui.InitClasses();
-    //         ui.ShowUI();
-    //         GetRenfangBg();
-    //         HideUI();
-    //     }
-    // }
-
-    void OverviewClick(bool ison)
-    {
-        if (ison)
-        {
-            Refresh();
-        }
-    }
-
     public void Refresh()
     {
         title.text = "南海区安全服务运营中心";
@@ -374,28 +279,11 @@ public class MainUI : UI
 
 
 
-    private void OnDisable()
-    {
-        // AnfangBtn.onValueChanged.RemoveListener(AnfangClick);
-        // XiaofangBtn.onValueChanged.RemoveListener(XiaofangClick);
-        // RenfangBtn.onValueChanged.RemoveListener(RenfangClick);
-        //OverviewBtn.onValueChanged.AddListener(OverviewClick);
-        innerDelaySlider.onValueChanged.RemoveAllListeners();
-        loopTypeDropdown.onValueChanged.RemoveAllListeners();
-        settingButton.onClick.RemoveAllListeners();
-        confirmButton.onClick.RemoveAllListeners();
-    }
-    private void InitUI()
-    {
 
-    }
     public override void ShowUI()
     {
-        //base.ShowUI();
         Selection.SetActive(true);
         scrollView.gameObject.SetActive(true);
-        // overviewBtn.Select();
-        // overviewBtn.isOn = true;
         Refresh();
         if (cells.Count > 0)
         {
@@ -405,7 +293,7 @@ public class MainUI : UI
 
     public override void HideUI()
     {
-        //base.HideUI();
+        imageSlide.PauseSlide();
         Selection.SetActive(false);
         scrollView.gameObject.SetActive(false);
     }
