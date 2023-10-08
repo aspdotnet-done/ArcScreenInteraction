@@ -24,7 +24,7 @@ public class MediaListUI : UI
     private List<Toggle> classesToggle = new List<Toggle>();
     [SerializeField] RectTransform contentParent;
     [SerializeField] private GameObject cellPrefab;
-    [SerializeField] private RectTransform scrollRect;
+    [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private RectTransform leftHasContentUI;
     [SerializeField] private RectTransform rightHasContentUI;
     private List<GameObject> cells = new List<GameObject>();
@@ -178,10 +178,18 @@ public class MediaListUI : UI
     private IEnumerator InitialListPositionRoutine()
     {
         yield return null;
-        if (contentParent.rect.width <= scrollRect.rect.width)
+        var scrollRectTransform = scrollRect.GetComponent<RectTransform>();
+        if (contentParent.rect.width <= scrollRectTransform.rect.width)
         {
             var pos = new Vector2(0, contentParent.anchoredPosition.y);
             contentParent.anchoredPosition = pos;
+            leftHasContentUI.gameObject.SetActive(false);
+            rightHasContentUI.gameObject.SetActive(false);
+        }
+        else
+        {
+            leftHasContentUI.gameObject.SetActive(false);
+            rightHasContentUI.gameObject.SetActive(true);
         }
     }
     [Range(0, 100)]
@@ -190,7 +198,7 @@ public class MediaListUI : UI
     {
         RectTransform selectedRectTransform = baseEventData.selectedObject.GetComponent<RectTransform>();
 
-        var width = scrollRect.rect.width;
+        var width = scrollRect.GetComponent<RectTransform>().rect.width;
         var contentWidth = contentParent.rect.width;
         var overflow = (contentWidth - width) / 2f;
 
@@ -201,14 +209,58 @@ public class MediaListUI : UI
         if (leftBorder > contentParent.anchoredPosition.x)
         {
             var pos = new Vector2(leftBorder, contentParent.anchoredPosition.y);
-            contentParent.DOAnchorPos(pos, duration);
+            contentParent.DOAnchorPos(pos, duration).OnComplete(() =>
+            {
+                var normalizedX = scrollRect.horizontalNormalizedPosition;
+                // Debug.Log($"scrollRect left normalizedPosition:{normalizedX}");
+                if (IsBetweenScrollRectThreshold(normalizedX))
+                {
+                    leftHasContentUI.gameObject.SetActive(true);
+                    rightHasContentUI.gameObject.SetActive(true);
+                }
+                else if (normalizedX <= leftScrollRectThreshold)
+                {
+                    leftHasContentUI.gameObject.SetActive(false);
+                    rightHasContentUI.gameObject.SetActive(true);
+                }
+            });
         }
         else if (rightBorder < contentParent.anchoredPosition.x)
         {
             var pos = new Vector2(rightBorder, contentParent.anchoredPosition.y);
-            contentParent.DOAnchorPos(pos, duration);
+            contentParent.DOAnchorPos(pos, duration).OnComplete(() =>
+            {
+                var normalizedX = scrollRect.horizontalNormalizedPosition;
+                // Debug.Log($"scrollRect right normalizedPosition:{normalizedX}");
+                if (IsBetweenScrollRectThreshold(normalizedX))
+                {
+                    leftHasContentUI.gameObject.SetActive(true);
+                    rightHasContentUI.gameObject.SetActive(true);
+                }
+                else if (normalizedX >= rightScrollRectThreshold)
+                {
+                    leftHasContentUI.gameObject.SetActive(true);
+                    rightHasContentUI.gameObject.SetActive(false);
+                }
+            });
+        }
+        else
+        {
+            var normalizedX = scrollRect.horizontalNormalizedPosition;
+            // Debug.Log($"scrollRect normalizedPosition:{normalizedX}");
+            if (normalizedX >= leftScrollRectThreshold && normalizedX <= rightScrollRectThreshold)
+            {
+                leftHasContentUI.gameObject.SetActive(true);
+                rightHasContentUI.gameObject.SetActive(true);
+            }
         }
     }
+    private bool IsBetweenScrollRectThreshold(float normalizedX)
+    {
+        return normalizedX >= leftScrollRectThreshold && normalizedX <= rightScrollRectThreshold;
+    }
+    private const float leftScrollRectThreshold = 0.01f;
+    private const float rightScrollRectThreshold = 0.99f;
     /// <summary>
     /// 需要复制一份，不然会改变原来的数据
     /// </summary>
