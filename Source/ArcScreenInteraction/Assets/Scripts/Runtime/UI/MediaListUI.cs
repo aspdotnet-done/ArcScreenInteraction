@@ -193,7 +193,7 @@ public class MediaListUI : UI
         }
     }
     [Range(0, 100)]
-    public float CellExpandWidth = 10;
+    public float CellExpandWidth = 40;
     private void OnMediaCellSelected(BaseEventData baseEventData)
     {
         RectTransform selectedRectTransform = baseEventData.selectedObject.GetComponent<RectTransform>();

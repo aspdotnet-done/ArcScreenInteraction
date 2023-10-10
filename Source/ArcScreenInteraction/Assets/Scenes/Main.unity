@@ -5663,12 +5663,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 20
-    m_Right: 20
+    m_Left: 40
+    m_Right: 40
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 72
+  m_Spacing: 82
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -15737,7 +15737,7 @@ MonoBehaviour:
   scrollRect: {fileID: 1492537704}
   leftHasContentUI: {fileID: 557640969}
   rightHasContentUI: {fileID: 1518742534}
-  CellExpandWidth: 10
+  CellExpandWidth: 40
 --- !u!1 &1750894011
 GameObject:
   m_ObjectHideFlags: 0
